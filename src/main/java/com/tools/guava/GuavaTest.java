@@ -4,8 +4,10 @@ package com.tools.guava;
  * Created by tbu on 6/25/2014.
  */
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,9 @@ public class GuavaTest {
             System.out.println("hmmm.." + Throwables.getStackTraceAsString(e));
             throw new ApiException("reason", Throwables.getStackTraceAsString(e));
         }
+
+        String newString = CharMatcher.ASCII.retainFrom("aßΣΩbcä");
+        System.out.println("output: " + newString);
     }
 
     public String getElement(List<String> list, int index) {
