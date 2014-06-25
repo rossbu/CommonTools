@@ -1,0 +1,158 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'application'
+apply plugin: 'signing'
+
+mainClassName = 'hello.HelloWorld'
+sourceCompatibility = 1.5
+version = '1.0.0'
+
+configurations.all {
+    //http://www.gradle.org/docs/current/dsl/org.gradle.api.artifacts.ResolutionStrategy.html
+    resolutionStrategy {
+        // fail eagerly on version conflict (includes transitive dependencies)
+        failOnVersionConflict()
+        // force certain versions of dependencies (including transitive)
+        force 'org.slf4j:slf4j-api:1.7.7','commons-collections:commons-collections:3.2.1', 'commons-logging:commons-logging:1.1.1'
+
+        // cache dynamic versions for 1 minutes
+        cacheDynamicVersionsFor 1*60, 'seconds'
+
+        // don't cache changing modules at all
+        cacheChangingModulesFor 0, 'seconds'
+    }
+}
+
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repo.maven.apache.org/maven2" }
+
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.2.RELEASE")
+        classpath 'org.markdownj:markdownj:0.3.0-1.0.2b4'
+    }
+}
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://repo.springsource.org/plugins-release" }
+    maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "http://repo.spring.io/libs-release" }
+    maven { url "http://repo.spring.io/libs-snapshot" }
+    maven { url "http://nexus.smartequip.net:8080/nexus/content/repositories/releases/" }
+    maven { url "http://nexus.smartequip.net:8080/nexus/content/repositories/snapshots/" }
+    maven { url "http://maven.vaadin.com/vaadin-addons" }
+    maven { url "https://repository.jboss.org/nexus/content/repositories/thirdparty-releases"}
+    maven { url "https://oss.sonatype.org/content/repositories/google-releases/" }
+
+ }
+jar {
+    baseName = 'CommonTools'
+    version = '1.0.0'
+}
+
+dependencies {
+    compile group: 'com.sun.jersey', name: 'jersey-client', version:'1.18.1'
+    compile group: 'com.sun.jersey.contribs', name: 'jersey-apache-client', version:'1.18.1'
+    compile ("joda-time:joda-time:2.2"){force = true}
+    compile group: 'org.jvnet.jaxb2_commons', name: 'jaxb2-basics-runtime', version:'0.6.5'
+    compile group: 'commons-io', name: 'commons-io', version: '2.4'
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.1'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.7'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.2'
+    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.1.2'
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '3.6.7.Final'
+    compile group: 'dom4j', name: 'dom4j', version:'1.6.1'
+    compile group: 'org.springframework', name: 'spring-context', version:'3.2.9.RELEASE'
+    compile group: 'com.google.guava', name: 'guava', version: '17.0'
+    testCompile group: 'xmlunit', name: 'xmlunit', version: '1.5'
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+
+}
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.12'
+}
+
+
+// below is for Markerdownj
+import com.petebevin.markdown.MarkdownProcessor
+
+class MarkdownFilter extends FilterReader {
+    MarkdownFilter(Reader input) {
+        super(new StringReader(new MarkdownProcessor().markdown(input.text)))
+    }
+}
+
+task markdown(type: Copy) {
+    from 'src/markdown'
+    include '*.md'
+    into 'build/labs'
+    rename { it - '.md' + '.html' }
+    filter MarkdownFilter
+}
+
+// embeded event buildFinished
+gradle.buildFinished { buildResult ->
+    println "TBU BUILD FINISHED"
+    println "build failure - " + buildResult.failure
+}
+
+
+
+// some tasks
+
+task succeed {
+    doLast {
+        println "hello, world"
+    }
+}
+
+task fail {
+    doLast {
+        throw new Exception("Build failed")
+    }
+}
+
+
+
+task cleanTempDir(type: Delete) {
+    delete fileTree(dir: "tempDir")
+}
+
+
+ext {
+    pingLogDir = "${buildDir}/reachable"
+}
+
+tasks.addRule('Rule Usage: ping<Hostname>') { String taskName ->
+    if(taskName.startsWith('ping')) {
+        task(taskName) {
+            ext.hostname = taskName - 'ping'
+            doLast {
+                def url = new URL("http://${ext.hostname}")
+                def logString
+                try {
+                    def pageContent = url.text
+                    // Do some regex matching on pageContent
+                    logString = "${new Date()}\t${ext.hostname}\tUP\n"
+                    ext.up = true
+                } catch(UnknownHostException e) {
+                    logString = "${new Date()}\t${ext.hostname}\tUNKNOWN HOST\n"
+                    ext.up = false
+                } catch(ConnectException e) {
+                    logString = "${new Date()}\t${ext.hostname}\tDOWN\n"
+                    ext.up = false
+                }
+                file(pingLogDir).mkdirs()
+                file("${pingLogDir}/ping.log") << logString
+            }
+        }
+    }
+}
