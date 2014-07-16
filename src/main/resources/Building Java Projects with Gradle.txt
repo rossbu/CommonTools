@@ -1,7 +1,4 @@
 
-
-
-
 [https://spring.io/guides/gs/gradle/]
 Building Java Projects with Gradle
 

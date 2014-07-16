@@ -5,8 +5,11 @@ apply plugin: 'application'
 apply plugin: 'signing'
 
 mainClassName = 'hello.HelloWorld'
-sourceCompatibility = 1.5
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
 version = '1.0.0'
+group = 'com.dreambox.tools'
+description = """A bootstrap Java project with gradle,  Mockito, FEST-Assert 2 and Cobertura"""
 
 configurations.all {
     //http://www.gradle.org/docs/current/dsl/org.gradle.api.artifacts.ResolutionStrategy.html
@@ -24,20 +27,21 @@ configurations.all {
     }
 }
 
-
 buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
         maven { url "http://repo.maven.apache.org/maven2" }
-
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.2.RELEASE")
         classpath 'org.markdownj:markdownj:0.3.0-1.0.2b4'
+        classpath (group: 'org.apache.activemq', name: 'activemq-all', version:'5.10.0', changing: true)
     }
 }
-
+if (!JavaVersion.current().java6Compatible) {
+    throw new IllegalStateException("Must be built with Java 6 or higher")
+}
 
 repositories {
     mavenLocal()
@@ -55,10 +59,11 @@ repositories {
  }
 jar {
     baseName = 'CommonTools'
-    version = '1.0.0'
+    version = '1.0'
 }
 
 dependencies {
+    compile group: 'org.apache.activemq', name: 'activemq-all', version:'5.10.0', changing: true
     compile group: 'com.sun.jersey', name: 'jersey-client', version:'1.18.1'
     compile group: 'com.sun.jersey.contribs', name: 'jersey-apache-client', version:'1.18.1'
     compile ("joda-time:joda-time:2.2"){force = true}
@@ -74,9 +79,24 @@ dependencies {
     compile group: 'com.google.guava', name: 'guava', version: '17.0'
     testCompile group: 'xmlunit', name: 'xmlunit', version: '1.5'
     testCompile group: 'junit', name: 'junit', version: '4.+'
-
+    testCompile group: 'org.mockito', name:'mockito-all' , version:'1.9.5'
 }
-task wrapper(type: Wrapper) {
+
+// ensure that test resources (src/test/resources) are added to CLASSPATH;
+// see http://forums.gradle.org/gradle/topics/tests_arent_executed_when_setting_the_test_runtimeclasspath and
+// http://gradle.org/docs/current/dsl/org.gradle.api.tasks.testing.Test.html#org.gradle.api.tasks.testing.Test:classpath
+sourceSets {
+    main {
+        runtimeClasspath = files(output.resourcesDir) + runtimeClasspath
+    }
+    test {
+        runtimeClasspath = files(output.resourcesDir) + runtimeClasspath
+    }
+}
+
+
+
+task bu_wrapper(type: Wrapper) {
     gradleVersion = '1.12'
 }
 
@@ -90,7 +110,7 @@ class MarkdownFilter extends FilterReader {
     }
 }
 
-task markdown(type: Copy) {
+task bu_markdown(type: Copy) {
     from 'src/markdown'
     include '*.md'
     into 'build/labs'
@@ -102,33 +122,6 @@ task markdown(type: Copy) {
 gradle.buildFinished { buildResult ->
     println "TBU BUILD FINISHED"
     println "build failure - " + buildResult.failure
-}
-
-
-
-// some tasks
-
-task succeed {
-    doLast {
-        println "hello, world"
-    }
-}
-
-task fail {
-    doLast {
-        throw new Exception("Build failed")
-    }
-}
-
-
-
-task cleanTempDir(type: Delete) {
-    delete fileTree(dir: "tempDir")
-}
-
-
-ext {
-    pingLogDir = "${buildDir}/reachable"
 }
 
 tasks.addRule('Rule Usage: ping<Hostname>') { String taskName ->
@@ -156,3 +149,29 @@ tasks.addRule('Rule Usage: ping<Hostname>') { String taskName ->
         }
     }
 }
+
+// some tasks
+
+task bu_succeed {
+    doLast {
+        println "hello, world"
+    }
+}
+
+task bu_fail {
+    doLast {
+        throw new Exception("Build failed")
+    }
+}
+
+
+
+task bu_cleanTempDir(type: Delete) {
+    delete fileTree(dir: "tempDir")
+}
+
+
+ext {
+    pingLogDir = "${buildDir}/reachable"
+}
+
