@@ -1,18 +1,10 @@
 package com.tools.jdk.Queue;
 
 
-import javax.jms.Connection;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageConsumer;
-import javax.jms.MessageListener;
-import javax.jms.MessageProducer;
-import javax.jms.Queue;
-import javax.jms.Session;
-import javax.jms.TextMessage;
-
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
+
+import javax.jms.*;
 
 public class MessageSendReceiveAndReply {
 
@@ -20,12 +12,11 @@ public class MessageSendReceiveAndReply {
         ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("vm://localhost");  
         Connection connection = factory.createConnection();
         connection.start();    
-        // 第一个 queue  
+
         Queue queue = new ActiveMQQueue("testQueue");
         // 用来接受回复的 queue
         Queue replyQueue = new ActiveMQQueue("replyQueue");      
         final Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-        // 设置 往 第一个 queue 发的消息
         Message message = session.createTextMessage("Andy");
         // 给 消息 设定 返回的 queue
         message.setJMSReplyTo(replyQueue);
