@@ -4,11 +4,11 @@ apply plugin: 'maven'
 apply plugin: 'application'
 apply plugin: 'signing'
 
-mainClassName = 'hello.HelloWorld'
+mainClassName = 'com.tools.jdk.basic.StringUtils'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 version = '1.0.0'
-group = 'com.dreambox.tools'
+group = 'org.commontools'
 description = "A bootstrap Java project with gradle,  Mockito, FEST-Assert 2 and Cobertura"
 
 configurations.all {
@@ -29,8 +29,10 @@ configurations.all {
 }
 
 
-// If I need maven central for both my buildscript and my project, do I need to declare it twice? Yes, you need to specify it twice then indeed.
+
 buildscript {
+// The "buildscript" configuration section is for gradle itself, Oftentimes the repository section is the same for both,
+// If I need maven central for both my buildscript and my project, do I need to declare it twice? Yes, you need to specify it twice then indeed.
     repositories {
         mavenLocal()
         mavenCentral()
