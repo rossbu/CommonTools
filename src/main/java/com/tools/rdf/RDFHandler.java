@@ -1,17 +1,7 @@
 package com.tools.rdf;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.io.Reader;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Iterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
@@ -20,14 +10,17 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Iterator;
 
 
 /**
  *
- * @author tianshi.bu
+ * @author tbu
  *
  */
 public class RDFHandler {
@@ -249,7 +242,7 @@ public class RDFHandler {
 						continue;
 					} else if (local.equals("resource")) {
 						if (loop == 0)
-							resource = createURI(att.getValue()); //   rdf:resource="urn:smartequip:catalogtree:VERMEER-CORPORATIONtree:VERMEER-CORPORATION"
+							resource = createURI(att.getValue());
 						Debug.debug("rdf:resource=" + resource);
 						continue;
 					}
