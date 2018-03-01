@@ -2,16 +2,34 @@ package com.tools.xml.sax;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * @author tbu
+ * example:   ( README)
+
+
+
+ *
+ *
+ *
+ */
 public class SAXParserDemo {
 
     public static void main(String[] args) throws Exception {
+
+
+        XMLReader xmlReader = XMLReaderFactory.createXMLReader();
+
+
         SAXParserFactory parserFactor = SAXParserFactory.newInstance();
         SAXParser parser = parserFactor.newSAXParser();
         SAXHandler handler = new SAXHandler();
