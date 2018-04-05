@@ -14,36 +14,35 @@ import java.util.function.Predicate;
 /**
  * @author tbu
  */
-public class OperationTest {
+public class OperationDemo {
 
 
     // An interface with only one abstract method is a functional interface
     interface IntegerMath {
         int operation(int a, int b);
     }
-
-    public int operateBinary(int a, int b, IntegerMath im) {
-
-        return im.operation(a, b);
-    }
-
     @FunctionalInterface
     interface PlayString {
         String operate(String... arg);
     }
+    
 
-    String operateTest(PlayString ps, String... args) {
+    public int operateBinary(int a, int b, IntegerMath im) {
+        return im.operation(a, b);
+    }
+    
+    public String operateTest(PlayString ps, String... args) {
         return ps.operate(args);
     }
 
     public static void main(String... args) {
 
-//        (type argument, ….) –> { java statements; }
-        IntegerMath addition = (a, b) -> a + b;
-        IntegerMath subtraction = (a, b) -> a - b;
+        //  @functionInterface =   $lambdaexpression ( which is a anonymous class )
+        IntegerMath addition = (a, b) -> a + b; //        (type argument, ….) –> { java statements; }
+        IntegerMath subtraction = (a, b) -> a - b;//        (type argument, ….) –> { java statements; }
 
         // testing now
-        OperationTest myApp = new OperationTest();
+        OperationDemo myApp = new OperationDemo();
         System.out.println("40 + 2 =" + myApp.operateBinary(40, 2, addition));
         System.out.println("20 – 10 = " + myApp.operateBinary(20, 10, subtraction));
 

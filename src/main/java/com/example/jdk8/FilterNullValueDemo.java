@@ -1,9 +1,7 @@
 package com.example.jdk8;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /*
@@ -29,6 +27,11 @@ public class FilterNullValueDemo {
 
         System.out.println("<!-----Original list with null values-----!>");
         System.out.println(cList + "\n");
+
+        List<?> mixedTypeList = Arrays.asList("a","b","",1,2,3,true,false,null);
+        Set<?> filteredResult = mixedTypeList.stream().filter(obj -> obj != null).collect(Collectors.toSet());
+        System.out.println("hmm: " + filteredResult);
+
 
         // EXAMPLE #1 = Filter Null Values from a Stream Using 'Lambda Expressions'
         List<String> result = cList.stream().filter(str -> str != null && str.length() > 0).collect(Collectors.toList());

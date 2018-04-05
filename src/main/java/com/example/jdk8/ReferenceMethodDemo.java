@@ -19,7 +19,7 @@ import java.util.function.Predicate;
  * <p>
  * Method Reference is NOT a Predicate  such as  String::isEmpty is NOT  a Predicate
  */
-public class ReferenceMethodExample {
+public class ReferenceMethodDemo {
     /**
      * @param args the command line arguments
      */
@@ -27,11 +27,11 @@ public class ReferenceMethodExample {
 
         // BU1
         List numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16);
-        List primeNumbers = ReferenceMethodExample.findPrimeNumbers(numbers, (number) -> ReferenceMethodExample.isPrime((int) number));
+        List primeNumbers = ReferenceMethodDemo.findPrimeNumbers(numbers, (number) -> ReferenceMethodDemo.isPrime((int) number));
         System.out.println("Prime Numbers are " + primeNumbers);
 
         // BU02
-        List squaredNumbers = ReferenceMethodExample.findSquareRoot(numbers, Integer::new);
+        List squaredNumbers = ReferenceMethodDemo.findSquareRoot(numbers, Integer::new);
         System.out.println("Square root of numbers = "+squaredNumbers);
 
         // very shocking code below

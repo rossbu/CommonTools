@@ -10,7 +10,7 @@ import java.util.List;
  *         This is a base POJO class for all kind of testing purpose
  */
 
-enum Gender {MALE, FEMALE}
+
 
 public class Person {
     private String givenName;

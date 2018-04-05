@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author tbu
  */
-public class ComparatorTest {
+public class ComparatorDemo {
 
     public static void main(String[] args) {
                 

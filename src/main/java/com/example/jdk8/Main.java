@@ -11,27 +11,35 @@ import java.util.function.Function;
 
 
 class Something {
-
     String startsWith(String s) {
-
         return String.valueOf(s.charAt(0));
     }
 }
-@FunctionalInterface  // can be omitted // An interface with only one abstract method is a functional interface
-interface Converter<F, T> {
-
-    T convert(F from);
+@FunctionalInterface  // informative // can be omitted // An interface with only one abstract method is a functional interface
+interface ConvertFI<F, T> {
+  abstract T convert(F from);  // abstract can be ommited
 }
 
 
 @FunctionalInterface // informative and can be ignored.
-interface IMyFunc {
+interface TestFI {
     boolean test(int num);
 }
 
 
 public class Main {
-    public static List<Integer> filter(IMyFunc testNum, List<Integer> listItems) {
+
+
+
+    Thread thread = new Thread( new Runnable() {
+        @Override
+        public void run() {
+            System.out.println("print sth");
+        }
+    });
+
+
+    public static List<Integer> filter(TestFI testNum, List<Integer> listItems) {
         List<Integer> result = new ArrayList<Integer>();
         for(Integer item: listItems) {
             if(testNum.test(item)) {
@@ -41,6 +49,15 @@ public class Main {
         return result;
     }
     public static void main(String[] args) throws UnsupportedEncodingException {
+        // random coding
+
+        List<? extends Number> foo1 = new ArrayList<Number>();  // Number "extends" Number (in this context)
+        List<? extends Number> foo2 = new ArrayList<Integer>(); // Integer extends Number
+        List<? extends Number> foo3 = new ArrayList<Double>();  // Double extends Number
+
+
+
+
         // calling filter method with a lambda expression
         // as one of the param
         List<Integer> myList = new ArrayList<Integer>();
@@ -52,6 +69,7 @@ public class Main {
 //        RunnableTest.main(args);
 //        ComparatorTest.main(args);
 //        ListenerTest.main(args);
+
         // Encode 
         String asB64 = Base64.getEncoder().encodeToString("some string".getBytes("utf-8"));
         System.out.println(asB64); // Output will be: c29tZSBzdHJpbmc=
@@ -62,12 +80,12 @@ public class Main {
 
 
         // demo  usage of "::"  for instance methods and constructor
-        Converter<String, Integer> converter = Integer::valueOf;
+        ConvertFI<String, Integer> converter = Integer::valueOf;
         Integer convertedValue = converter.convert("123");
         System.out.println(convertedValue); // 123
 
         Something something = new Something();
-        Converter<String, String> converter1 = something::startsWith;
+        ConvertFI<String, String> converter1 = something::startsWith;
         String converted1 = converter1.convert("Java");
         System.out.println(converted1);   // J
 
