@@ -45,8 +45,6 @@ public class ComparatorDemo {
         Comparator<String> c2 = Comparator.nullsLast(Comparator.naturalOrder());
         names2.sort(c1);
         System.out.println(names2);
-
-        Converter<String, Integer> converter = Integer::valueOf;
         names2.stream().filter((a) -> a.startsWith("p")).forEach(System.out::println);
 
 
