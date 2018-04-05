@@ -24,7 +24,7 @@ public class LambdaCodeTemplate {
         /*********************************************************************************************************************
          * Lambda Expression
          *********************************************************************************************************************/
-        // Lambda expression 1: Empty brackets are used when there are no arguments - do print "test"
+        // Lambda expression 1: Empty brackets are used when there are no arguments - please do print "test"
 
         // Lambda expression 2: Single argument and ignore the brackets - do square and subtraction ( Not subtraction)
 

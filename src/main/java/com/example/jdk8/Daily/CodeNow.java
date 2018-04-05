@@ -104,17 +104,18 @@ public class CodeNow {
 
         /*********************************************************************************************************************
          * Lambda Expression : Lambda comes from the Lambda Calculus and refers to anonymous functions in programming
+         lambda expression ====  Anonymous functions
          *********************************************************************************************************************/
 
-        // Lambda expression 1: Empty brackets are used when there are no arguments - do print "test"
+        // Lambda expression 1: Empty brackets are used when there are no arguments - please do print "test"
         Runnable r = () -> System.out.println("test");
         r.run();
 
-        // Lambda expression 2: single argument and ignore the brackets - do square and subtraction ( Not substraction)
+        // Lambda expression 2: single argument and ignore the brackets - do square and subtraction ( Not subtraction)
         IntUnaryOperator square = x -> x * x;
         System.out.println(" 10*10 = " + square.applyAsInt(10));
         IntUnaryOperator subtraction = x -> x - -x;
-        System.out.println("29- -29 = " + subtraction.applyAsInt(29));
+        System.out.println("2 9- -29 = " + subtraction.applyAsInt(29));
 
         // lambda expression 3: two arguments - do square of a plus square of b
         IntBinaryOperator plusOperation = (int a, int b) -> a * a + b * b;
