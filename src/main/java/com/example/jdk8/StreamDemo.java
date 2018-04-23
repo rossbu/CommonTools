@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toList;
+
 /**
  * Created by tbu on 4/4/2017.
  * The Java 8 Collectors class provides useful implementations, which can be used by Streams' collect() method.
@@ -21,7 +23,26 @@ public class StreamDemo {
                 .ints(1, 100)
                 .limit(10)
                 .boxed()
-                .collect(Collectors.toList());
+                .collect(toList());
+
+        // https://stackoverflow.com/questions/34179062/intstream-foreach-method-in-java-8  , how foreach implemented
+        List<Integer> numbers2 = Arrays.asList(1, 2, 1, 3, 3, 2, 4);
+        numbers2.stream()
+                .filter(i -> i % 2 == 0)
+                .distinct()
+                .limit(1)
+                .forEach(System.out::println);
+
+        List<String> words = Arrays.asList("Java8", "Lambdas", "In", "Action");
+
+        // mapping it into a new element (the word mapping is used because it has a meaning similar to transforming but with the nuance of “creating a new version of” rather than“modifying”).
+        List<Integer> wordLengths = words.stream()
+                .map(String::length)
+                .skip(1)
+                .limit(2)
+                .collect(toList());
+
+
 
         // Summing an Integer List
         reduce(numbers);

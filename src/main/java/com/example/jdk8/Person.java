@@ -13,9 +13,9 @@ import java.util.List;
 
 
 public class Person {
-    private String givenName;
-    private String surName;
-    private int age;
+    private String givenName = "bu";
+    private String surName = "bu";
+    private int age = 39;
     private Gender gender;
     private String eMail;
     private String phone;
@@ -73,7 +73,7 @@ public class Person {
         }
     }
 
-    private Person() {
+    public Person() {
         super();
     }
 
