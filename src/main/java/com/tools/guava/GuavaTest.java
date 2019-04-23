@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Administrator
+ * @author tbu
  */
 public class GuavaTest {
 
@@ -32,7 +32,7 @@ public class GuavaTest {
             throw new ApiException("reason", Throwables.getStackTraceAsString(e));
         }
 
-        String newString = CharMatcher.ASCII.retainFrom("aßΣΩbcä");
+        String newString = CharMatcher.ascii().retainFrom("aßΣΩbcä");
         System.out.println("output: " + newString);
     }
 
