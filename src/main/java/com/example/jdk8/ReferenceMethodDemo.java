@@ -36,7 +36,7 @@ public class ReferenceMethodDemo {
 
         // very shocking code below
         Predicate<String> p1 = s -> s.isEmpty();                        // Predicate = lambda
-        Predicate<String> p2 = String::isEmpty;                         // Predicate = Method Reference  but Predicate<Integer> is not compiled  since there is no String::isEmpty method with Integer argument
+        Predicate<String> p2 = String::isEmpty;                     // Predicate = Method Reference  but Predicate<Integer> is not compiled  since there is no String::isEmpty method with Integer argument
         Function<String, Boolean> f1 = String::isEmpty;                 // Function = Method Reference
 //        Function<String, Boolean> f2 = (Function<String, Boolean>) p1;  // cannot cast Predicate to Function, it's no longer about inference
         System.out.println("p1: " + p1.test("abc") );

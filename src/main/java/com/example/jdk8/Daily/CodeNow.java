@@ -5,10 +5,7 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.*;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 /**
  * Created by tbu on 4/17/2017.
@@ -25,12 +22,9 @@ public class CodeNow {
 
     public static void main(String... args) {
 
-//        java.util.function.* package
 //        LambdaCode();
-//        java.util.stream.* package
         IntStreamCode();
         StreamCode();
-//        java.util.Optional Class
         OptionalCode();
 
 
@@ -137,8 +131,7 @@ public class CodeNow {
 
 
         /*********************************************************************************************************************
-         the Type of Lambda Expression
-         in Java, the lambda expressions are represented as objects,
+         the Type of Lambda Expressionin Java, the lambda expressions are represented as objects,
          lambda expressions must be bound to a particular object type known as a functional interface. This is called the target type.
          *********************************************************************************************************************/
         Predicate<Integer> isOdd = n -> n % 2 != 0;
@@ -243,7 +236,81 @@ public class CodeNow {
 
         // Method Invocation Context  :   Functional Interface as Parameter
         engine((x,y)-> x / y);
+
+
+        // Filter all null values from array
+        filterNullValue();
+
+        // for each test
+        forEachOp();
+
+
     }
+    private static void forEachOp() {
+        List<String> alphabets = new ArrayList<>(Arrays.asList("aa", "bbb", "cac", "dog"));
+
+        // looping over all elements using Iterable.forEach() method
+        alphabets.forEach(s -> System.out.println(s));
+
+        // You can even replace lambda expression with method reference because we are passing the lambda parameter as it is to the method
+        alphabets.forEach(System.out::println);
+
+        // you can even do something with lambda parameter e.g. adding a comma
+        alphabets.forEach(s -> System.out.print(s + ","));
+
+        // There is one more forEach() method on Stream class, which operates
+        // on stream and allows you to use various stream methods e.g. filter() // map() etc
+        alphabets.stream().forEach(System.out::println);
+
+        // let's now only print elmements which startswith "a"
+        alphabets.stream().filter(s -> s.startsWith("a")).forEach(System.out::println);
+
+        // let's filter out only which has length greater than 2
+        alphabets.stream().filter(s -> s.length() > 2).forEach(System.out::println);
+
+        // now, let's print length of each string using map()
+        alphabets.stream().mapToInt(s -> s.length()).forEach(System.out::println);
+
+        // how about calculating sum of length of all string
+        alphabets.stream().mapToInt(s -> s.length()).sum();
+    }
+
+
+    private static void filterNullValue() {
+        List<String> cList = new ArrayList<String>();
+        cList.add("United States of America");
+        cList.add("Ecuador");
+        cList.add("Denmark");
+        cList.add(null);
+        cList.add("Seychelles");
+        cList.add("Germany");
+        cList.add(null);
+
+        System.out.println("<!-----Original list with null values-----!>");
+        System.out.println(cList + "\n");
+
+        List<?> mixedTypeList = Arrays.asList("a","b","",1,2,3,true,false,null);
+        Set<?> filteredResult = mixedTypeList.stream().filter(obj -> obj != null).collect(Collectors.toSet());
+        System.out.println("hmm: " + filteredResult);
+
+
+        // EXAMPLE #1 = Filter Null Values from a Stream Using 'Lambda Expressions'
+        List<String> result = cList.stream().filter(str -> str != null && str.length() > 0).collect(Collectors.toList());
+        System.out.println("<!-----Result after null values filtered-----!>");
+        System.out.println(result + "\n");
+
+        // EXAMPLE #2 = Filter Null Values from a Stream Using 'Method Reference'
+        List<String> nonNullResult = cList.stream().filter(Objects::nonNull).collect(Collectors.toList());
+        System.out.println("<!-----Result after null values filtered using nonNull-----!>");
+        System.out.println(nonNullResult + "\n");
+
+        // EXAMPLE #3 = Filter Null Values after Map intermediate operation
+        List<String> mapNullResult = cList.stream().map(s -> s).filter(str -> str != null && str.length() > 0).collect(Collectors.toList());
+        System.out.println("<!-----Result after null values filtered using Map intermediate operation-----!>");
+        System.out.println(mapNullResult);
+    }
+
+
 
     public static void printSuppliedString(Supplier<String> supplier) {
         System.out.println(supplier.get());

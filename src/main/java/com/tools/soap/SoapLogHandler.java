@@ -27,10 +27,12 @@ public class SoapLogHandler implements SOAPHandler<SOAPMessageContext> {
 
     String inboundResponseXml = "";
 
+    @Override
     public Set<QName> getHeaders() {
         return Collections.emptySet();
     }
 
+    @Override
     public boolean handleMessage(SOAPMessageContext messageContext) {
         Boolean outboundProperty = (Boolean) messageContext.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
 

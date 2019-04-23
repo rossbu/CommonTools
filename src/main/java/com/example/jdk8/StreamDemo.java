@@ -35,7 +35,6 @@ public class StreamDemo {
 
         List<String> words = Arrays.asList("Java8", "Lambdas", "In", "Action");
 
-        // mapping it into a new element (the word mapping is used because it has a meaning similar to transforming but with the nuance of “creating a new version of” rather than“modifying”).
         List<Integer> wordLengths = words.stream()
                 .map(String::length)
                 .skip(1)

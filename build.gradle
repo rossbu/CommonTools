@@ -82,7 +82,7 @@ dependencies {
     compile group: 'ch.qos.logback', name: 'logback-core', version: '1.1.2'
     compile group: 'org.hibernate', name: 'hibernate-core', version: '3.6.7.Final'
     compile group: 'dom4j', name: 'dom4j', version:'1.6.1'
-    compile group: 'org.springframework', name: 'spring-context', version:'3.2.9.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context', version:'5.1.6.RELEASE'
     compile group: 'com.google.guava', name: 'guava', version: '17.0'
     compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.58'
     // https://mvnrepository.com/artifact/commons-codec/commons-codec
@@ -137,7 +137,7 @@ task bu_markdown(type: Copy) {
 // embeded event buildFinished
 gradle.buildFinished { buildResult ->
     println "TBU BUILD FINISHED"
-    println "build failure - " + buildResult.failure
+    println "build failure infomration if any - " + buildResult.failure
 }
 
 
@@ -164,14 +164,6 @@ tasks.addRule('Rule Usage: ping<Hostname>') { String taskName ->
                 file("${pingLogDir}/ping.log") << logString
             }
         }
-    }
-}
-
-// some tasks
-
-task bu_succeed {
-    doLast {
-        println "hello, world"
     }
 }
 
