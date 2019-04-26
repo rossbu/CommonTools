@@ -1,4 +1,4 @@
-package com.example.jdk8;
+package com.example.pojo;
 
 /**
  * Created by tbu on 4/3/2018.

@@ -13,6 +13,7 @@ public class CompareToken implements Comparable<CompareToken> {
     String valS;
     String repr;
 
+    @Override
     public String toString() {
         return repr;
     }
@@ -33,6 +34,7 @@ public class CompareToken implements Comparable<CompareToken> {
         valS = new String(data, 0, l);
     }
 
+    @Override
     public int compareTo(CompareToken b) {
         int r = valS.compareTo(b.valS);
         if (r != 0) {

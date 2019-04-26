@@ -1,4 +1,4 @@
-package com.example.jdk8;
+package com.example.jdk8.Daily;
 
 import java.util.ArrayList;
 import java.util.Arrays;

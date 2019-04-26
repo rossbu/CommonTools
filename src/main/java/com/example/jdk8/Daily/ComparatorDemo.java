@@ -1,4 +1,4 @@
-package com.example.jdk8;
+package com.example.jdk8.Daily;
 
 import com.example.pojo.Person;
 

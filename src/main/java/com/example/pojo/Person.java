@@ -1,7 +1,5 @@
 package com.example.pojo;
 
-import com.example.jdk8.Gender;
-
 import java.util.ArrayList;
 import java.util.List;
 
