@@ -1,5 +1,6 @@
 package com.example.jdk8;
 
+import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -30,7 +31,6 @@ interface TestFI {
 public class Main {
 
 
-
     Thread thread = new Thread( new Runnable() {
         @Override
         public void run() {
@@ -49,6 +49,8 @@ public class Main {
         return result;
     }
     public static void main(String[] args) throws UnsupportedEncodingException {
+
+
         // random coding
 
         List<? extends Number> foo1 = new ArrayList<Number>();  // Number "extends" Number (in this context)

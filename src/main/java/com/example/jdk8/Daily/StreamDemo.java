@@ -1,5 +1,9 @@
 package com.example.jdk8.Daily;
 
+import lombok.extern.slf4j.Slf4j;
+import one.util.streamex.StreamEx;
+
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -18,41 +22,23 @@ import static java.util.stream.Collectors.toList;
 public class StreamDemo {
 
     public static void main(String []args){
-        Random random = new Random();
-        List<Integer> numbers = random
-                .ints(1, 100)
-                .limit(10)
-                .boxed()
-                .collect(toList());
 
-        // https://stackoverflow.com/questions/34179062/intstream-foreach-method-in-java-8  , how foreach implemented
-        List<Integer> numbers2 = Arrays.asList(1, 2, 1, 3, 3, 2, 4);
-        numbers2.stream()
-                .filter(i -> i % 2 == 0)
-                .distinct()
-                .limit(1)
-                .forEach(System.out::println);
+        // prepare data
+        List<Integer> numbers = boxedStream();
 
-        List<String> words = Arrays.asList("Java8", "Lambdas", "In", "Action");
+        filterPrimeNumber();
 
-        List<Integer> wordLengths = words.stream()
-                .map(String::length)
-                .skip(1)
-                .limit(2)
-                .collect(toList());
+        // use skip intermediate operation to disgard the first element in the stream.
+        skipFirstElementInStream();
 
-
-
-        // Summing an Integer List
+        // Summing an Integer List  given a array of number, reduce to one result like x , y -> x+y for all elements
         reduce(numbers);
-
 
         // Computing the average of a list of numbers is similarly a piece of cake. The Collectors provide an averagingInt() method for the purpose.
         averagingInt(numbers);
 
         //  Maximum and Minimum
         maximumAndMinimum(numbers);
-
 
         // why bother computing sum, average, etc. separately? Just use summarizingInt() as shown. Just   Summarizing in One Shot
         summarizingInt(numbers);
@@ -61,13 +47,72 @@ public class StreamDemo {
         // Let us see how to partition a List of numbers into two lists using a criterion (such as values greater than 50):
         partitioningBy(numbers);
 
-        // peek
+        // peeking stream
         peek();
+
+        // filter list2 based on list1
+        filterList2BasedOnList1();
 
     }
 
+    private static void filterList2BasedOnList1() {
+        List<String> carBrands = Arrays.asList("BMW","HONDA","Mecedes","Volvo","Accura");
+        List<CarInfo> cars = Arrays.asList(
+                    new CarInfo("BMW",1995, "200","300",200),
+                    new CarInfo("HONDA",1996, "200","300",200),
+                    new CarInfo("Datsun",1495, "200","300",200),
+                    new CarInfo("Volvo",1695, "200","300",200),
+                    new CarInfo("Mitustishi",1955, "200","300",200)
+        );
+        io.vavr.collection.List<CarInfo> carInfos1 = io.vavr.collection.List.ofAll(cars);
+        carInfos1
+                .distinctBy(CarInfo::getBrand)
+                .toJavaSet();
+
+        StreamEx.of(cars)
+                .distinct(CarInfo::getBrand)
+                .toList();
+
+        io.reactivex.rxjava3.core.Observable.fromArray(cars).distinct();
+
+//        Flux.fromIterable(cars).distinct(p -> )
+
+    }
+
+    private static void skipFirstElementInStream() {
+        List<String> words = Arrays.asList("Java8", "Lambdas", "In", "Action");
+        List<Integer> wordLengths = words.stream()
+                .map(String::length)
+                .skip(1)
+                .limit(2)
+                .collect(toList());
+    }
+
+    private static List<Integer> boxedStream() {
+        Random random = new Random();
+        return random
+                .ints(1, 100)
+                .limit(10)
+                .boxed()
+                .collect(toList());
+    }
+
+    /**
+     *  https://stackoverflow.com/questions/34179062/intstream-foreach-method-in-java-8  , how foreach implemented
+     */
+    private static void filterPrimeNumber() {
+        List<Integer> numbers2 = Arrays.asList(1, 2, 1, 3, 3, 2, 4);
+        numbers2.stream()
+                .filter(i -> i % 2 == 0)
+                .distinct()
+                .limit(1)
+                .forEach(System.out::println);
+    }
+
     private static void reduce(List<Integer> numbers) {
-        int sum = numbers.stream().reduce(0, (x, y) -> x+y);
+        int sum = numbers
+                .stream()
+                .reduce(0, (x, y) -> x+y);
         System.out.println("sum : " + sum);
     }
 
@@ -119,4 +164,62 @@ public class StreamDemo {
                 .limit(5)
                 .count();
     }
+
+    @Slf4j
+    static class CarInfo{
+        String brand;
+        int yearOfMade;
+        String listPrice;
+        String retailPrice;
+        int numberOfSold;
+
+        public CarInfo(String brand, int yearOfMade, String listPrice, String retailPrice, int numberOfSold) {
+            this.brand = brand;
+            this.yearOfMade = yearOfMade;
+            this.listPrice = listPrice;
+            this.retailPrice = retailPrice;
+            this.numberOfSold = numberOfSold;
+        }
+
+        public String getBrand() {
+            return brand;
+        }
+
+        public void setBrand(String brand) {
+            this.brand = brand;
+        }
+
+        public int getYearOfMade() {
+            return yearOfMade;
+        }
+
+        public void setYearOfMade(int yearOfMade) {
+            this.yearOfMade = yearOfMade;
+        }
+
+        public String getListPrice() {
+            return listPrice;
+        }
+
+        public void setListPrice(String listPrice) {
+            this.listPrice = listPrice;
+        }
+
+        public String getRetailPrice() {
+            return retailPrice;
+        }
+
+        public void setRetailPrice(String retailPrice) {
+            this.retailPrice = retailPrice;
+        }
+
+        public int getNumberOfSold() {
+            return numberOfSold;
+        }
+
+        public void setNumberOfSold(int numberOfSold) {
+            this.numberOfSold = numberOfSold;
+        }
+    }
+
 }

@@ -27,7 +27,12 @@ public class CodeNow {
         StreamCode();
         OptionalCode();
 
+        List<String> words = Arrays.asList("Hello", "World");
 
+        words.stream()
+                .flatMap((String line) -> Arrays.stream(line.split("")))
+                .distinct()
+                .forEach(System.out::println);
     }
 
     private static void StreamCode() {

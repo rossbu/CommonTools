@@ -1,20 +1,30 @@
-enum Note:
+
+# Java tools
+     # jconsole, jvisualvm, jmc
+
+# enum
         JDK 1.5 introduces a new enum type (in addition to the existing top-level constructs class and interface) along with a new keyword enum. For example, we could define: enum CardSuit { SPADE, DIAMOND, CLUB, HEART }
         for each enum, the Java compiler automatically generates a static method called values() that returns an array of all the enum constants,
-        4 instances of enum type CardSuit were generated via values(). The instances are created by calling the constructor with the actual argument, when they are first referenced. You are not allowed to construct a new instance of enum using new operator, because enum keeps a fixed list of constants.
+        4 instances of enum type CardSuit were generated via values(). The instances are created by calling the constructor with the actual argument, when they are first referenced.
+         You are not allowed to construct a new instance of enum using new operator, because enum keeps a fixed list of constants.
+
         An enum can be used to define a set of enum constants. The constants are implicitly static final, which cannot be modified. You could refer to these constants just like any static constants,
         All constants defined in an enum are public static final. Since they are static, they can be accessed via EnumName.instanceName.
+
         enums extend the java.lang.Enum class implicitly. Therefore, you cannot extend any other class in enum.
         An enum is a reference type (just like a class, interface and array), which holds a reference to memory in the heap. It is implicitly final, because the constants should not be changed.
+
         enum is a keyword. Enum constructors are always private or default. Therefore, you cannot have public or protected constructors in an enum type.
         Enum with abstract method Each of the instances of enum could have its own behaviors. To do this, you can define an abstract method in the enum, where each of its instances provides its own implementation.
+
         Enums can implement interfaces. They implicitly implement the Serializable and Comparable interfaces. This means if you need some common functionality along diverse enum types, you can define it with an interface to have the enums provide the method implementations.
         You can declare abstract methods within an enum. If you do, all the enum fields must implement the abstract methods.
         You cannot create an instance of enum using the new operator.
         You can use the “==” operator to compare enum constants effectively, since enum constants are final.
+
         Whenever an enum is defined, a class that extends java.lang.Enum is created
 
-        # Compiled class
+        ## Compiled class
             public static final class EnumExample1$Season extends Enum
             {
               private EnumExample1$Season(String s, int i)
@@ -50,7 +60,7 @@ enum Note:
                 }
             }
 
-        # Static
+        ## Static
             enum types that are defined as nested types are always implicitly STATIC, so If you declared an enum like this:
 
                     enum Suit {SPADES, HEARTS, CLUBS, DIAMONDS}
@@ -68,7 +78,7 @@ enum Note:
             }
 
 
-        # SAM ( enum )
+        ## SAM ( enum )
             An enum type can have abstract methods just like a class. Each enum constant needs to implement the abstract method. An example is as follows:
 
             public enum Animal {
@@ -87,7 +97,7 @@ enum Note:
             Dog makes sound: bark
 
 
-        # valueOf() to look up an enum by the name.
+        ## valueOf() to look up an enum by the name.
 
             The java compiler internally adds the values() method when it creates an enum.
             The values() method returns an array containing all the values of the enum.
@@ -99,6 +109,7 @@ enum Note:
             Day day = Day.valueOf(Day.class, "MONDAY");
             //The method throws an IllegalArgumentException if the name (with the exact case) is not found.  then use Day day = Day.valueOf(Day.class, "Monday");
             \
+
 # Encounter order / Spatial order
         A source has or does not have encounter order.
         List and arrays are sources that have encounter order (arrays can be said to also have a spatial order).
@@ -135,4 +146,76 @@ enum Note:
          list.parallelStream().distinct().sequential().forEach()
 
         i.e. the distinct() operation will preserve the encounter order of the list
+
+# countdownlatch
+     When should we use CountDownLatch in Java :
+     Use CountDownLatch when one of Thread like main thread, require to wait for one or more thread to complete, before its start doing processing.
+     trty CountDownDemo.java to see details.
+
+# fail-fast strategy by Objects.requireNotNull from jdk7/8/9
+    check FailFastByRequireNonNull.java for reference.
+
+# Default constructor is required (Explicitly) in a parent class if the parent class has an argumented constructor.
+        http://xahlee.info/java-a-day/inheritance_constructers.html
+        If you are explicitly providing an argument-ed constructor, then the default constructor (NOT-argumented | Empty args) is NOT available to the class.
+
+        For Example :
+            class A {
+              A(int i){
+              }
+            }
+
+            class B extends A {
+            }
+
+            So when you write
+
+            B obj_b = new B();
+            It actually calls the implicit constructor provided by java to B, which again calls the super(), which should be ideally A().
+            But since you have provided argument-ed constructor to A, the default constructor A() is not available to B().
+
+        Solution
+            class B {
+              int x;
+              //B () {x=300;}
+              B (int n) {x=n;}
+              int returnMe () {return x;}
+            }
+
+            class C extends B {
+            }
+
+
+            the answer to the constructor mystery is that, if one provides any constructor, one must define all constructors.
+
+            Peter Molettiere on Apple's Java forum gave excellent answers:
+
+            Because there is no default constructor available in B, as the compiler error message indicates. Once you define a constructor in a class, the default constructor is not included.
+            If you define *any* constructor, then you must define *all* constructors.
+
+            When you try to instantiate C, it has to call super() in order to initialize its super class. You don't have a super(), you only have a super(int n), so C can not be defined with the default constructor C() { super(); }. Either define a no-arg constructor in B, or call super(n) as the first statement in your constructors in C.
+
+            So, the following would work:
+
+            class B {
+                int x;
+                B() { } // a constructor
+                B( int n ) { x = n; } // a constructor
+                int returnMe() { return x; }
+            }
+
+            class C extends B {
+            }
+            or this:
+
+            class B {
+                int x;
+                B( int n ) { x = n; } // a constructor
+                int returnMe() { return x; }
+            }
+
+            class C extends B {
+                C () { super(0); } // a constructor
+                C (int n) { super(n); } // a constructor
+            }
 
