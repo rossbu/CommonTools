@@ -1,14 +1,20 @@
 package com.example.jdk8.Daily;
 
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import one.util.streamex.StreamEx;
 
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 /**
  * Created by tbu on 4/4/2017.
@@ -43,18 +49,87 @@ public class StreamDemo {
         // why bother computing sum, average, etc. separately? Just use summarizingInt() as shown. Just   Summarizing in One Shot
         summarizingInt(numbers);
 
-
         // Let us see how to partition a List of numbers into two lists using a criterion (such as values greater than 50):
         partitioningBy(numbers);
 
         // peeking stream
         peek();
 
+        // distinct By Property
+        distinctByProperty();
+
         // filter list2 based on list1
         filterList2BasedOnList1();
 
     }
 
+    /**
+     *
+     * @param keyExtractor
+     * @param <T>
+     * @return
+     */
+    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
+    }
+    private static <T, R> Collector<T, ?, Stream<T>> distinctByKey2(Function<T, R> keyExtractor) {
+        return Collectors.collectingAndThen(
+                toMap(
+                        keyExtractor,
+                        t -> t,
+                        (t1, t2) -> t1
+                ),
+                (Map<R, T> map) -> map.values().stream()
+        );
+    }
+
+    private static void distinctByProperty(){
+        List<CarInfo> cars = Arrays.asList(
+                new CarInfo("BMW",1995, "200","300",200),
+                new CarInfo("HONDA",1996, "200","300",200),
+                new CarInfo("Datsun",1495, "200","300",200),
+                new CarInfo("Volvo",1695, "200","300",200),
+                new CarInfo("Volvo",1489, "4589","300",78),
+                new CarInfo("Mitustishi",1955, "200","300",200),
+                new CarInfo("Mitustishi",1955, "200","500",462)
+        );
+        // java 8 - 1
+        cars.
+                stream().
+                collect(Collectors.toCollection(() -> new TreeSet<CarInfo>((p1, p2) -> p1.getBrand().compareTo(p2.getBrand()))))
+                .forEach(System.out::println);
+
+        cars.stream().filter(distinctByKey(CarInfo::getBrand)).collect(toList()).stream().forEach(System.out::println);
+        cars.stream().collect(distinctByKey2(CarInfo::getBrand)).collect(toList()).stream().forEach(System.out::println);
+
+        // java 8 - 2
+//        Collector<CarInfo, Object, ArrayList<CarInfo>> collector = Collectors.collectingAndThen(
+//                Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(CarInfo::getBrand))),
+//                ArrayList::new);
+//        cars.stream().collect(collector).stream().forEach(System.out::println);
+
+        // java 8 -3
+        Collector<CarInfo, ?, Map<String, CarInfo>> carInfoMapCollector = toMap(CarInfo::getBrand, t -> t, (t, v) -> t);
+        cars.stream().collect(carInfoMapCollector).values();
+
+        // streamEx
+        StreamEx.of(cars).distinct(CarInfo::getBrand).toList().forEach(System.out::println);
+
+        // vavr
+        io.vavr.collection.List<CarInfo> carInfos1 = io.vavr.collection.List.ofAll(cars);
+        carInfos1
+                .distinctBy(CarInfo::getBrand)
+                .toJavaSet();
+
+        // by Rxjava
+        io.reactivex.rxjava3.core.Observable.fromArray(cars).distinct().forEach(System.out::println);
+
+    }
+
+    /**
+     *  try use below ways to filter list2 by elements in list1
+     */
     private static void filterList2BasedOnList1() {
         List<String> carBrands = Arrays.asList("BMW","HONDA","Mecedes","Volvo","Accura");
         List<CarInfo> cars = Arrays.asList(
@@ -64,18 +139,12 @@ public class StreamDemo {
                     new CarInfo("Volvo",1695, "200","300",200),
                     new CarInfo("Mitustishi",1955, "200","300",200)
         );
-        io.vavr.collection.List<CarInfo> carInfos1 = io.vavr.collection.List.ofAll(cars);
-        carInfos1
-                .distinctBy(CarInfo::getBrand)
-                .toJavaSet();
 
-        StreamEx.of(cars)
-                .distinct(CarInfo::getBrand)
-                .toList();
+        List<CarInfo> listOutput =
+                cars.stream()
+                        .filter(e -> carBrands.contains(e.getBrand()))
+                        .collect(Collectors.toList());
 
-        io.reactivex.rxjava3.core.Observable.fromArray(cars).distinct();
-
-//        Flux.fromIterable(cars).distinct(p -> )
 
     }
 
@@ -166,6 +235,7 @@ public class StreamDemo {
     }
 
     @Slf4j
+    @ToString
     static class CarInfo{
         String brand;
         int yearOfMade;

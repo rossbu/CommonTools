@@ -16,48 +16,48 @@ class Something {
         return String.valueOf(s.charAt(0));
     }
 }
-@FunctionalInterface  // informative // can be omitted // An interface with only one abstract method is a functional interface
+
+/**
+ @FunctionalInterface is informative can be omitted
+ An interface with only one abstract method is a functional interface
+ */
+@FunctionalInterface
 interface ConvertFI<F, T> {
-  abstract T convert(F from);  // abstract can be ommited
+    abstract T convert(F from);  // abstract can be ommited
 }
 
 
-@FunctionalInterface // informative and can be ignored.
+@FunctionalInterface
 interface TestFI {
     boolean test(int num);
 }
 
 
 public class Main {
-
-
-    Thread thread = new Thread( new Runnable() {
+    Thread thread = new Thread(new Runnable() {
         @Override
         public void run() {
             System.out.println("print sth");
         }
     });
 
-
     public static List<Integer> filter(TestFI testNum, List<Integer> listItems) {
         List<Integer> result = new ArrayList<Integer>();
-        for(Integer item: listItems) {
-            if(testNum.test(item)) {
+        for (Integer item : listItems) {
+            if (testNum.test(item)) {
                 result.add(item);
             }
         }
         return result;
     }
+
     public static void main(String[] args) throws UnsupportedEncodingException {
 
 
         // random coding
-
         List<? extends Number> foo1 = new ArrayList<Number>();  // Number "extends" Number (in this context)
         List<? extends Number> foo2 = new ArrayList<Integer>(); // Integer extends Number
         List<? extends Number> foo3 = new ArrayList<Double>();  // Double extends Number
-
-
 
 
         // calling filter method with a lambda expression
@@ -118,7 +118,7 @@ public class Main {
             map.putIfAbsent(i, "val" + i);
         }
         map.forEach((id, val) -> System.out.println(val));
-        
+
         map.computeIfPresent(3, (num, val) -> val + num);
         map.get(3);
         // val33

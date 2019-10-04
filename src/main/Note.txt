@@ -2,6 +2,15 @@
 # Java tools
      # jconsole, jvisualvm, jmc
 
+# Java command
+    keytool -list -storepass changeit -keystore "C:\Program Files\Java\jre1.8.0_202\lib\security\cacerts
+    perl analyze-ssl.pl -v3 --all-ciphers trackobot.com  (C:\Development\tools\p5-ssl-tools)
+
+    where JAVA stores the private keys?
+        Java doesn't store them anywhere.
+        You store them in a keystore file, anywhere you want on the file system. Then you tell the "server" where it is.
+        Exactly how you do that depends on what the "server" is, e.g. for Tomcat you give the path to the keystore file in the server.xml file.
+
 # enum
         JDK 1.5 introduces a new enum type (in addition to the existing top-level constructs class and interface) along with a new keyword enum. For example, we could define: enum CardSuit { SPADE, DIAMOND, CLUB, HEART }
         for each enum, the Java compiler automatically generates a static method called values() that returns an array of all the enum constants,
@@ -219,3 +228,12 @@
                 C (int n) { super(n); } // a constructor
             }
 
+# Final
+        When should I use final?
+        One answer to this is "whenever you possibly can". Any field that you never expect to be changed (be that a primitive value, or a reference to an object, whether or not that particular object is itself immutable or not), should generally be declared final. Another way of looking at things is:
+
+        If your object is accessed by multiple threads, and you don't declare its fields final, then you must provide thread-safety by some other means.
+        Other means could include declaring the field volatile, using synchronized or an explicit Lock around all accesses to that field.
+
+        A typical case that people overlook is where an object is created by one thread and then later consumed by another thread, e.g. an object via a ThreadPoolExecutor. In this case, the object must still be made properly thread-safe: it doesn't matter that the accesses by different threads aren't concurrent.
+        What matters is that the object is accessed by different threads at any point in its lifetime.
