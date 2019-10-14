@@ -21,6 +21,14 @@ import java.util.Set;
     Demonstrate serialization/deserialization of Java objects using Jackson library
  */
 public class JsonUtil {
+    public static void main(String[] args) throws IOException {
+//        testUnknowEnumJsonValue();
+//        testJsonOps();
+//        String[] strings =  "en_US".split("_");
+//        System.out.println(strings[0].toLowerCase() + "_" + strings[1]);
+
+    }
+
     public static void testUnknowEnumJsonValue() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 //        objectMapper.enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE);
@@ -52,15 +60,6 @@ public class JsonUtil {
         Status status = reader.with(DeserializationFeature.READ_ENUMS_USING_TO_STRING).readValue("\"notReady\"");
         System.out.println("status name: " + status.toString() + " and status name is : " + status.name() + "\n");  // NOT_READY
     }
-
-    public static void main(String[] args) throws IOException {
-//        testUnknowEnumJsonValue();
-//        testJsonOps();
-//        String[] strings =  "en_US".split("_");
-//        System.out.println(strings[0].toLowerCase() + "_" + strings[1]);
-
-    }
-
 
 
     private static void testJsonOps() {

@@ -14,9 +14,9 @@ public class Interview {
     public static void main(String[] args) {
         /*
          req-1: given a list of persons, consider adding the persons to map where the key is the person id and the values are the person themselves.
-         Then the code will sort them by id or name, and print the results.
+         Then sort the list by id, and print the results.
          hint -1 :
-         you can put age as key or username as key , use java 8 comparator to compare
+         use java 8 comparator to compare
          Java 8 has added static methods comparingByKey and comparingByValue to Map.Entry. Printing the elements sorted by key is shown in Sorting Map elements by key and printing.
          */
         sortListByJava8MapComparator();
