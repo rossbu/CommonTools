@@ -21,6 +21,10 @@ public class Person {
     private String phone;
     private String address;
 
+    public Person() {
+        super();
+    }
+
 
 
     public static class Builder {
@@ -73,9 +77,6 @@ public class Person {
         }
     }
 
-    public Person() {
-        super();
-    }
 
     private Person(Builder builder) {
         givenName = builder.givenName;

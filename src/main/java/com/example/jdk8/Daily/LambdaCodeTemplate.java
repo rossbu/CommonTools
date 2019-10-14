@@ -6,6 +6,8 @@ import java.util.function.Supplier;
 
 /**
  * Created by tbu on 4/17/2017.
+ *
+ * Don't check in this code template after you finished it. just revert it
  * <p>
  * tips:
  * 1. when you do codeNow. use sout, souv to print all results in Intellij

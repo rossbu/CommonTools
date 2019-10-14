@@ -1,4 +1,4 @@
-package com.example.jdk8;
+package com.example.jdk;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
-public class MyTokenizer {
+public class TokenizerDemo {
 
     public List<String> getTokens(String str) {
         List<String> tokens = new ArrayList<>();
@@ -32,7 +32,7 @@ public class MyTokenizer {
         List<String> tokens = new ArrayList<>();
         String currLine;
         StringTokenizer tokenizer;
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(MyTokenizer.class.getResourceAsStream("/" + path)))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(TokenizerDemo.class.getResourceAsStream("/" + path)))) {
             while ((currLine = br.readLine()) != null) {
                 tokenizer = new StringTokenizer(currLine, delim);
                 while (tokenizer.hasMoreElements()) {

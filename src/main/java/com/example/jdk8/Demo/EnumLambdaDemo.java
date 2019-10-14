@@ -1,4 +1,4 @@
-package com.example.jdk8.Daily;
+package com.example.jdk8.Demo;
 
 import java.util.function.DoubleBinaryOperator;
 
@@ -43,7 +43,7 @@ enum CalculateEnum2 {
     public String getOp() { return Op; }
 }
 
-public class CalculatorEnumDemo {
+public class EnumLambdaDemo {
     public static double calc(double x, double y, CalculateEnum operation) {
         return operation.getFunction().applyAsDouble(x, y);
     }

@@ -52,7 +52,7 @@ public class CodeNow {
         // IntStream range equivalent to :  for (int i = startInclusive; i < endExclusive ; i++) { ... }
         IntStream.range(1, 3);
 
-        // IntStream rangeClosed // equivalent to : // for (int i = startInclusive; i <= endExclusive ; i++) { ... }
+        // IntStream rangeClosed  equivalent to : // for (int i = startInclusive; i <= endExclusive ; i++) { ... }
         IntStream.rangeClosed(1, 3);
 
         // IntStream iterate and generate
@@ -82,7 +82,11 @@ public class CodeNow {
     }
 
     private static void OptionalCode() {
+        // create a Optional
+        Optional<Integer> op = Optional.empty();
 
+        // print value
+        System.out.println("Optional: " + op);
     }
 
     private static void fetchResultsOverHttp(int i) {
@@ -136,7 +140,7 @@ public class CodeNow {
 
 
         /*********************************************************************************************************************
-         the Type of Lambda Expressionin Java, the lambda expressions are represented as objects,
+         the Type of Lambda Expression in Java, the lambda expressions are represented as objects,
          lambda expressions must be bound to a particular object type known as a functional interface. This is called the target type.
          *********************************************************************************************************************/
         Predicate<Integer> isOdd = n -> n % 2 != 0;
@@ -160,7 +164,7 @@ public class CodeNow {
         // Assign a lambda expression to a Supplier , A Supplier provides values. We call get() on it to retrieve its value—it may return different values when called more than once.
         Supplier<String> supplier1 = () -> "String1"; // return a string
         Supplier<String> supplier2 = () -> "a" + "b"; // return a concatation of string
-        Supplier<Boolean> supplier3 = () -> 1 > 2;  // return boolean string
+        Supplier<Boolean> supplier3 = () -> 1 > 2;  // return boolean
         Boolean result = supplier3.get();
 
 
@@ -198,6 +202,8 @@ public class CodeNow {
         // Assign a lambda expression to a Predicate (predicate is used in computer science to mean a boolean-returning method), aka Predicate Lambda.  RemoveIf: This method on ArrayList receives a Predicate. Here, we remove all elements starting with the letter "c."
         Predicate<Double> function = x -> x > 10;
 
+        // create a IntPredicate that returns if a given number is even number or not.
+        IntPredicate isEvenPredicate = s -> s % 2 == 0;
 
         // Assign a lambda expression to a BiConsumer, A BiConsumer is a functional object that receives two parameters. Here we use a BiConsumer in the forEach method on HashMap.
 

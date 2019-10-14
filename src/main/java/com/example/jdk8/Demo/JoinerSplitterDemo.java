@@ -1,4 +1,4 @@
-package com.example.jdk8;
+package com.example.jdk8.Demo;
 
 import java.util.Arrays;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class JoinerSplitter {
+public class JoinerSplitterDemo {
 
     public static String join ( String[] arrayOfString ) {
         return Arrays.asList(arrayOfString)
@@ -23,7 +23,8 @@ public class JoinerSplitter {
     }
 
     public static List<String> split ( String str ) {
-        return Stream.of(str.split(","))
+        String[] splitedArray = str.split(",");
+        return Stream.of(splitedArray)
                 .map (elem -> new String(elem))
                 .collect(Collectors.toList());
     }

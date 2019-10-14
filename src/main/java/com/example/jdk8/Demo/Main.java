@@ -1,6 +1,5 @@
-package com.example.jdk8;
+package com.example.jdk8.Demo;
 
-import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -72,15 +71,6 @@ public class Main {
 //        ComparatorTest.main(args);
 //        ListenerTest.main(args);
 
-        // Encode 
-        String asB64 = Base64.getEncoder().encodeToString("some string".getBytes("utf-8"));
-        System.out.println(asB64); // Output will be: c29tZSBzdHJpbmc=
-
-        // Decode
-        byte[] asBytes = Base64.getDecoder().decode("c29tZSBzdHJpbmc=");
-        System.out.println(new String(asBytes, "utf-8")); // And the output is: some string
-
-
         // demo  usage of "::"  for instance methods and constructor
         ConvertFI<String, Integer> converter = Integer::valueOf;
         Integer convertedValue = converter.convert("123");
@@ -91,9 +81,7 @@ public class Main {
         String converted1 = converter1.convert("Java");
         System.out.println(converted1);   // J
 
-        Function<String, Integer> toInteger = Integer::valueOf;
-        Function<String, String> backToString = toInteger.andThen(String::valueOf);
-        backToString.apply("123");     // "123"
+
 
         int max = 1000000;
         List<String> values = new ArrayList<>(max);
