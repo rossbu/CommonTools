@@ -5,7 +5,8 @@ package com.example.jdk.Date;
  */
 
 import org.apache.commons.validator.routines.DateValidator;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -18,7 +19,7 @@ import java.util.GregorianCalendar;
 public class DateUtils {
 
     // Logger
-    private static final Logger LOGGER = Logger.getLogger(DateUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DateUtils.class);
 
 
     /**

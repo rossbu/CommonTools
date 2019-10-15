@@ -18,13 +18,17 @@ configurations.all {
         failOnVersionConflict()
         
         // force certain versions of dependencies (including transitive)
-        force 'commons-codec:commons-codec:1.11','commons-beanutils:commons-beanutils:1.9.1', 'org.slf4j:slf4j-api:1.7.7','commons-collections:commons-collections:3.2.1', 'commons-logging:commons-logging:1.1.1'
-
+        force 'com.fasterxml.jackson.core:jackson-databind:2.9.9.3','commons-codec:commons-codec:1.11','commons-beanutils:commons-beanutils:1.9.1', 'org.slf4j:slf4j-api:1.7.7','commons-collections:commons-collections:3.2.1', 'commons-logging:commons-logging:1.1.1'
         // cache dynamic versions for 1 minutes
         cacheDynamicVersionsFor 1*60, 'seconds'
 
         // don't cache changing modules at all
         cacheChangingModulesFor 0, 'seconds'
+
+        exclude group: "org.slf4j", module: "slf4j-log4j12"
+        exclude group: "log4j", module: "log4j"
+        exclude group: "org.springframework.boot", module:"spring-boot-starter-logging"
+//        exclude module: "logback-classic"
     }
 }
 
@@ -39,11 +43,12 @@ buildscript {
         maven { url "http://repo.maven.apache.org/maven2" }
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.2.RELEASE")
-        classpath 'org.markdownj:markdownj:0.3.0-1.0.2b4'
-        classpath (group: 'org.apache.activemq', name: 'activemq-all', version:'5.10.0', changing: true)
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.9.RELEASE")
+        classpath 'org.markdownj:markdownj:0.4'
+//        classpath (group: 'org.apache.activemq', name: 'activemq-all', version:'5.10.0', changing: true)
     }
 }
+apply plugin: 'org.springframework.boot'
 if (!JavaVersion.current().java7Compatible) {
     throw new IllegalStateException("Must be built with Java 7 or higher")
 }
@@ -76,9 +81,31 @@ dependencies {
 //    The api configuration should be used to declare dependencies which are exported by the library API,
 //    whereas the implementation configuration should be used to declare dependencies which are internal to the component.
 
-    implementation platform('io.projectreactor:reactor-bom:Bismuth-RELEASE')
+    // changing: true
+    // By default, Gradle treats a module version (eg “myorg:myproj:1.0”) as unchanging over time, allowing us to cache the module meta-data and artifacts indefinitely. If you have a module version
+    // that has content (meta-data or artifacts) that can change over time, you can mark the module as ‘changing’.
+    implementation 'org.springframework.boot:spring-boot-starter-parent:2.1.9.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-dependencies:2.1.9.RELEASE'
+    implementation ('org.springframework.boot:spring-boot:2.1.9.RELEASE') {
+        exclude module: "spring-boot-starter-logging"
+        exclude module: "logback-classic"
+    }
+    implementation ('org.springframework.boot:spring-boot-starter-actuator:2.1.9.RELEASE') {
+        exclude module: "spring-boot-starter-logging"
+        exclude module: "logback-classic"
+    }
+    implementation 'org.apache.commons:commons-text:1.5'
+    implementation platform('io.projectreactor:reactor-bom:Dysprosium-RELEASE')
     implementation 'io.projectreactor:reactor-core'
-    implementation group: 'org.apache.activemq', name: 'activemq-all', version:'5.10.0', changing: true
+    implementation (group: 'org.apache.activemq', name: 'activemq-all', version:'5.10.0', changing: true) {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'ch.qos.logback'
+    }
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.7'
+    implementation (group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3') {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
+    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
     implementation group: 'com.sun.jersey', name: 'jersey-client', version:'1.18.1'
     implementation group: 'com.sun.jersey.contribs', name: 'jersey-apache-client', version:'1.18.1'
     implementation ("joda-time:joda-time:2.10.1"){force = true}
@@ -86,13 +113,11 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: '2.5'
     implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
     implementation group: 'commons-validator', name: 'commons-validator', version: '1.5.1'
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.7'
-    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.2'
-    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.1.2'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
+
     implementation group: 'org.hibernate', name: 'hibernate-core', version: '3.6.7.Final'
     implementation group: 'dom4j', name: 'dom4j', version:'1.6.1'
-    implementation group: 'org.springframework', name: 'spring-context', version:'5.1.6.RELEASE'
+    implementation group: 'org.springframework', name: 'spring-context', version:'5.1.10.RELEASE'
     implementation group: 'com.google.guava', name: 'guava', version: '27.1-jre'
     implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.58'
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.11'
@@ -100,7 +125,7 @@ dependencies {
     implementation group: 'org.json', name: 'json', version: '20180130'
     implementation group: 'io.vavr', name: 'vavr', version: '1.0.0-alpha-3'
     implementation group: 'one.util', name: 'streamex', version: '0.7.0'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.8'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.9.3'
     implementation 'org.projectlombok:lombok:1.16.18'
     implementation 'io.reactivex.rxjava3:rxjava:3.0.0-RC3'
 
@@ -123,6 +148,9 @@ sourceSets {
 }
 
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
 
 task bu_wrapper(type: Wrapper) {
     gradleVersion = '1.12'
@@ -130,21 +158,21 @@ task bu_wrapper(type: Wrapper) {
 
 
 // below is for Markerdownj
-import com.petebevin.markdown.MarkdownProcessor
-
-class MarkdownFilter extends FilterReader {
-    MarkdownFilter(Reader input) {
-        super(new StringReader(new MarkdownProcessor().markdown(input.text)))
-    }
-}
-
-task bu_markdown(type: Copy) {
-    from 'src/markdown'
-    include '*.md'
-    into 'build/labs'
-    rename { it - '.md' + '.html' }
-    filter MarkdownFilter
-}
+//import com.petebevin.markdown.MarkdownProcessor
+//
+//class MarkdownFilter extends FilterReader {
+//    MarkdownFilter(Reader input) {
+//        super(new StringReader(new MarkdownProcessor().markdown(input.text)))
+//    }
+//}
+//
+//task bu_markdown(type: Copy) {
+//    from 'src/markdown'
+//    include '*.md'
+//    into 'build/labs'
+//    rename { it - '.md' + '.html' }
+//    filter MarkdownFilter
+//}
 
 // embeded event buildFinished
 gradle.buildFinished { buildResult ->
