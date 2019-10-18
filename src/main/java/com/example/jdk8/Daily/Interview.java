@@ -1,7 +1,7 @@
 package com.example.jdk8.Daily;
 
-import com.example.pojo.Gender;
-import com.example.pojo.Person;
+import com.pojo.Gender;
+import com.pojo.Person;
 
 import java.util.Arrays;
 import java.util.List;

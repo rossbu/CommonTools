@@ -20,7 +20,6 @@ import java.util.Iterator;
 
 /**
  *
- * @author tbu
  *
  */
 public class RDFHandler {

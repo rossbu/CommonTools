@@ -1,12 +1,7 @@
 package com.example.jdk8.Demo;
 
-import com.example.jdk.OuterClass;
-import com.example.pojo.CarInfo;
-import com.example.pojo.Person;
-
 import java.util.Objects;
 import java.util.function.BiPredicate;
-import java.util.function.Consumer;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;

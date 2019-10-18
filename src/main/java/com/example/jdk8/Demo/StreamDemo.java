@@ -1,9 +1,6 @@
 package com.example.jdk8.Demo;
 
-import com.example.pojo.CarInfo;
-import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
-import one.util.streamex.StreamEx;
+import com.pojo.CarInfo;
 
 
 import java.util.*;

@@ -1,7 +1,6 @@
 package com.example.jdk8.Demo;
 
-import com.example.pojo.CarInfo;
-import com.example.pojo.Person;
+import com.pojo.CarInfo;
 
 import java.util.*;
 import java.util.function.Function;

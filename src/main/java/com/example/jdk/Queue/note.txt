@@ -1,9 +1,0 @@
-http://speed847.javaeye.com/blog/458035
-1、首先 启动 jms server。 通过 bin/activemq.bat
-
-2、在 server 上 创建一个queue：
-
-先登陆 http://localhost:8161/admin， 再选
-Home | Queues | Topics | Subscribers | Send    中的 Queues。再create 一个queue。
-(在 这个 queue 中，通过控制台，可以看到具体的收到的 信息)
-3、producer 和 consumer 的代码如下：

@@ -1,6 +1,6 @@
 package com.example.jdk7;
 
-import com.example.pojo.Person;
+import com.pojo.Person;
 
 import java.io.PrintStream;
 import java.net.URL;

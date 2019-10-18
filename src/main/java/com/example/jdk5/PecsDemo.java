@@ -1,7 +1,5 @@
 package com.example.jdk5;
 
-import com.example.pojo.Person;
-
 import java.util.*;
 import java.util.function.Function;
 
