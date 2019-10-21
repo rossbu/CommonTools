@@ -119,10 +119,12 @@ public class SoapLogHandler implements SOAPHandler<SOAPMessageContext> {
 
     }
 
+    @Override
     public boolean handleFault(SOAPMessageContext messageContext) {
         return true;
     }
 
+    @Override
     public void close(MessageContext messageContext) {
     }
 

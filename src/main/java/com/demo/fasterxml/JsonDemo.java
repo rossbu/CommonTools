@@ -10,7 +10,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;
-import com.pojo.CustomerResponse;
+import com.pojo.DealerWrapper;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -96,9 +96,9 @@ public class JsonDemo {
                 "    null\n" +
                 "  ]\n" +
                 "}";
-        CustomerResponse customerResponse = objectMapper.readValue(content1, CustomerResponse.class);
-        System.out.println(customerResponse.getDealers().size());
-        System.out.println(customerResponse.getDealers().get(0) == null);
+        DealerWrapper dealerWrapper = objectMapper.readValue(content1, DealerWrapper.class);
+        System.out.println(dealerWrapper.getDealers().size());
+        System.out.println(dealerWrapper.getDealers().get(0) == null);
 
         String content2 = "{\n" +
                 "    \"Dealers\": [\n" +
@@ -112,9 +112,9 @@ public class JsonDemo {
                 "        }\n" +
                 "    ]\n" +
                 "}";
-        customerResponse = objectMapper.readValue(content2, CustomerResponse.class);
-        System.out.println(customerResponse.getDealers().size());
-        System.out.println(customerResponse.getDealers().get(0) == null);
+        dealerWrapper = objectMapper.readValue(content2, DealerWrapper.class);
+        System.out.println(dealerWrapper.getDealers().size());
+        System.out.println(dealerWrapper.getDealers().get(0) == null);
         String content3 = "{\n" +
                 "    \"Dealers\": " +
                 "        {\n" +
@@ -127,9 +127,9 @@ public class JsonDemo {
                 "        }" +
                 "  " +
                 "}";
-        customerResponse = objectMapper.readValue(content3, CustomerResponse.class);
-        System.out.println(customerResponse.getDealers().size());
-        System.out.println(customerResponse.getDealers().get(0) == null);
+        dealerWrapper = objectMapper.readValue(content3, DealerWrapper.class);
+        System.out.println(dealerWrapper.getDealers().size());
+        System.out.println(dealerWrapper.getDealers().get(0) == null);
     }
 
     public static void unknowEnumJsonValue() throws IOException {
