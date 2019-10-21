@@ -68,8 +68,6 @@ public class PhysicalMemoryDemo {
     }
 
     public static void main(String[] args) {
-        sun.management.BaseOperatingSystemImpl baseOperatingSystem;
-        Object o;
         System.out.println("Total Physical Memory: " + DebuggingUtils.toBase2SuffixedString(totalPhysicalMemory()) + "B");
         System.out.println("Free Physical Memory: " + DebuggingUtils.toBase2SuffixedString(freePhysicalMemory()) + "B");
         System.out.println("Total Swap Space: " + DebuggingUtils.toBase2SuffixedString(totalSwapSpace()) + "B");

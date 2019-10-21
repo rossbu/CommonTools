@@ -1,0 +1,38 @@
+Some of the important Java 11 features are:
+
+Running Java File with single command (( JEP-330 ))
+New utility methods in String class
+Local-Variable Syntax for Lambda Parameters (JEP 323)
+Nested Based Access Control
+JEP 321: HTTP Client
+Reading/Writing Strings to and from the Files
+JEP 328: Flight Recorder
+
+
+Local-Variable Syntax for Lambda Parameters
+
+JDK 11 enhances java.util.function.Predicate with a static not() method
+
+JDK 11 New utility methods in String class
+    strip(), stripLeading(), stripTrailing()
+    Java String Methods
+
+JDK 11 HttpClient api changes
+    JDK 11 provides a new module – java.net.http. It supports both HTTP/1.1 and HTTP/2 and replaces the legacy HttpUrlConnection class
+
+Running Single-file Programs without Compiling in Java 11 ( JEP-330 )
+    This feature provides the ability to run a Java single-file source code directly without any compilation, avoiding tedious steps that involved previously to run just a simple hello world program.
+    This feature is particularly useful for someone new to the language who wants to try out simple programs or features; when you combine this feature with jshell, you get a great beginner’s learning toolset.
+    Professionals can also make use of these tools to explore new language changes or to try out an unknown API.
+    this feature is limited to code that resides in a single source file. You cannot add additional source files to be compiled in the same run.
+    jshell was explicitly designed for "a good interactive experience" rather than as a "batch runner."
+    As of JDK 10, the Java launcher operates in three modes:
+
+    Running a class file
+    Running the main class of a JAR file
+    Running the main class of a module
+    Now in Java 11, a new fourth mode has been added
+    Running a class declared in a source file.
+    and when use modules, use below Yes, using modules is fully allowed. The in-memory compiled code runs as part of an unnamed module with the option
+    --add-modules=ALL-DEFAULT which gives access to the full range of modules that ship with the JDK.
+

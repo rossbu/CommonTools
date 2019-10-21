@@ -5,8 +5,9 @@ apply plugin: 'application'
 apply plugin: 'signing'
 
 mainClassName = 'com.tools.jdk.basic.StringUtils'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+// sourceCompatibility cannot be higher than targetCompatibility, this is a restriction of javac.
+sourceCompatibility = 12
+targetCompatibility = 12
 version = '1.0.0'
 group = 'org.commontools'
 description = "A bootstrap Java project with gradle,  Mockito, FEST-Assert 2 and Cobertura"
