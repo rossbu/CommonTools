@@ -1,4 +1,4 @@
-package com.jdk.jdk8.Daily;
+package com.daily;
 
 import java.security.PrivilegedAction;
 import java.util.*;

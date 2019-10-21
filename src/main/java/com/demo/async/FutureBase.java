@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /**
- *
+  check link for details :   https://www.baeldung.com/thread-pool-java-and-guava
  */
 public class FutureBase {
 
@@ -37,6 +37,14 @@ public class FutureBase {
     static ExecutorService newFixedThreadExecutorService = Executors.newFixedThreadPool(10);
     static ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
     static ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
+
+    static ExecutorService fixedCustomizedThreadPoolExecutor = Executors.newFixedThreadPool(3, new ThreadFactory() {
+        int count = 1;
+        @Override
+        public Thread newThread(Runnable runnable) {
+            return new Thread(runnable, "custom-executor-" + count++);
+        }
+    });
 
     /*
         3rd party Executor impl

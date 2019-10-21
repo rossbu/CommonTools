@@ -19,6 +19,8 @@ public class JDK8CompletableFutureDemo extends FutureBase{
         supplyAsyncAll();
     }
 
+
+
     private static void supplyAsyncAll() throws ExecutionException, InterruptedException {
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> "Hello");
         CompletableFuture<Set> future2 = CompletableFuture.supplyAsync(() -> new HashSet());
@@ -32,6 +34,8 @@ public class JDK8CompletableFutureDemo extends FutureBase{
         Set set = future2.get();
         User user = future3.get();
         System.out.println(s);
+        System.out.println(set.size());
+        System.out.println(user.getName());
     }
 
     private static void completableAllOf() throws InterruptedException, ExecutionException {
@@ -85,7 +89,8 @@ public class JDK8CompletableFutureDemo extends FutureBase{
         2 ways
         @Async
      */
-    @Async
+    @Async("asyncExecutor")
+//    @Async
     public CompletableFuture<User> findUser(String user) throws InterruptedException {
         System.out.println("Looking up " + user);
         User results = restTemplate.getForObject("https://api.github.com/users/" + user, User.class);

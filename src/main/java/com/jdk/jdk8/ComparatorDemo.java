@@ -1,4 +1,4 @@
-package com.jdk.jdk8.Demo;
+package com.jdk.jdk8;
 
 import com.pojo.Person;
 
@@ -59,19 +59,17 @@ public class ComparatorDemo {
             p.printName();
         }
 
-        // sort 3 : class reference
-        List<String> names2 = Arrays.asList("peter", null, "anna", "mike", null, "xenia");
+
         // Method References should be assignable to a FunctionalInterface
         Comparator<String> cmp = String::compareTo;
 
+
+        // The null element is considered to be greater than non-null.
+        List<String> names2 = Arrays.asList("peter", null, "anna", "mike", null, "xenia");
         Comparator<String> c1 = Comparator.nullsLast(String::compareToIgnoreCase);
         Comparator<String> c2 = Comparator.nullsLast(Comparator.naturalOrder());
         names2.sort(c1);
         System.out.println(names2);
-        names2.stream().filter((a) -> a.startsWith("p")).forEach(System.out::println);
-
-
-
 
     }
 }

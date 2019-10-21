@@ -1,4 +1,4 @@
-package com.jdk.jdk8.Daily;
+package com.daily;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;

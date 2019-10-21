@@ -1,4 +1,4 @@
-package com.jdk.jdk8.Daily;
+package com.daily;
 
 import com.pojo.Gender;
 import com.pojo.Person;
