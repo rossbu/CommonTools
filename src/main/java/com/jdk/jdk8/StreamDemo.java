@@ -1,6 +1,7 @@
 package com.jdk.jdk8;
 
 import com.pojo.CarInfo;
+import one.util.streamex.StreamEx;
 
 
 import java.util.*;
@@ -262,7 +263,7 @@ public class StreamDemo {
         cars.stream().collect(carInfoMapCollector).values();
 
         // streamEx
-//        StreamEx.of(cars).distinct(CarInfo::getBrand).toList().forEach(System.out::println);
+        StreamEx.of(cars).distinct(CarInfo::getBrand).toList().forEach(System.out::println);
 
         // vavr
         io.vavr.collection.List<CarInfo> carInfos1 = io.vavr.collection.List.ofAll(cars);

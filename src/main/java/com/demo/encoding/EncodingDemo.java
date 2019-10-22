@@ -198,7 +198,7 @@ public class EncodingDemo {
         System.out.println("------------ below prints bytes (only first 10)---------------");
         String format = "|%1$-10s|%2$-10s|%3$-10s|%4$-10s|%5$-10s|%6$-10s|%7$-10s|%8$-10s|%9$-10s|%10$-10s|%11$-20s\n";
         String[] splittedStr = testStr.split("-");
-        System.out.format(format,splittedStr);
+//        System.out.format(format,splittedStr);
         Arrays.stream(splittedStr).forEach(
                 e -> {
                     ByteBuffer byteBuffer = StandardCharsets.UTF_8.encode(e.trim());

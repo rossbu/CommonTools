@@ -1,0 +1,54 @@
+Non-Preemptive Authentication - The entire Client-Server communication is now clear:
+    the Client sends the HTTP Request with no credentials
+    the Server sends back a challenge
+    the Client negotiates and identifies the right authentication scheme
+    the Client sends a second Request, this time with credentials
+
+    example:
+        code and output
+        CredentialsProvider provider = new BasicCredentialsProvider();
+        UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("user1", "user1Pass");
+        provider.setCredentials(AuthScope.ANY, credentials);
+        HttpClient client = HttpClientBuilder.create().setDefaultCredentialsProvider(provider).build();
+        HttpResponse response = client.execute(new HttpGet(URL_SECURED_BY_BASIC_AUTHENTICATION));
+
+        # ... request is sent with no credentials
+        [main] DEBUG ... - Authentication required
+        [main] DEBUG ... - localhost:8080 requested authentication
+        [main] DEBUG ... - Authentication schemes in the order of preference:
+          [negotiate, Kerberos, NTLM, Digest, Basic]
+        [main] DEBUG ... - Challenge for negotiate authentication scheme not available
+        [main] DEBUG ... - Challenge for Kerberos authentication scheme not available
+        [main] DEBUG ... - Challenge for NTLM authentication scheme not available
+        [main] DEBUG ... - Challenge for Digest authentication scheme not available
+        [main] DEBUG ... - Selected authentication options: [BASIC]
+
+Preemptive authentication - via HttpClientContext
+    the “Basic Authentication” scheme is pre-selected
+    the Request is sent with the Authorization header
+    the Server responds with a 200 OK
+    Authentication succeeds
+
+    we need to create the HttpContext – pre-populating it with an authentication cache with the right type of authentication scheme pre-selected.
+    This will mean that the negotiation from the previous example is no longer necessary – Basic Authentication is already chosen:
+    Now we can use the client with the new context and send the pre-authentication request:
+    HttpHost targetHost = new HttpHost("localhost", 8082, "http");
+    CredentialsProvider credsProvider = new BasicCredentialsProvider();
+    credsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(DEFAULT_USER, DEFAULT_PASS));
+    HttpClientContext context = HttpClientContext.create();
+    context.setCredentialsProvider(credsProvider);
+    context.setAuthCache(authCache);
+
+
+Preemptive authentication - via writing to header directly
+
+    Preemptive Basic Authentication basically means pre-sending the Authorization header.
+    HttpGet request = new HttpGet(URL_SECURED_BY_BASIC_AUTHENTICATION);
+    String auth = DEFAULT_USER + ":" + DEFAULT_PASS;
+    byte[] encodedAuth = Base64.encodeBase64(
+      auth.getBytes(StandardCharsets.ISO_8859_1));
+    String authHeader = "Basic " + new String(encodedAuth);
+    request.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
+
+    HttpClient client = HttpClientBuilder.create().build();
+    HttpResponse response = client.execute(request);
