@@ -1,4 +1,4 @@
-package com.jdk.jdk8;
+package com.daily;
 
 import java.io.UnsupportedEncodingException;
 import java.util.*;
@@ -30,8 +30,10 @@ interface TestFI {
     boolean test(int num);
 }
 
-
-public class Main {
+/**
+ * sometimes, you just want to code some simple things, here we go.
+ */
+public class NoBrainCoding {
     Thread thread = new Thread(new Runnable() {
         @Override
         public void run() {
