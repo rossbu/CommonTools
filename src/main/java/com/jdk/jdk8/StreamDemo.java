@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -55,7 +56,30 @@ public class StreamDemo {
 
 //        distinctByProperty();
 
+        streamClosed();
 
+
+    }
+
+    /*
+    # Stream is closed after that was used once        Issue: expectation: throw IllegalStateException: Stream has been operated upon or closed
+        Solution: so use Supplier, Simply put create a new Stream whenever you need to use the stream.
+
+     */
+    private static void streamClosed() {
+
+
+
+        Stream<String> streamTest = Stream.of("A","B","C");
+        Optional<String> anyResult = streamTest.findAny();
+        System.out.println(anyResult.get());
+        Optional<String> firstReuslt = streamTest.findFirst(); // throw exception that the Stream was closed after findAny() operation
+
+        Supplier<Stream<String>> streamSupplier = () -> Stream.of("A","B","C");
+        Optional<String> anyResultSupplied = streamSupplier.get().findAny();
+        System.out.println(anyResultSupplied.get());
+        Optional<String> secondresult = streamSupplier.get().findFirst();
+        System.out.println(secondresult.get());
     }
 
     /**
