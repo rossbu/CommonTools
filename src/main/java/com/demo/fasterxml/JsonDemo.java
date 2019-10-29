@@ -17,6 +17,7 @@ import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 
 /*
@@ -28,9 +29,9 @@ public class JsonDemo {
     private final static Object SINGLETON_OBJECT = new Object();
 
     public static void main(String[] args) throws IOException {
-        unknowEnumJsonValue();
         singleValueAsArray();
-        wrapUnWrapJsonRoot();
+//        wrapUnWrapJsonRoot();
+//        unknowEnumJsonValue();
 
     }
 
@@ -89,6 +90,7 @@ public class JsonDemo {
 
     private static void singleValueAsArray() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(SerializationFeature.WRITE_SINGLE_ELEM_ARRAYS_UNWRAPPED,false);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
         String content1 = "{\n" +
@@ -130,6 +132,11 @@ public class JsonDemo {
         dealerWrapper = objectMapper.readValue(content3, DealerWrapper.class);
         System.out.println(dealerWrapper.getDealers().size());
         System.out.println(dealerWrapper.getDealers().get(0) == null);
+
+
+        DealerWrapper[] dealerWrappers =  Stream.of(dealerWrapper).toArray(DealerWrapper[]::new);
+        String s = objectMapper.writeValueAsString(dealerWrappers);
+        System.out.println("single value as emlement array : " + s);
     }
 
     public static void unknowEnumJsonValue() throws IOException {
