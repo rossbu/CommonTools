@@ -91,18 +91,24 @@ public class JsonDemo {
     private static void singleValueAsArray() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(SerializationFeature.WRITE_SINGLE_ELEM_ARRAYS_UNWRAPPED,false);
+        objectMapper.configure(SerializationFeature.INDENT_OUTPUT,true);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-        String content1 = "{\n" +
+
+
+        // de-serialize null in array
+        String nullAsValueInArray = "{\n" +
                 "  \"Dealers\": [\n" +
                 "    null\n" +
                 "  ]\n" +
                 "}";
-        DealerWrapper dealerWrapper = objectMapper.readValue(content1, DealerWrapper.class);
+        DealerWrapper dealerWrapper = objectMapper.readValue(nullAsValueInArray, DealerWrapper.class);
         System.out.println(dealerWrapper.getDealers().size());
         System.out.println(dealerWrapper.getDealers().get(0) == null);
 
-        String content2 = "{\n" +
+
+        // de-serialize valid json string object in array
+        String validDataInArray = "{\n" +
                 "    \"Dealers\": [\n" +
                 "        {\n" +
                 "            \"DealerNo\": 12345,\n" +
@@ -114,10 +120,13 @@ public class JsonDemo {
                 "        }\n" +
                 "    ]\n" +
                 "}";
-        dealerWrapper = objectMapper.readValue(content2, DealerWrapper.class);
+        dealerWrapper = objectMapper.readValue(validDataInArray, DealerWrapper.class);
         System.out.println(dealerWrapper.getDealers().size());
         System.out.println(dealerWrapper.getDealers().get(0) == null);
-        String content3 = "{\n" +
+
+
+        // de-serialize json String into one object
+        String oneElementWithoutArray = "{\n" +
                 "    \"Dealers\": " +
                 "        {\n" +
                 "            \"DealerNo\": 12345,\n" +
@@ -129,14 +138,15 @@ public class JsonDemo {
                 "        }" +
                 "  " +
                 "}";
-        dealerWrapper = objectMapper.readValue(content3, DealerWrapper.class);
+        dealerWrapper = objectMapper.readValue(oneElementWithoutArray, DealerWrapper.class);
         System.out.println(dealerWrapper.getDealers().size());
         System.out.println(dealerWrapper.getDealers().get(0) == null);
 
 
+        // Serialize one object to Array
         DealerWrapper[] dealerWrappers =  Stream.of(dealerWrapper).toArray(DealerWrapper[]::new);
-        String s = objectMapper.writeValueAsString(dealerWrappers);
-        System.out.println("single value as emlement array : " + s);
+        String oneElementAsArray = objectMapper.writeValueAsString(dealerWrappers);
+        System.out.println("single value as emlement array : " + oneElementAsArray);
     }
 
     public static void unknowEnumJsonValue() throws IOException {

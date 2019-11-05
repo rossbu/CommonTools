@@ -3,6 +3,10 @@ package com.daily;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static java.util.Arrays.asList;
 
 /**
  * @author tbu
@@ -16,8 +20,8 @@ class Something {
 }
 
 /**
- @FunctionalInterface is informative can be omitted
- An interface with only one abstract method is a functional interface
+ * @FunctionalInterface is informative can be omitted
+ * An interface with only one abstract method is a functional interface
  */
 @FunctionalInterface
 interface ConvertFI<F, T> {
@@ -83,7 +87,6 @@ public class NoBrainCoding {
         System.out.println(converted1);   // J
 
 
-
         int max = 1000000;
         List<String> values = new ArrayList<>(max);
         for (int i = 0; i < max; i++) {
@@ -125,5 +128,67 @@ public class NoBrainCoding {
         // val33
 
     }
+    public static void hashCodeTest() {
+        for (int i = 0; i < 5; i++) {
+            // if I remove the third parameter, it works fine
+            System.out.println(Objects.hash("getDemoCache", "1", new int[]{1, 2}));
+        }
+    }
 
+    public static void demoFunction1() {
+        //        https://benjiweber.co.uk/blog/2015/01/14/implicit-conversions-with-identity-functions/
+        List<Library> libraries = asList(
+                Library.library(Book.book("The Hobbit"), Book.book("LoTR")),
+                Library.library(Book.book("Build Quality In"), Book.book("Lean Enterprise"))
+        );
+
+        /*
+                 you can't use Library::books, because flatMap requires a function that returns a Stream
+                <R> Stream<R> map(Function<? super T, ? extends R> mapper)
+                <R> Stream<R> flatMap(Function<? super T, ? extends Stream<? extends R>> mapper);
+        */
+        libraries.stream()
+                .flatMap(library -> library.books().stream())
+                .map(Book::name)
+                .forEach(System.out::println);
+
+        /*
+                Library::books is equivalent to a Function<Library, List<Book>>, so passing it to the f() method implicitly converts it to that type.
+                andThen method which returns a new function which composes the two functions.
+         */
+        libraries.stream()
+                .flatMap(f(Library::books).andThen(Collection::stream))
+                .map(Book::name)
+                .forEach(System.out::print);
+    }
+
+    interface Library {
+        List<Book> books();
+
+        static Library library(Book... books) {
+            return () -> asList(books);
+        }
+    }
+
+    interface Book {
+        String name();
+
+        static Book book(String name) {
+            return () -> name;
+        }
+    }
+
+    interface User {
+        Integer getId();
+    }
+
+    void test(List<User> users) {
+        Map<Integer, User> userMap = users.stream().collect(Collectors.toMap(User::getId, Function.identity()));
+    }
+
+    public static <T, R> Function<T, R> f(Function<T, R> f) {
+        return f;
+    }
 }
+
+
