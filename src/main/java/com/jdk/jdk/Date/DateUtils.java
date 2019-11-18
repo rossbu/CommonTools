@@ -326,36 +326,37 @@ public class DateUtils {
 
     public static void main(String args[])
     {
-        System.out.println(dateTime("dd MMMMM yyyy"));
-        System.out.println(dateTime("yyyyMMddHHmmss"));
-        System.out.println(dateTime("dd.MM.yy"));
-        System.out.println(dateTime("MM/dd/yyyy"));
-        System.out.println(dateTime("MM-dd-yyyy"));
-        System.out.println(dateTime("yyyy.MM.dd G 'at' hh:mm:ss z"));
-        System.out.println(dateTime("EEE, MMM d, ''yy"));
-        System.out.println(dateTime("h:mm a"));
-        System.out.println(dateTime("H:mm:ss:SSS"));
-        System.out.println(dateTime("H"));
-        System.out.println(dateTime("K:mm a,z"));
-        System.out.println(dateTime("yyyy.MMMMM.dd GGG hh:mm aaa"));
-
-        System.out.println(dateTime("2004-11-10", "yyyy-MM-dd", "MM/dd/yyyy"));
-        System.out.println(dateTime("0000-00-00", "yyyy-MM-dd", "MM/dd/yyyy"));
-        System.out.println(todayInYYYYMMDD());
-        System.out.println(todayInMM_DD_YYYY());
-        System.out.println(todayInYYYYMMDDHHMMSS());
-        System.out.println(MysqlDateToMMDDYYYY("2004-04-10 12:20:30"));
-        System.out.println(MysqlDateToYYYYMMDD("2008-10-16 10:54:34.0"));
-        System.out.println(calendarToYYYYMMDDHHMMSS(Calendar.getInstance()));
-
-        System.out.println(calendarToYYYYMMDD(Calendar.getInstance()));
-        System.out.println((YYYYMMDDHHMMSStoCalendar("20041209110423").getTime()));
-        System.out.println(MysqlYYYYMMDDandTime("20041204",  false));
-
-        System.out.println( DateUtils.parseDate("2008-04-16") );
-        System.out.println( DateUtils.parseDate("12/04/2008") );
-
-        System.out.println(DateUtils.MysqlDateToYYYY_MM_DD("20080714"));
+          System.out.println(dateTime("yyyyMMdd"));
+//        System.out.println(dateTime("dd MMMMM yyyy"));
+//        System.out.println(dateTime("yyyyMMddHHmmss"));
+//        System.out.println(dateTime("dd.MM.yy"));
+//        System.out.println(dateTime("MM/dd/yyyy"));
+//        System.out.println(dateTime("MM-dd-yyyy"));
+//        System.out.println(dateTime("yyyy.MM.dd G 'at' hh:mm:ss z"));
+//        System.out.println(dateTime("EEE, MMM d, ''yy"));
+//        System.out.println(dateTime("h:mm a"));
+//        System.out.println(dateTime("H:mm:ss:SSS"));
+//        System.out.println(dateTime("H"));
+//        System.out.println(dateTime("K:mm a,z"));
+//        System.out.println(dateTime("yyyy.MMMMM.dd GGG hh:mm aaa"));
+//
+//        System.out.println(dateTime("2004-11-10", "yyyy-MM-dd", "MM/dd/yyyy"));
+//        System.out.println(dateTime("0000-00-00", "yyyy-MM-dd", "MM/dd/yyyy"));
+//        System.out.println(todayInYYYYMMDD());
+//        System.out.println(todayInMM_DD_YYYY());
+//        System.out.println(todayInYYYYMMDDHHMMSS());
+//        System.out.println(MysqlDateToMMDDYYYY("2004-04-10 12:20:30"));
+//        System.out.println(MysqlDateToYYYYMMDD("2008-10-16 10:54:34.0"));
+//        System.out.println(calendarToYYYYMMDDHHMMSS(Calendar.getInstance()));
+//
+//        System.out.println(calendarToYYYYMMDD(Calendar.getInstance()));
+//        System.out.println((YYYYMMDDHHMMSStoCalendar("20041209110423").getTime()));
+//        System.out.println(MysqlYYYYMMDDandTime("20041204",  false));
+//
+//        System.out.println( DateUtils.parseDate("2008-04-16") );
+//        System.out.println( DateUtils.parseDate("12/04/2008") );
+//
+//        System.out.println(DateUtils.MysqlDateToYYYY_MM_DD("20080714"));
 
     }
 

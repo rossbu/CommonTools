@@ -15,6 +15,15 @@ import org.slf4j.LoggerFactory;
 public final class AsyncUtils {
 
     private static final Logger LOG = LoggerFactory.getLogger(AsyncUtils.class);
+    private AsyncUtils() {}
+
+    public static void sleep(int seconds) {
+        try {
+            TimeUnit.SECONDS.sleep(seconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static <R> CompletableFuture<R> newFailedFuture(Throwable ex) {
         CompletableFuture<R> future = new CompletableFuture<>();
@@ -52,5 +61,6 @@ public final class AsyncUtils {
         return future.isDone() && !future.isCompletedExceptionally() && !future.isCancelled();
     }
 
-    private AsyncUtils() {}
+
+
 }

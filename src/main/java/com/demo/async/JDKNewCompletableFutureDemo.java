@@ -7,12 +7,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+
+import static com.demo.async.AsyncUtils.sleep;
 
 /**
  * this demo includes jdk8 , 9 and upper version example.
@@ -20,12 +19,14 @@ import java.util.stream.Collectors;
 public class JDKNewCompletableFutureDemo extends FutureBase{
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
+        JDKNewCompletableFutureDemo demo = new JDKNewCompletableFutureDemo();
 //        completableByAll();
 //        completableAllOf();
-        jdk9delayExecutor();
+//        jdk9delayExecutor();
 //        futureAcceptTtest()
 //        supplyAsyncTest();
-        thenAcceptTest();
+//        thenAcceptTest();
+        demo.futureThenApplyThenApplyAsync();
     }
 
     /**
@@ -178,4 +179,84 @@ public class JDKNewCompletableFutureDemo extends FutureBase{
         TimeUnit.SECONDS.sleep(10);
         // When running the above example, you will see after 2s, the results will appear:
     }
+    // SETUP
+    Runnable notifier = new Runnable() {
+        @Override
+        public void run() {
+            System.out.print(".");
+        }
+    };
+    Runnable notifier2 = new Runnable() {
+        @Override
+        public void run(){
+            while(!Thread.currentThread().isInterrupted()){
+                    try {
+                        Thread.sleep(1000); //exclude try/catch for brevity
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                System.out.print("^");
+            }
+        }
+    };
+
+    /**
+     4
+
+     I must point out that the names thenApply and thenApplyAsync is absolutely horrible and confusing.
+     There is nothing in thenApplyAsync that is more asynchronous than thenApply from the contract of these methods.
+
+     The difference has to do with on which thread the function is run. The function supplied to thenApply may run on any of the threads that
+
+     call complete
+     call thenApply on the same instance
+     while thenApplyAsync either uses a default Executor (aka. thread pool), or a supplied Executor.
+
+     The asynchronous part of these function has to do with the fact that an asynchronous operation eventually calls complete or completeExceptionally.
+     The idea came from Javascript, which has nothing to do with multithreading.
+
+
+     26 votes up
+     The difference has to do with the Executor that is responsible for running the code. Each operator on CompletableFuture generally has 3 versions.
+
+     thenApply(fn) - runs fn on a thread defined by the CompleteableFuture on which it is called, so you generally cannot know where this will be executed. It might immediately execute if the result is already available.
+     thenApplyAsync(fn) - runs fn on a environment-defined executor regardless of circumstances. For CompletableFuture this will generally be ForkJoinPool.commonPool().
+     thenApplyAsync(fn,exec) - runs fn on exec.
+     In the end the result is the same, but the scheduling behavior depends on the choice of method.
+
+     */
+    public void futureThenApplyThenApplyAsync() {
+
+        ExecutorService newFixedThreadPool = Executors.newFixedThreadPool(2);
+        ScheduledExecutorService newSingleThreadScheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+        newSingleThreadScheduledExecutor.scheduleAtFixedRate(notifier, 1, 1, TimeUnit.SECONDS);
+        newFixedThreadPool.submit(notifier);
+        CompletableFuture<Integer> completableFuture =
+                CompletableFuture.supplyAsync(this::findAccountNumber,newFixedThreadPool)
+                        .thenApplyAsync(this::calculateBalance,newSingleThreadScheduledExecutor)
+                        .thenApplyAsync(this::notifyBalance);
+        Integer balance = completableFuture.join();
+        System.out.println("balance is : " + balance);
+        newSingleThreadScheduledExecutor.shutdown();
+        newFixedThreadPool.shutdown();
+    }
+
+    public int findAccountNumber() {
+        System.out.println(Thread.currentThread() + " findAccountNumber");
+        sleep(1);
+        return 10;
+    }
+
+    public int calculateBalance(int accountNumber) {
+        System.out.println(Thread.currentThread() + " calculateBalance");
+        sleep(5);
+        return accountNumber * accountNumber;
+    }
+
+    public Integer notifyBalance(Integer balance) {
+        System.out.println(Thread.currentThread() + "Sending Notification");
+        sleep(10);
+        return balance;
+    }
+
 }

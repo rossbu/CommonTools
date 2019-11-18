@@ -1,6 +1,8 @@
 package com.jdk.jdk8;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -33,13 +35,22 @@ public class ArraysDemo {
 
         int[] testarray = new int[10]   ;
 
-
+        replaceAllByLambda();
 
         String[] array = new String[20];
         Arrays.setAll(array, idx -> String.valueOf(idx).concat(" yes"));
         Arrays.stream(array).forEach(System.out::println);
-
         Arrays.parallelSetAll(array, (index) -> Integer.toString(index + 1));
+        Arrays.stream(array).forEach(System.out::println);
+    }
 
+    private static void replaceAllByLambda() {
+        String[] arrTest = {"sunday","monday", "tuesday", "wednesday", "friday", "saturday"};
+        List<String> arrTest1 = List.of(arrTest);
+        ArrayList<String> arrayList = new ArrayList(); // you can't operate on arrtest1 or arrtest directly.
+        arrayList.addAll(arrTest1);
+
+        arrayList.replaceAll(s -> s.replaceFirst("day$", ""));
+        arrayList.stream().forEach(System.out::println);
     }
 }
