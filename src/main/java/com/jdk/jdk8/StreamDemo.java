@@ -1,5 +1,6 @@
 package com.jdk.jdk8;
 
+import com.google.common.collect.Streams;
 import com.pojo.CarInfo;
 import one.util.streamex.StreamEx;
 
@@ -49,7 +50,7 @@ public class StreamDemo {
 
 //        mapTest();
 
-        flatmapTest();
+//        flatmapTest();
 //
 //        filterList2BasedOnList1();
 
@@ -57,9 +58,28 @@ public class StreamDemo {
 
 //        distinctByProperty();
 
-        streamClosed();
+//        streamClosed();
+
+        streamExZip();
+
+        guavaStreamZip();
 
 
+    }
+
+    private static void guavaStreamZip() {
+        List<String> carBrands = Arrays.asList("BMW", "HONDA", "Mecedes", "Volvo", "Accura");
+        List<CarInfo> cars = Arrays.asList(
+                new CarInfo("BMW", 1995, "200", "300", 200),
+                new CarInfo("HONDA", 1996, "200", "300", 200),
+                new CarInfo("Datsun", 1495, "200", "300", 200),
+                new CarInfo("Volvo", 1695, "200", "300", 200),
+                new CarInfo("Mitustishi", 1955, "200", "300", 200)
+        );
+
+        Streams.zip(carBrands.stream(), carBrands.stream(), (a , b) ->{return a;})
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     /*
@@ -271,6 +291,14 @@ public class StreamDemo {
 
         // by Rxjava
 //        io.reactivex.rxjava3.core.Observable.fromArray(cars).distinct().forEach(System.out::println);
+
+    }
+
+    private static void streamExZip() {
+        StreamEx<String> givenNames = StreamEx.of("Leo", "Fyodor");
+        StreamEx<String> familyNames = StreamEx.of("Tolstoy", "Dostoevsky");
+        StreamEx<String> fullNames = givenNames.zipWith(familyNames, (gn, fn) -> gn + " " + fn);
+        fullNames.forEach(System.out::println);  // prints: "Leo Tolstoy\nFyodor Dostoevsky\n"
 
     }
 

@@ -219,7 +219,7 @@ public class JDKNewCompletableFutureDemo extends FutureBase{
      26 votes up
      The difference has to do with the Executor that is responsible for running the code. Each operator on CompletableFuture generally has 3 versions.
 
-     thenApply(fn) - runs fn on a thread defined by the CompleteableFuture on which it is called, so you generally cannot know where this will be executed. It might immediately execute if the result is already available.
+     thenApply(fn) - runs fn on a thread defined by the CompleteableFuture on which it is called, so you generally cannot know where this will be executed.It might immediately execute if the result is already available.
      thenApplyAsync(fn) - runs fn on a environment-defined executor regardless of circumstances. For CompletableFuture this will generally be ForkJoinPool.commonPool().
      thenApplyAsync(fn,exec) - runs fn on exec.
      In the end the result is the same, but the scheduling behavior depends on the choice of method.

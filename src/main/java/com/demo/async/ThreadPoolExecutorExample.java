@@ -17,7 +17,7 @@ import java.util.concurrent.*;
 public class ThreadPoolExecutorExample {
 
     public static void main (String[] args) {
-//        createAndRunPoolForQueue(new ArrayBlockingQueue<Runnable>(3), "Bounded");
+        createAndRunPoolForQueue(new ArrayBlockingQueue<Runnable>(3), "Bounded");
         createAndRunPoolForQueue2Static();
 //        createAndRunPoolForQueue(new LinkedBlockingDeque<>(), "Unbounded");
 //        createAndRunPoolForQueue(new SynchronousQueue<Runnable>(), "Direct hand-off");
