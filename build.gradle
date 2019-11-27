@@ -162,6 +162,12 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
+
+// wait for 12 and 13 to use below
+//tasks.withType(JavaCompile).each {
+//    it.options.compilerArgs.add('--enable-preview')
+//}
+
 task bu_wrapper(type: Wrapper) {
     gradleVersion = '1.12'
 }

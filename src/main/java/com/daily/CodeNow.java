@@ -21,18 +21,12 @@ import java.util.stream.*;
 public class CodeNow {
 
     public static void main(String... args) {
+        filterValueAndIndexValueTest();
 
 //        LambdaCode();
-        IntStreamCode();
-        StreamCode();
-        OptionalCode();
-
-        List<String> words = Arrays.asList("Hello", "World");
-
-        words.stream()
-                .flatMap((String line) -> Arrays.stream(line.split("")))
-                .distinct()
-                .forEach(System.out::println);
+//        IntStreamCode();
+//        StreamCode();
+//        OptionalCode();
     }
 
     private static void StreamCode() {
@@ -295,6 +289,7 @@ public class CodeNow {
         cList.add(null);
         cList.add("Seychelles");
         cList.add("Germany");
+        cList.add("Germany");
         cList.add(null);
 
         System.out.println("<!-----Original list with null values-----!>");
@@ -363,5 +358,32 @@ public class CodeNow {
     @FunctionalInterface
     interface Calculator{
         long calculate(long x, long y);
+    }
+
+
+
+    private static void filterValueAndIndexValueTest() {
+        List<String> cList = new ArrayList<String>();
+        cList.add("United States of America");
+        cList.add("Ecuador");
+        cList.add("Denmark");
+        cList.add(null);
+        cList.add("Seychelles");
+        cList.add("Germany");
+        cList.add("Germany");
+        cList.add(null);
+
+        int[] idx = {0};
+        System.out.println(cList.size());
+        cList.stream().filter(e -> e!= null).forEachOrdered(System.out::println);
+        System.out.println("-----------------------------------------");
+        cList.stream().filter(e -> e!= null).forEachOrdered(System.out::println);
+        System.out.println("-----------------------------------------");
+        cList.stream().filter(e -> e!=null).distinct().forEachOrdered(
+                e -> {
+                    int i = idx[0]++;
+                    System.out.println(i + " : " + e);
+                }
+        );
     }
 }
