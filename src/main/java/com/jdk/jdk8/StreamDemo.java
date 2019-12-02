@@ -29,43 +29,66 @@ import static java.util.stream.Collectors.toMap;
 public class StreamDemo {
 
     public static void main(String[] args) {
-
-        List<Integer> numbers = boxedStream();
-
-        streamBuilder();
-
+        //  take or drop the longest contiguous sequence of elements from the stream based on the given predicate
+        takeWhileTest(); // jdk9
+        dropWhileTest(); // jdk9
+//        boxedStream();
+//        streamBuilder();
 //        skipFirstElementInStream();
-//
 //        reduce(numbers);
-//
 //        averagingInt(numbers);
-//
 //        maximumAndMinimum(numbers);
-//
 //        summarizingInt(numbers);
-//
 //        partitioningBy(numbers);
-//
 //        peek();
-
 //        mapTest();
-
 //        flatmapTest();
-//
 //        filterList2BasedOnList1();
-
 //        filterPrimeNumber();
-
 //        distinctByProperty();
-
 //        streamClosed();
-
-        streamExZip();
-
-        guavaStreamZip();
+//        streamExZip();
+//        guavaStreamZip();
 
 
     }
+    /**
+     takeWhile is similar to filter in the sense that it expects a predicate and returns a new stream consisting only of the elements that match the given predicate.
+     But there’s a catch. In an ordered stream, takeWhile takes elements from the initial stream while the predicate holds true.
+     Meaning that when an element is encountered that does not match the predicate,the rest of the stream is discarded
+     since jdk 9
+     */
+    private static void takeWhileTest() {
+        Stream.of(2, 4, 6, 8, 9, 10, 12)
+                .takeWhile(n -> n % 2 == 0)
+                .forEach(System.out::println);
+        //      prints out: 2 4 6 8  ,  9 is not matched , rest of 10 and 12 are discarded.
+
+        // unordered stream test (  you’ll get different results for each execution. )
+        Set<Integer> numbers = Set.of(2, 4, 6, 3, 8);
+        numbers.stream()
+                .takeWhile(n -> n % 2 == 0)
+                .forEach(System.out::println);
+    }
+
+    /**
+     dropWhile is essentially the opposite of takeWhile
+     dropWhile drops these elements and includes the remaining elements in the returned stream.\
+     if matched then drop it.
+
+     since jdk 9
+     */
+    private static void dropWhileTest() {
+        Stream.of(2, 4, 6, 8, 9, 10, 12)
+                .dropWhile(n -> n % 2 == 0)
+                        .forEach(System.out::println);
+        // prints out:
+        // 9
+        // 10
+        // 12
+    }
+
+
 
     private static void guavaStreamZip() {
         List<String> carBrands = Arrays.asList("BMW", "HONDA", "Mecedes", "Volvo", "Accura");
@@ -334,9 +357,9 @@ public class StreamDemo {
                 .collect(toList());
     }
 
-    private static List<Integer> boxedStream() {
+    private static void boxedStream() {
         Random random = new Random();
-        return random
+        List<Integer> randomInts = random
                 .ints(1, 100)
                 .limit(10)
                 .boxed()
