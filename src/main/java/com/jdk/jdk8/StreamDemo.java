@@ -30,8 +30,8 @@ public class StreamDemo {
 
     public static void main(String[] args) {
         //  take or drop the longest contiguous sequence of elements from the stream based on the given predicate
-        takeWhileTest(); // jdk9
-        dropWhileTest(); // jdk9
+//        takeWhileTest(); // jdk9
+//        dropWhileTest(); // jdk9
 //        boxedStream();
 //        streamBuilder();
 //        skipFirstElementInStream();
