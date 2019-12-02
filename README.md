@@ -14,5 +14,5 @@ git
     Rebase to continue for demo for  math, stream and optional
     rebase continue for testing.
     
-Master Tutorial
+Dev tutorial - Math demo
     1. Math demo
