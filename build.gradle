@@ -131,6 +131,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.9.3'
     implementation 'org.projectlombok:lombok:1.16.18'
     implementation 'io.reactivex.rxjava3:rxjava:3.0.0-RC3'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
     implementation ('com.squareup.okhttp3:okhttp:4.2.2')
 
