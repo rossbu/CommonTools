@@ -1,0 +1,35 @@
+/*
+
+settings.gradle
+    The settings.gradle file is a Groovy script, just like the build.gradle
+    Only one settings.gradle script will be executed in each build (in comparison to multiple build.gradle scripts in multi-project builds)
+
+build.gradle
+    There is one such file per module, it contains the build logic for this module.
+    check below strcurture of multi-module project
+
+gradle.properties
+    This is optional, its main purpose is to provide startup options to use for running gradle itself, e.g.
+    org.gradle.jvmargs=-Xmx=... -Dfile.encoding=UTF-8 ...
+    org.gradle.configureondemand=true
+*/
+rootProject.name = 'CommonTools'
+/*
+    (root)
+    +- settings.gradle
+    +- build.gradle          # optional (commonly present)
+    +- gradle.properties     # optional
+    +-- buildSrc/            # optional
+            |     +- build.gradle
+            |     +-- src/...
+    +-- my-gradle-stuff/     # optional
+            |     +- utils.gradle    # optional
+    +-- sub-a/
+            |     +- build.gradle
+            |     +- src/
+            +-- sub-b/
+            +- build.gradle
+    +- src/
+
+*/
+

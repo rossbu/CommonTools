@@ -1,4 +1,4 @@
-package com.demo.rsa;
+package com.demo.encryption.rsa;
 
 /**
  * Created by tbu on 12/6/2017.

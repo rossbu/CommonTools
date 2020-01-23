@@ -1,4 +1,4 @@
-package com.demo.ssl;
+package com.demo.encryption.ssl;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
