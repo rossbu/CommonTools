@@ -143,15 +143,21 @@ dependencies {
     implementation 'org.bouncycastle:bcprov-jdk15to18:1.64'
 
 
-    // auth0
+    // jwt: auth0
     implementation 'com.auth0:java-jwt:3.9.0'
 
-    // okta : jjwt impl
+    // jwt:  okta : jjwt impl
     implementation 'io.jsonwebtoken:jjwt-api:0.10.7'
     runtime 'io.jsonwebtoken:jjwt-impl:0.10.7',
             // Uncomment the next line if you want to use RSASSA-PSS (PS256, PS384, PS512) algorithms:
             //'org.bouncycastle:bcprov-jdk15on:1.60',
             'io.jsonwebtoken:jjwt-jackson:0.10.7'
+
+
+    // nimbus-jose-jwt : https://github.com/felx/nimbus-jose-jwt
+    implementation 'com.nimbusds:nimbus-jose-jwt:8.4'
+    implementation 'net.minidev:json-smart:2.3'
+
 
     testImplementation group: 'xmlunit', name: 'xmlunit', version: '1.5'
     testImplementation group: 'junit', name: 'junit', version: '4.13'

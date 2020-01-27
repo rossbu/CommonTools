@@ -44,6 +44,7 @@ MAC
      OMAC:
         One-key MAC (OMAC) is a message authentication code constructed from a block cipher much like the CBC-MAC algorithm.
      HMAC:
+        Hash-Based Message Authentication Codes (HMACs)
         HMAC Block serialization and storage as String in JVM memory
         HMAC does NOT encrypt the message. Instead, the message (encrypted or not) must be sent alongside the HMAC hash. Parties with the secret key will hash the message again themselves, and if it is authentic, the received and computed hashes will match.
         HMAC (sometimes expanded as either keyed-hash message authentication code or hash-based message authentication code) is a specific type of message authentication code (MAC) involving a cryptographic hash function and a secret cryptographic key.

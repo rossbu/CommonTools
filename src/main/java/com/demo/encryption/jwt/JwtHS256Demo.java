@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import org.json.JSONArray;
@@ -41,7 +39,7 @@ import static org.apache.commons.codec.binary.Hex.encodeHexString;
      See RFC 3339 [RFC3339] for details regarding date/times in general and UTC in particular.
 
  */
-public class JWebToken {
+public class JwtHS256Demo {
 
     private static final String SECRET_KEY = "11002w.123";
     private static final String ISSUER = "test.org";
@@ -55,14 +53,15 @@ public class JWebToken {
         // sender
         long issuedAt = System.currentTimeMillis() / 1000L;
         long expiresAt = issuedAt + 180L;
-        System.out.println("expired at : " + expiresAt);
-        JWebToken outgoingjwt = new JWebToken("fakesub",new JSONArray(),expiresAt);
+        JwtHS256Demo outgoingjwt = new JwtHS256Demo("fakesub",new JSONArray(),expiresAt);
         String bearerToken =  outgoingjwt.toString();
-        System.out.println(bearerToken);
+        System.out.println("bearerToken: " +bearerToken);
 
+        // recipient like a web site should put it in the cookie or web storage and send it back ( median )
+        System.out.println("website receive it and put in cookie from Set-Cookie or BearerToken header and submit back to the sender ( server)");
 
         // receiver
-        JWebToken incomingToken = new JWebToken(bearerToken);
+        JwtHS256Demo incomingToken = new JwtHS256Demo(bearerToken);
         if (incomingToken.isValid()) {
             System.out.println(incomingToken.getSubject());
         } else {
@@ -70,16 +69,11 @@ public class JWebToken {
         }
     }
 
-    private JWebToken() {
+    /**
+     * for sending
+     */
+    public JwtHS256Demo(String sub, JSONArray aud, long expires) {
         encodedHeader = encode(new JSONObject(JWT_HEADER));
-    }
-
-    public JWebToken(JSONObject payload) {
-        this(payload.getString("sub"), payload.getJSONArray("aud"), payload.getLong("exp"));
-    }
-
-    public JWebToken(String sub, JSONArray aud, long expires) {
-        this();
         payload.put("sub", sub);
         payload.put("aud", aud);
         payload.put("exp", expires);
@@ -95,8 +89,8 @@ public class JWebToken {
      * @param token
      * @throws java.security.NoSuchAlgorithmException
      */
-    public JWebToken(String token) throws NoSuchAlgorithmException {
-        this();
+    public JwtHS256Demo(String token) throws NoSuchAlgorithmException {
+        encodedHeader = encode(new JSONObject(JWT_HEADER));
         String[] parts = token.split("\\.");
         if (parts.length != 3) {
             throw new IllegalArgumentException("Invalid Token format");
@@ -129,7 +123,7 @@ public class JWebToken {
     public boolean isValid() {
         boolean notExpired = payload.getLong("exp") > (LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
         boolean isSignatureMatched = signature.equals(hmacSha256(encodedHeader + "." + encode(payload), SECRET_KEY));
-        System.out.println("is expired ? " + notExpired);
+        System.out.println("is valid ? " + notExpired);
         System.out.println("is isSignatureMatched ? " + isSignatureMatched);
         return notExpired && isSignatureMatched;
     }
