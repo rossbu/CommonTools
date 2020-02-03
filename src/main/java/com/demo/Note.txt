@@ -1,0 +1,364 @@
+
+Encoding | Hashing | Encryption
+    Encoding  : purpose of encoding is to transform data so it can be consumed/read. not to keep it secret.
+    Hashing   : purpose of hashing is to keep it secret so it can not be viewed/understood/reversed by others.
+    Encryption: purpose of encryption is let the 'encrypted data'  to be decrypted/reversed with certain keys.
+
+Terms
+    MITM attacks
+        Man-in-the-middle attack
+    inpersonate attacks
+        impersonate the original request
+    prying eyes
+        over the shoulder 'attack'
+
+    Hex (base16)
+        Hex is another way of saying "Base16", Hex will take two characters for each byte.
+        Hex converts 1 input byte into 2 output bytes for 100% space growth
+
+    Base64
+        Base64 will take 4 characters for every 3 bytes = 3 x 8 bits = 24 bits.
+        Base64 can convert 3 input bytes into 4 output bytes for just 33% space growth
+        every Base64 character (which is 1 byte (8 bits)) encodes 6 bits of real data
+        * read 3 bytes and output 4 : encode
+        * read 4 bytes and output 3 : decode.
+        so it's more efficient than hex. Assuming you're using UTF-8 to encode the XML document, a 100K file will take 200K to encode in hex, or 133K in Base64
+
+    PKS
+        public key cryptography (asymmetric cryptography)
+    AES
+        def: AES (Advanced_Encryption_Standard) Symmetric encryption
+        tools:
+            https://asecuritysite.com/encryption/aes
+
+    cipher
+        algo / algorithm
+    ciphertext
+        encrypted text
+    plaintext
+        original message
+    OAEP
+        OAEP stands for Optimal Asymmetric Encryption Padding. Padding for encryption cannot/should not be used for signature generation.
+    PKCS#1 padding
+        there is a significant (11 byte) overhead for each block of plaintext.  PKCS#1 v1.5 value is randomized
+    ECB:
+        ECB is a symmetric cipher mode and RSA is an asymmetric cipher, So “ECB” has NO effect ( none ), so if you would use RSA in ECB mode then you would end up losing the padding overhead for each block.
+
+    Hash:
+         def   : transform a string to a new string called HASH. for example transform 'hello world ' by SHA-256, it get "4ae7c3b6ac0beff671efa8cf57386151c06e58ca53a78d83f36107316cec125f"
+         aka   : hash value , hash code, message digest, or simply hash
+         func  : sha256hash = hashlib.sha256("hello world!").digest(),
+         feature :
+            The same input will always produce the same output
+            it's irreversible, so you can only compare the 'hashed value' after conversion, but if you know the hashing algo ( from jwt header for example), then you can generate same 'hash'
+         tools :
+            https://www.fileformat.info/tool/hash.htm
+
+    HMAC:
+         def : Keyed-Hashing for Message Authentication Code (HMACs)  :  hash function + a key ( the key is called Mac_key)
+         func:
+            input : HMAC(key, msg, hash_func)    (hash_fuct is cryptographic hash function)
+            output: hash_code ( mac_code )
+         feature:
+            1. MAC codes, like hashes, are irreversible
+            2. MAC algorithms are also known as "keyed hash functions",
+
+         tool: https://www.freeformatter.com/hmac-generator.html
+
+    KDF
+        def: Key Derivation Functions : transforms a variable-length password to fixed-length key .
+        func:
+            input : password , salt ( optional)
+            output: key
+        implementation:
+            SHA256
+            SHA256 + Salt
+            PBKDF2, Bcrypt, Scrypt and Argon2  ( Stronger)
+        tools:
+            https://www.freeformatter.com/hmac-generator.html  , KDF is just to obtain a fix-length key from password, so HMAC is pretty good impl.
+
+    HKDF
+        HMAC-based Extract-and-Expand Key Derivation Function
+        it's based on HMAC, so it's also a Keyed-hashing KDF
+        IKM: input keying material , which can be obtained by : byte[] ikm = Random.randBytes(20);
+        func:
+            input : IKM, salt ( optional)
+            output: a pseudorandom key
+        Tools:
+            https://github.com/google/tink/blob/master/java/src/test/java/com/google/crypto/tink/subtle/HkdfTest.java
+
+    PBKDF2
+        def:
+            Password-Based Key Derivation Function 2, PBKDF2 is for generating an encryption key from a password
+
+        scenario:
+            used to create an encryption key from a defined password
+            to generate pre-shared key with other parties
+            Today PBKDF2 is considered old-fashioned and less secure than modern KDF functions, so it is recommended to use Bcrypt, Scrypt or Argon2 instead
+        func:
+            input:
+                char[] password, byte[] salt, int iterationCount, int keyLength
+            output:
+                Hash_key  ( hex or base64)
+        tools:
+            https://asecuritysite.com/encryption/PBKDF2z
+
+    MD5
+        MD5 is a widely spread hashing algorithm, it is far from being secure
+        MD5 produces a 128-bit (16-byte) hash value
+        MD5 is susceptible to brute-force and dictionary attacks.
+        Keep in mind, adding salt is not MD5 specific. you can add it to other algorithms also
+
+    Scrypt
+        def:
+            a strong cryptographic key-derivation function (KDF)
+        func:
+            input:      * @param passwd    Password.
+                        * @param N         CPU cost parameter.
+                        * @param r         Memory cost parameter.
+                        * @param p         Parallelization parameter.
+            output:
+                Hash_key  ( base64 )
+        scenario
+            when encrypting wallets, files or app passwords
+
+        tools:
+            https://8gwifi.org/scrypt.jsp
+
+    BCrypt
+        def:
+
+        tools:
+            https://www.dailycred.com/article/bcrypt-calculator
+
+    Argon2
+        def: Argon2 is considered a highly secure KDF function, one of the best available in the industry, winner of KDF in 2015
+        func:
+            input:
+                password P: the password (or message) to be hashed
+                salt S: random-generated salt (16 bytes recommended for password hashing)
+                iterations t: number of iterations to perform
+                memorySizeKB m: amount of memory (in kilobytes) to use
+                parallelism p: degree of parallelism (i.e. number of threads)
+                outputKeyLength T: desired number of returned bytes
+            output:
+                hash_key (base64)
+        tools:
+            https://antelle.net/argon2-browser/
+
+
+    SHA:
+        def: standing for secure hash algorithm - is a hash algorithm used by certification authorities to sign certificate,Introduced in 1993 by NSA with SHA0, it is used to generate unique hash values from files
+
+        feature:
+            that SHA1 is being deprecated by browsers (Internet Explorer, Google Chrome, ...) and that the deadline for its scheduled disappearance is 2016-12-31
+    Secret key
+        secret key" is often used as a synonym for the symmetric key  ( as opposed to private key in Asymmeric key pattern, The private keys for asymmetric schemes are not shared)
+
+    PRNG
+        pseudorandom number generator (  also known as a deterministic random bit generator (DRBG) )
+    DRBG
+        deterministic random bit generator: is an algorithm for generating a sequence of numbers whose properties approximate the properties of sequences of random numbers
+    PHS
+        Password hashing Schema : that can also work as a key derivation function (KDF)
+    PHC
+        Password hashing Competition : On 20 July 2015 Argon2 was selected as the final PHC winner,
+
+
+    Salt
+        A salt is not secret (merely unique) and can be stored alongside the hashed output
+        Salt is defined as random data that are used as an additional input to a one-way function that hashes a password or pass-phrase.
+        Adding private data to a HASH is called salting.
+        Having a salt added to the password reduces the ability to use precomputed hashes (rainbow tables) for attacks,
+        salts and IVs should be random
+
+    Pepper
+        a pepper is secret and must not be stored with the output
+        The hash and salt are usually stored in a database, but a pepper must be stored separately (e.g. in a configuration file)
+        Typically you want to implement both salt and pepper to your hash.
+
+    Nonce
+        Number used once
+        nonces are usually sequential
+        Sequential nonces have a few advantages over random nonces : (You can easily guarantee that nonces are not repeated)
+
+    IV
+        Initialization Vector
+        is a fixed size input.
+        IV and nonce are often used interchangeably.
+         IV is a nonce with an additional requirement: it must be selected in a non-predictable way. This would eliminate all sequential nonces, an IV must be random.
+
+    Padding ( RSA )
+        randomized data is added to hide the original formatting clues that could lead to an encrypted message being broken.
+        If the structure can lead to a code/pattern being cracked and reveal the contents of a message, then we need some way to hide the structure in order to keep the message secure. This brings us to padding.
+
+
+
+Slow/Fast hashing
+    Fast Hashing
+        Plaintext: vulnerable to a disgruntled employee ( who got a hold of production database )
+        Hash(password): vulnerable to hash-map Dictionary Attacks , say just download (or produce) a hash-map that maps hashes to common passwords.
+        Hash(password + salt) or HMAC+Hash(password, salt) :  The salt is stored along with the password hash and email address, harder but still hackable
+
+    Slow Hashing  ( designed for password hashing algorithm)
+        Pbkdf2Demo.java
+        BcryptDemo.java
+
+SHA-1 hashing
+        SHA1 is a one way hashing algorithm. You can't get the original contents back
+        SHA-1 (and all other hashing algorithms) return binary data. That means that (in Java) they produce a byte[],
+        so use base64 to encode teh byte[] and return.
+        Two common ways of representing arbitrary byte[] as printable characters are BASE64 or simple hex-Strings
+        (i.e. representing each byte by two hexadecimal digits). It looks like you're trying to produce a hex-String.
+
+SHA-3 hashing
+    SHA-3 is considered highly secure and is published as official recommended crypto standard in the United States.
+
+Password Hashing security level - low
+    MD5 algorithm/Salt - Simple   ( may have collision )
+    SHA Secure/salt    - Medium   ( may have collision )   SHA-1/SHA-256/SHA-284/SHA-512 // Even SHA hashed secure passwords are able to be cracked with today’s fast hardwares
+
+Password Hashing security level - high - ( CPU intensive algorithms )
+    PBKDF2 - Advanced - Java has implementation of “PBKDF2” algorithm as “PBKDF2WithHmacSHA1“.
+    Bcrypt - Advanced
+    Scrypt - Advanced
+    Argon2 - Most Advanced - Very strong , won champion 2015
+
+
+    Approach					Security		Comments
+    Clear-text passwords		Extremely low 	Never do this: compromised server will render all passwords leaked
+    Simple password hash		Low				Vulnerable to dictionary attacks
+    Salted hashed passwords		Average			Vulnerable to GPU-based and ASIC-based password cracking
+    Secure KDF function (like Argon2)			High	Recommended, use strong KDF parameters
+    https://cryptobook.nakov.com/mac-and-key-derivation/password-encryption
+
+
+MAC
+    HMAC-SHA256('key', 'some msg') = 32885b49c8a1009e6d66662f8462e7dd5df769a7b725d1d546574e6d5d6e76ad    , this is a function
+    Also known as "keyed hash functions", because they behave like a hash function with a key， MAC function requires a secret key for its calculation.Sharing the same 'key' , so 2 parties and generate and validate MAC.
+    MAC means Message authentication code (MAC), sometimes known as a tag, is a short piece of information used to authenticate a message.
+    MAC codes, like hashes, are irreversible
+    MAC code is a message hash mixed with a secret key.
+    The MAC value protects both a message's data integrity as well as its authenticity : Sender: Mac    ||    Receiver: verify the MAC if the same MAC is found, then the message authentic and integrity checked. else : hacked/tempered
+
+    Simply calculating hash_func(key + msg) to obtain a MAC (message authentication code) is considered insecure, It is recommended to use the HMAC algorithm instead, e.g. HMAC-SHA256 or HMAC-SHA3-512 or other secure MAC algorithm
+
+    Algorithm:
+        OMAC(CMAC), VMAC, HMAC and etc
+
+    HMAC:
+        Any cryptographic hash function, such as SHA-256 or SHA-3, may be used in the calculation of an HMAC, the resulting MAC algorithm is termed HMAC-X, where X is the hash function used (e.g. HMAC-SHA256 or HMAC-SHA3).
+        HMAC is used for message authenticity, message integrity and sometimes for key derivation.
+        HMAC does NOT encrypt the message. Instead, the message (encrypted or not) must be sent alongside the HMAC hash. Parties with the secret key will hash the message again themselves, if it is authentic, the received and computed hashes will match.
+        HMAC (sometimes expanded as either keyed-hash message authentication code or hash-based message authentication code) is a specific type of message authentication code (MAC) involving a cryptographic hash function and a secret cryptographic key.
+        Function:
+        HMAC(key, msg, hash_func) -> hash   (and hash_func can be any cryptographic hash function like SHA-256, SHA-512, RIPEMD-160, SHA3-256 or BLAKE2s.)
+        HMAC-SHA256('key', 'some msg') = 32885b49c8a1009e6d66662f8462e7dd5df769a7b725d1d546574e6d5d6e76ad
+        input : key, msg, hash_func
+        output: The results MAC code is a message hash mixed with a secret key.
+
+    OMAC:
+        One-key MAC (OMAC) is a message authentication code constructed from a block cipher much like the CBC-MAC algorithm.
+
+    Encrypt-then-MAC = Encrypt the plaintext, MAC the ciphertext + iv then append it to the ciphertext.
+    MAC-then-Encrypt = MAC the plaintext then append the MAC to the plaintext then Encrypt it all.
+    Encrypt-and-MAC = Encrypt and MAC the plaintext then append the MAC onto the ciphertext.
+
+
+Encryption vs Hashing
+    hash algorithm, which means that it is one-way. You can't get the original message after hashing it, namely:
+        MD5 : not recommended, was discovered to fail the fourth password hashing property in that it became computationally easy to generate collisions.
+        SHA1/SHA2
+        SHA256
+        SHA512:  not recommended in that When employed with salt, SHA-512 is still a fair option, but there are stronger and slower options out there
+        PBKDF2:
+        BCrypt: blow fish is fun
+        SCrypt:
+        etc.
+        It should be deterministic: the same message processed by the same hash function should always produce the same hash
+        It's not reversible: it's impractical to generate a message from its hash
+        It has high entropy: a small change to a message should produce a vastly different hash
+        And it resists collisions: two different messages should not produce the same hash
+
+    encryption , which is two-way (allows encryption and decryption).
+        "PKCS1Padding" indicates RSA with PKCS#1 v1.5 padding for encryption. This padding is indeterministic
+
+OAEP
+    Optimal Asymmetric Encryption Padding -- OAEP
+    OAEP is more secure than PKCS#1 padding. If you choose OAEP then the padding overhead is even larger, making ECB even less efficient, OAEP value is randomized
+    default for OAEP is to use SHA-1 for MGF1,
+    OAEP is included in the implementation requirements for Java runtimes since Java 8
+    RSA/ECB/OAEPWithSHA-1AndMGF1Padding (1024, 2048)
+    RSA/ECB/OAEPWithSHA-256AndMGF1Padding (1024, 2048)
+    ECB. “ECB” is a symmetric cipher mode and RSA is an asymmetric cipher, So “ECB” has no effect
+
+
+
+Symmetric encryption
+    This type of encryption uses a single key known as private key or secret key to encrypt and decrypt sensitive information,
+    This type of encryption is very fast as compared to asymmetric encryption
+    and are used in systems such as database system. Some examples of symmetric encryptions are Twofish, Blowfish(BCrypt), 3 DES, AES.
+
+Asymmetric encryption
+    Asymmetric encryption such as RSA uses two different keys as public and private keys.
+    you can encrypt sensitive information with a public key and a matching private key is used to decrypt the same.
+
+AES Encryption
+    AES stands for Advanced Encryption System and its a symmetric encryption algorithm
+    online tool:
+        https://www.devglan.com/online-tools/aes-encryption-decryption
+
+BCrypt:
+    Bcrypt is a password hashing function designed by Niels Provos and David Mazières, -- slow hashing.
+    Based on the Blowfish cipher. Bcrypt uses adaptive hash algorithm to store password.
+    BCrypt internally generates a random salt while encoding passwords and hence it is obvious to get different encoded results for the same string.
+    But one common thing is that everytime it generates a String of length 60.
+
+    online tool:
+        http://www.devglan.com/online-tools/bcrypt-hash-generator
+
+    maven:
+            <dependency>
+                <groupId>org.mindrot</groupId>
+                <artifactId>jbcrypt</artifactId>
+            </dependency>
+
+RSA
+        // get pri/pub key pair https://lunar.lyris.com/help/lm_help/12.0/Content/generating_public_and_private_keys.html
+        openssl genrsa -out rsa.private 1024
+        openssl rsa -in rsa.private -out rsa.public -pubout -outform PEM
+
+
+Oauth
+    OAuth 1 uses signature-based authentication,
+    OAuth 2 uses token-based authentication.
+
+
+JWT/JWS/JWA
+    JWS:
+        a signed JWT is called JWS, it looks like: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJKb2UifQ.1KP0SsvENi7Uz1oQc07aXTL7kpQG5jBNIybqr60AlD4
+    JWA:
+        JSON Web Algorithms  - RFC 7518, A key of the same size as the hash output (for instance, 256 bits for "HS256") or larger MUST be used with this algorithm.
+
+    HMAC-SHA
+        JWT HMAC-SHA signature algorithms HS256, HS384, and HS512 require a secret key that is at least as many bits as the algorithm's signature (digest) length per RFC 7512 Section 3.2. This means:
+
+        HS256 is HMAC-SHA-256, and that produces digests that are 256 bits (32 bytes) long, so HS256 requires that you use a secret key that is at least 32 bytes long.
+
+        HS384 is HMAC-SHA-384, and that produces digests that are 384 bits (48 bytes) long, so HS384 requires that you use a secret key that is at least 48 bytes long.
+
+        HS512 is HMAC-SHA-512, and that produces digests that are 512 bits (64 bytes) long, so HS512 requires that you use a secret key that is at least 64 bytes long.
+
+SSL
+    SSL is a lower level form of security, encrypting every request from and to the server to prevent interception and retains integrity.
+    SSL is achieved by (purchasing) an SSL certificate and installing it on your server.
+    SSL certificate is basically a small data file that binds a cryptographic key to an 'organisation'. Once installed succesfully, HTTPS requests (on port 443 by default) are possible.
+    SSL Certificate encrypt your website and secure your sensitive information like username, password or credit card information.
+    SSL Certificate works on two key pair, private key and public key. This key pair ensures that the data can be encrypted by one key but can only be decrypted by the other key pair.
+    SSL Certificate also offers security seal/site seal that increase your website security as well as visitor's confidence.
+
+    So, SSL Certificate is ideal if you want to secure your website, sensitive information, improve user's trust and also Google ranking.
+
+
+
+

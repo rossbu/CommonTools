@@ -137,11 +137,14 @@ dependencies {
     implementation 'javax.xml.ws:jaxws-api:2.3.1'
     implementation 'com.sun.xml.ws:jaxws-ri:2.3.2'
     implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
+    // encryption & hashing
     implementation 'org.mindrot:jbcrypt:0.4'
-//    implementation 'org.bouncycastle:bcprov-jdk16:1.46'
     implementation 'org.bouncycastle:bcprov-jdk15to18:1.64'
-
+    implementation 'de.mkammerer:argon2-jvm:2.6'
+    implementation 'com.lambdaworks:scrypt:1.4.0'
+    implementation 'at.favre.lib:hkdf:1.1.0'
 
     // jwt: auth0
     implementation 'com.auth0:java-jwt:3.9.0'
@@ -153,8 +156,7 @@ dependencies {
             //'org.bouncycastle:bcprov-jdk15on:1.60',
             'io.jsonwebtoken:jjwt-jackson:0.10.7'
 
-
-    // nimbus-jose-jwt : https://github.com/felx/nimbus-jose-jwt
+    // jwt : nimbus-jose-jwt : https://github.com/felx/nimbus-jose-jwt
     implementation 'com.nimbusds:nimbus-jose-jwt:8.4'
     implementation 'net.minidev:json-smart:2.3'
 

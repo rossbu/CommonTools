@@ -227,7 +227,7 @@
                 C (int n) { super(n); } // a constructor
             }
 
-# Final
+# Final keyword
         When should I use final?
         One answer to this is "whenever you possibly can". Any field that you never expect to be changed (be that a primitive value, or a reference to an object, whether or not that particular object is itself immutable or not), should generally be declared final. Another way of looking at things is:
 
