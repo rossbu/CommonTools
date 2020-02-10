@@ -19,3 +19,4 @@ bin
 .vagrant
 atlassian-ide-plugin.xml
 .nb-gradle-properties
+.gradle/
