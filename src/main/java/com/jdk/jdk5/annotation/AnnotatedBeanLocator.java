@@ -1,4 +1,4 @@
-package com.jdk.jdk5;
+package com.jdk.jdk5.annotation;
 
 import java.lang.annotation.Annotation;
 import java.util.List;

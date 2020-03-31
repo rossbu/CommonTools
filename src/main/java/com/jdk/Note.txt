@@ -1,0 +1,20 @@
+## both IDE and Gradle compile with JDK13, do below
+1. IDE Settings
+    open intellij ctrl+alt+s setting , and go to
+    File | Settings | Build, Execution, Deployment | Compiler | Java Compiler
+    Override compiler parameters Per module, add below to your module
+    --add-exports java.base/sun.security.x509=ALL-UNNAMED --add-exports java.base/sun.security.tools.keytool=ALL-UNNAMED
+
+    or, open any java file with import statement like below
+    import sun.security.x509.BasicConstraintsExtension,  and intellij would fix it for you by adding above to settings
+
+2. Gradle setting
+    extend your gradle tasks types by below:
+    // In this case, we must make the package accessible by adding the following compilers args to the build.gradle file:
+    tasks.withType(JavaCompile) {
+        options.compilerArgs += ["--add-exports", "java.base/sun.security.x509=ALL-UNNAMED"]
+        options.compilerArgs += ["--add-exports", "java.base/sun.security.tools.keytool=ALL-UNNAMED"]
+        options.compilerArgs += ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
+        options.encoding = 'UTF-8'
+    }
+

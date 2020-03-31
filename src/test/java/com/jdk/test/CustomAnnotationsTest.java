@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Map;
 
-import com.jdk.jdk5.AnnotatedBeanLocator;
+import com.jdk.jdk5.annotation.AnnotatedBeanLocator;
 import org.junit.Test;
 import org.springframework.beans.BeanMetadataElement;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
