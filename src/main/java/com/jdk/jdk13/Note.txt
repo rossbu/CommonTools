@@ -18,3 +18,28 @@
         options.encoding = 'UTF-8'
     }
 
+## javac command with JDK13 preview feature
+javac --release 13 --enable-preview Example.java    // Compile with preview features of JDK13
+java  --enable-preview Example	                    // Run with preview features of JDK 13
+
+## Maven plugins for JDK13
+<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>3.8.0</version>
+			<configuration>
+				<!-- 1.10, 11, 12, 13-->
+				<release>13</release>
+				<compilerArgs>
+					--enable-preview
+				</compilerArgs>
+			</configuration>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>3.0.0-M3</version>
+			<configuration>
+				<argLine>--enable-preview</argLine>
+			</configuration>
+		</plugin>

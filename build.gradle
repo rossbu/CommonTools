@@ -188,12 +188,17 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
+tasks.withType(JavaCompile).each {
+    it.options.compilerArgs.add('--enable-preview')
+}
 
-// wait for 12 and 13 to use below
-//tasks.withType(JavaCompile).each {
-//    it.options.compilerArgs.add('--enable-preview')
-//}
+test {
+    jvmArgs(['--enable-preview'])
+}
 
+ext {
+    pingLogDir = "${buildDir}/reachable"
+}
 task bu_wrapper(type: Wrapper) {
     gradleVersion = '1.12'
 }
@@ -263,8 +268,4 @@ task bu_cleanTempDir(type: Delete) {
     delete fileTree(dir: "tempDir")
 }
 
-
-ext {
-    pingLogDir = "${buildDir}/reachable"
-}
 
