@@ -1,16 +1,16 @@
 apply plugin: 'idea'
 apply plugin: 'java'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'application'
 apply plugin: 'signing'
 
 mainClassName = 'com.tools.jdk.basic.StringUtils'
-// sourceCompatibility cannot be higher than targetCompatibility, this is a restriction of javac.
-sourceCompatibility = 13
-targetCompatibility = 13
 version = '1.0.0'
 group = 'org.commontools'
 description = "A bootstrap Java project with gradle,  Mockito, FEST-Assert 2 and Cobertura"
+
+sourceCompatibility = JavaVersion.VERSION_13
+targetCompatibility = JavaVersion.VERSION_13
 
 configurations.all {
     //http://www.gradle.org/docs/current/dsl/org.gradle.api.artifacts.ResolutionStrategy.html
@@ -67,8 +67,8 @@ repositories {
 
  }
 jar {
-    baseName = 'CommonTools'
-    version = '1.0'
+    archiveBaseName = 'CommonTools'
+    archiveVersion = '1.0'
 }
 
 dependencies {
@@ -112,6 +112,12 @@ dependencies {
     implementation group: 'com.sun.jersey', name: 'jersey-client', version:'1.18.1'
     implementation group: 'com.sun.jersey.contribs', name: 'jersey-apache-client', version:'1.18.1'
     implementation ("joda-time:joda-time:2.10.1"){force = true}
+//    implementation('joda-time:joda-time') {
+//        version {
+//            strictly '[2.10, 2.10['
+//            prefer '2.10.1'
+//        }
+//    }
     implementation group: 'org.jvnet.jaxb2_commons', name: 'jaxb2-basics-runtime', version:'0.6.5'
     implementation group: 'commons-io', name: 'commons-io', version: '2.5'
     implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
@@ -151,7 +157,7 @@ dependencies {
 
     // jwt:  okta : jjwt impl
     implementation 'io.jsonwebtoken:jjwt-api:0.10.7'
-    runtime 'io.jsonwebtoken:jjwt-impl:0.10.7',
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.10.7',
             // Uncomment the next line if you want to use RSASSA-PSS (PS256, PS384, PS512) algorithms:
             //'org.bouncycastle:bcprov-jdk15on:1.60',
             'io.jsonwebtoken:jjwt-jackson:0.10.7'
@@ -162,8 +168,12 @@ dependencies {
 
 
     testImplementation group: 'xmlunit', name: 'xmlunit', version: '1.5'
-    testImplementation group: 'junit', name: 'junit', version: '4.13'
     testImplementation group: 'org.mockito', name:'mockito-all' , version:'1.9.5'
+
+
+//    testImplementation group: 'junit', name: 'junit', version: '4.13'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.1'
 
 }
 
@@ -181,26 +191,46 @@ sourceSets {
 
 // In this case, we must make the package accessible by adding the following compilers args to the build.gradle file:
 tasks.withType(JavaCompile) {
+    options.compilerArgs.add('--enable-preview')
     options.compilerArgs += ["--add-exports", "java.base/sun.security.x509=ALL-UNNAMED"]
     options.compilerArgs += ["--add-exports", "java.base/sun.security.tools.keytool=ALL-UNNAMED"]
-//    options.compilerArgs += ["--add-modules", "java.xml.ws.annotation"] // not found
     options.compilerArgs += ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
     options.encoding = 'UTF-8'
+
 }
 
-tasks.withType(JavaCompile).each {
-    it.options.compilerArgs.add('--enable-preview')
+tasks.withType(Test) {
+    jvmArgs += "--enable-preview"
 }
 
-test {
+tasks.withType(JavaExec) {
+    jvmArgs += "--enable-preview"
+}
+
+tasks.compileJava {
+    options.compilerArgs.add("--enable-preview")
+}
+tasks.test{
     jvmArgs(['--enable-preview'])
 }
 
 ext {
     pingLogDir = "${buildDir}/reachable"
 }
+
+
 task bu_wrapper(type: Wrapper) {
     gradleVersion = '1.12'
+}
+
+task bu_fail {
+    doLast {
+        throw new Exception("Build failed")
+    }
+}
+
+task bu_cleanTempDir(type: Delete) {
+    delete fileTree(dir: "tempDir")
 }
 
 
@@ -227,9 +257,6 @@ gradle.buildFinished { buildResult ->
     println "build failure infomration if any - " + buildResult.failure
 }
 
-
-
-
 tasks.addRule('Rule Usage: ping<Hostname>') { String taskName ->
     if(taskName.startsWith('ping')) {
         task(taskName) {
@@ -255,17 +282,3 @@ tasks.addRule('Rule Usage: ping<Hostname>') { String taskName ->
         }
     }
 }
-
-task bu_fail {
-    doLast {
-        throw new Exception("Build failed")
-    }
-}
-
-
-
-task bu_cleanTempDir(type: Delete) {
-    delete fileTree(dir: "tempDir")
-}
-
-

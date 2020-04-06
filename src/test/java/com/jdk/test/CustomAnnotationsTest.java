@@ -1,6 +1,5 @@
 package com.jdk.test;
 
-import static org.junit.Assert.*;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -11,7 +10,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import com.jdk.jdk5.annotation.AnnotatedBeanLocator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanMetadataElement;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,6 +23,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.StandardMethodMetadata;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CustomAnnotationsTest {
 

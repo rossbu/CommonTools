@@ -1,13 +1,14 @@
 package com.jdk.test;
 
-import static junit.framework.TestCase.assertEquals;
 
 import java.io.IOException;
 
-import org.junit.Test;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EmployeeGradeTest {
 
