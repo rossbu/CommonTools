@@ -9,8 +9,8 @@ version = '1.0.0'
 group = 'org.commontools'
 description = "A bootstrap Java project with gradle,  Mockito, FEST-Assert 2 and Cobertura"
 
-sourceCompatibility = JavaVersion.VERSION_13
-targetCompatibility = JavaVersion.VERSION_13
+sourceCompatibility = JavaVersion.VERSION_14
+targetCompatibility = JavaVersion.VERSION_14
 
 configurations.all {
     //http://www.gradle.org/docs/current/dsl/org.gradle.api.artifacts.ResolutionStrategy.html
