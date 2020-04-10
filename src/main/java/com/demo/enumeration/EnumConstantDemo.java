@@ -69,7 +69,7 @@ public class EnumConstantDemo {
         EN_US("en_US", "default"),
         DE_DE("de_DE", "notdefault");
         //    public static final Localtype EN_US= new Localtype("en_US","default");
-//    public static final Localtype DE_DE = new Localtype("de_DE","notdefault");
+        //    public static final Localtype DE_DE = new Localtype("de_DE","notdefault");
         private final String defaulttest;
         private final String notdefault;
 

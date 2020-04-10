@@ -1,4 +1,4 @@
-package com.daily;
+package com.interview;
 
 import com.pojo.Gender;
 import com.pojo.Person;
@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class Interview {
+public class InterviewPractice {
 
     public static void main(String[] args) {
         /*

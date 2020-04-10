@@ -15,18 +15,20 @@ import static com.demo.async.AsyncUtils.sleep;
 
 /**
  * this demo includes jdk8 , 9 and upper version example.
+   tasks : uncomment each of method below and do the coding, comparing your result with existing functions
+
  */
-public class JDKNewCompletableFutureDemo extends FutureBase{
+public class JDK8CompletableFutureDemo extends FutureBase{
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        JDKNewCompletableFutureDemo demo = new JDKNewCompletableFutureDemo();
-//        completableByAll();
+        JDK8CompletableFutureDemo demo = new JDK8CompletableFutureDemo();
+        completableByAll();
 //        completableAllOf();
 //        jdk9delayExecutor();
 //        futureAcceptTtest()
 //        supplyAsyncTest();
 //        thenAcceptTest();
-        demo.futureThenApplyThenApplyAsync();
+//        demo.futureThenApplyThenApplyAsync();
     }
 
     /**
@@ -110,7 +112,7 @@ public class JDKNewCompletableFutureDemo extends FutureBase{
     }
 
     private static void completableAllOf() throws InterruptedException, ExecutionException {
-        JDKNewCompletableFutureDemo completableFutureDemo = new JDKNewCompletableFutureDemo();
+        JDK8CompletableFutureDemo completableFutureDemo = new JDK8CompletableFutureDemo();
         // Kick of multiple, asynchronous lookups
         CompletableFuture<User> page1 = completableFutureDemo.findUser("PivotalSoftware");
         CompletableFuture<User> page2 = completableFutureDemo.findUser("CloudFoundry");
@@ -124,8 +126,9 @@ public class JDKNewCompletableFutureDemo extends FutureBase{
         System.out.println("<==>"+ page3.get());
     }
 
+
     private static void completableByAll() throws InterruptedException, ExecutionException {
-        JDKNewCompletableFutureDemo completableFutureDemo = new JDKNewCompletableFutureDemo();
+        JDK8CompletableFutureDemo completableFutureDemo = new JDK8CompletableFutureDemo();
         // Kick of multiple, asynchronous lookups
         CompletableFuture<User> page1 = completableFutureDemo.findUser("PivotalSoftware");
         CompletableFuture<User> page2 = completableFutureDemo.findUser("CloudFoundry");
@@ -160,7 +163,6 @@ public class JDKNewCompletableFutureDemo extends FutureBase{
         @Async
      */
     @Async("asyncExecutor")
-//    @Async
     public CompletableFuture<User> findUser(String user) throws InterruptedException {
         System.out.println("Looking up " + user);
         User results = restTemplate.getForObject("https://api.github.com/users/" + user, User.class);

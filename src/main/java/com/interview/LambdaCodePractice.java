@@ -1,8 +1,14 @@
-package com.daily;
+package com.interview;
 
+import com.google.common.cache.RemovalListener;
+
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.function.Consumer;
+import java.util.function.DoubleBinaryOperator;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * Created by tbu on 4/17/2017.
@@ -13,8 +19,11 @@ import java.util.function.Supplier;
  * 1. when you do codeNow. use sout, souv to print all results in Intellij
  * 2. a unary operation is an operation with only one operand.
  * 3. http://www.java2s.com/Tutorials/Java/Java_Lambda/
+ *
+ *
+ * for you local only, rollback after you play with it.
  */
-public class LambdaCodeTemplate {
+public class LambdaCodePractice {
 
     public static void main(String... args) {
 
@@ -27,14 +36,23 @@ public class LambdaCodeTemplate {
          * Lambda Expression
          *********************************************************************************************************************/
         // Lambda expression 1: Empty brackets are used when there are no arguments - please do print "test"
+        Supplier<String> stringSupplier = () -> "hello world";
 
         // Lambda expression 2: Single argument and ignore the brackets - do square and subtraction ( Not subtraction)
+        Consumer test = x -> System.out.println(x);
+        test.accept("it's me");
 
         // lambda expression 3: 2 arguments - do square of a plus square of b
+        DoubleBinaryOperator doubleBinaryOperator = (min, max) -> Math.sqrt(min) + Math.sqrt(max);
+        double v = doubleBinaryOperator.applyAsDouble(1.22, 44);
+        System.out.println("double result : " + v);
 
-        // Lambda expression 4: as Parameter Names - do send lambda to Array.sort or Collection sort
+        // Lambda expression 4:  Create a lambda ( Comparator?) as Parameter  - do send it to Arrays.sort or Collection sort
+        Comparator<String> comparator = (o1, o2) -> o1.length() - o2.length();
+        String[] arrayOfStr = {"z","1dd", "badfaf","dc","aafdfd"};
+        Arrays.sort(arrayOfStr,comparator);
+        Stream.of(arrayOfStr).forEach( s -> System.out.println(s));
 
-        // lambda expression 5: composition - do sin and then log  with Function Interface Class
 
         /*********************************************************************************************************************
          Types of Lambda Expression

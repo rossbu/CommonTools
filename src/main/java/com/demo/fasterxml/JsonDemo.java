@@ -113,9 +113,9 @@ public class JsonDemo {
                 "        {\n" +
                 "            \"DealerNo\": 12345,\n" +
                 "            \"DealerType\": \"Company\",\n" +
-                "            \"DealerName\": \"telelift dealer\",\n" +
+                "            \"DealerName\": \"bull dealer\",\n" +
                 "            \"Address\": \"123 main street\",\n" +
-                "            \"City\": \"Norwalk\",\n" +
+                "            \"City\": \"LA\",\n" +
                 "            \"Region\": \"CA\"\n" +
                 "        }\n" +
                 "    ]\n" +
@@ -131,7 +131,7 @@ public class JsonDemo {
                 "        {\n" +
                 "            \"DealerNo\": 12345,\n" +
                 "            \"DealerType\": \"Company\",\n" +
-                "            \"DealerName\": \"telelift dealer\",\n" +
+                "            \"DealerName\": \"Cat dealer\",\n" +
                 "            \"Address\": \"123 main street\",\n" +
                 "            \"City\": \"Norwalk\",\n" +
                 "            \"Region\": \"CA\"\n" +

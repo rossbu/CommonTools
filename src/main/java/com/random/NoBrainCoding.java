@@ -1,4 +1,4 @@
-package com.daily;
+package com.random;
 
 import java.io.UnsupportedEncodingException;
 import java.util.*;

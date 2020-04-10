@@ -1,4 +1,4 @@
-package com.daily;
+package com.random;
 
 import java.security.PrivilegedAction;
 import java.util.*;
@@ -93,7 +93,7 @@ public class CodeNow {
          *********************************************************************************************************************/
         List<String> listOfString = Arrays.asList("peter", "john", "Alex", "Mike H", "Mike K", "Mike B", "TBU");
         List<String> newListOfString = new ArrayList<>(Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"));
-        String[] str = {"one", "two", "3", "four", "five", "sixsix", "sevennnnn", "eight"};
+        String[] arrayOfString = {"one", "two", "3", "four", "five", "sixsix", "sevennnnn", "eight"};
         Integer[] fixedLengthIntArray = {1, 2, 3, 4, 5, 5, 6, 6, 7, 8, 9, 10};
         List<Integer> integerArrayList = Arrays.asList(1, 2, 3, 4, 5, 5, 6, 6, 7, 8, 9, 10);
         List<Integer> newListOfInteger = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 5, 6, 6, 7, 8, 9, 10));
@@ -120,10 +120,10 @@ public class CodeNow {
         Comparator<String> stringComparator = (String x, String y) -> x.length() - y.length();
 
         // Lambda expression 4: as Parameter Names - do send lambda to Array.sort or Collectgion sort
-        Arrays.sort(str, (String s1, String s2) -> {
+        Arrays.sort(arrayOfString, (String s1, String s2) -> {
             return (s1.length() - s2.length());
         });
-        Arrays.sort(str, stringComparator);
+        Arrays.sort(arrayOfString, stringComparator);
         Collections.sort(listOfString, stringComparator);
 
         // lambda expression 5: composition - do sin and then log with Function Interface Class
