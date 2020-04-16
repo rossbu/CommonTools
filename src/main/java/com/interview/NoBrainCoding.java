@@ -1,4 +1,4 @@
-package com.random;
+package com.interview;
 
 import java.io.UnsupportedEncodingException;
 import java.util.*;

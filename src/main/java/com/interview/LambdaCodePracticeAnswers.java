@@ -1,4 +1,7 @@
-package com.random;
+package com.interview;
+
+import com.pojo.Gender;
+import com.pojo.Person;
 
 import java.security.PrivilegedAction;
 import java.util.*;
@@ -16,13 +19,10 @@ import java.util.stream.*;
  *  http://www.java2s.com/Tutorials/Java/Java_Stream/index.htm for stream example
  *  when you do codeNow. use sout, souv to print all results in Intellij
  *  a unary operation is an operation with only one operand.
-
  */
-public class CodeNow {
-
+public class LambdaCodePracticeAnswers {
     public static void main(String... args) {
         filterValueAndIndexValueTest();
-
 //        LambdaCode();
 //        IntStreamCode();
 //        StreamCode();
@@ -87,6 +87,18 @@ public class CodeNow {
 
     }
 
+    private static void sortPersonMapByJava8MapComparator() {
+        // prepare test data
+        Person bu = new Person.Builder().age(10).surName("bu").build();
+        Person oldman = new Person.Builder().age(100).surName("oldman").build();
+        Person dong = new Person.Builder().age(40).surName("Dong").gender(Gender.FEMALE).build();
+        List<Person> people = Arrays.asList(bu, oldman, dong);
+
+        // streaming the list and map to key-value and sort and print
+        Map<Integer, Person> personMap = people.stream().filter(e -> e.getSurName() != null).collect(Collectors.toMap(Person::getAge, Function.identity()));
+        personMap.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(System.out::println);
+    }
+
     private static void LambdaCode() {
         /*********************************************************************************************************************
          * Data Setup : create Array of Objects for below CodeNow
@@ -126,12 +138,15 @@ public class CodeNow {
         Arrays.sort(arrayOfString, stringComparator);
         Collections.sort(listOfString, stringComparator);
 
-        // lambda expression 5: composition - do sin and then log with Function Interface Class
-        Function<Double, Double> sin = d -> Math.sin(d);
-        Function<Double, Double> log = d -> Math.log(d);
-        Function<Double, Double> exp = d -> Math.exp(d);
-        System.out.println(sin.compose(log).andThen(exp).apply(5.0));
-
+        // lambda expression 5: composition - do Math sin, log , exp in 3 functions and combine the together to work. x.andThen(y) is the same as y.compose(x)
+        Function<Double, Double> sinF = d -> Math.sin(d);
+        Function<Double, Double> sinF1 = d -> Math.sin(d);
+        Function<Double, Double> logF = d -> Math.log(d);
+        Function<Double, Double> logF1 = d -> Math.log(d);
+        Function<Double, Double> exp  = d -> Math.exp(d);
+        Function<Double, Double> exp1  = d -> Math.exp(d);
+        System.out.println("composition of 3 math func 1 : " + sinF.compose(logF).compose(exp).apply(55.2));
+        System.out.println("composition of 3 math func 2 : " + exp1.andThen(sinF1.compose(logF1)).apply(55.2));
 
         /*********************************************************************************************************************
          the Type of Lambda Expression in Java, the lambda expressions are represented as objects,
@@ -233,25 +248,33 @@ public class CodeNow {
         final String finalVar = "Hello";
         Function<String,String> func1 = y -> {return y + " "+ finalVar ;};
 
-        // A lambda expression can appear to the right of the assignment operator.
+        // lambda expression can appear to the right of the assignment operator.
         Calculator iCal = (x,y)-> x + y;
 
-        // Return Context
+        // lambda expression Return Context -  do return Calculator from Create method
         Calculator calculator2 = create();
 
-        // Method Invocation Context  :   Functional Interface as Parameter
+        // Method Invocation Context  :   Functional Interface as Method Parameter
         engine((x,y)-> x / y);
 
 
-        // Filter all null values from array
         filterNullValue();
 
-        // for each test
-        forEachOp();
+        allkindsOfforEach();
+
+        /*
+         Req-1: given a list of persons (Person object builder mode)
+         consider adding the persons to map where the key is the person id and the values are the person themselves object.
+         Then sort the list by id, and print the results.
+         use java 8 comparator to compare
+         Java 8 has added static methods comparingByKey and comparingByValue to Map.Entry.
+         Printing the elements sorted by key is shown in Sorting Map elements by key and printing.
+         */
+        sortPersonMapByJava8MapComparator();
 
 
     }
-    private static void forEachOp() {
+    private static void allkindsOfforEach() {
         List<String> alphabets = new ArrayList<>(Arrays.asList("aa", "bbb", "cac", "dog"));
 
         // looping over all elements using Iterable.forEach() method
@@ -295,6 +318,7 @@ public class CodeNow {
         System.out.println("<!-----Original list with null values-----!>");
         System.out.println(cList + "\n");
 
+        //  filter null from mixedTypeList
         List<?> mixedTypeList = Arrays.asList("a","b","",1,2,3,true,false,null);
         Set<?> filteredResult = mixedTypeList.stream().filter(obj -> obj != null).collect(Collectors.toSet());
         System.out.println("hmm: " + filteredResult);
