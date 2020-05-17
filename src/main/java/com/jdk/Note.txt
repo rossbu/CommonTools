@@ -1,4 +1,20 @@
-# Java tools
+
+# Java version 13, 14 issues --release invalid flag  with maven
+    issue 1:  when built by intellij maven , it shows errors --release invalid flag, while command line may or may not have this problem
+    causes: it can be multiple reasons , java_home , path which points to different versions of jdk, even you set all settings in global settings and project settings, it still causes problem
+    so make sure all java_home, path are using same jdk13 or jdk14, so it will work after restart of intellij
+
+    issue 2: error shows: It appears from this bug ticket that --release cannot be used in combination with --add-exports, --add-reads, and --patch-module
+    so maven compiler plugin, comment out  add-exports and java.base setting , release can't work with them together.
+    						<arg>-verbose</arg>
+    						<arg>-g</arg>
+    <!--						<arg>&#45;&#45;add-exports</arg>-->
+    <!--						<arg>java.base/sun.security.provider=ALL-UNNAMED</arg>-->
+
+    issue 3: sometimes you need to set below to run the program independently in the project like main method, set below in compiler settings
+    in intellij setting compiler, add this to the module -parameters -verbose -g --add-exports java.base/sun.security.provider=ALL-UNNAMED
+
+# Java monitor tools
      # jconsole, jvisualvm, jmc
 
 # Java command
@@ -11,10 +27,14 @@
         Exactly how you do that depends on what the "server" is, e.g. for Tomcat you give the path to the keystore file in the server.xml file.
 
 # enum
-        JDK 1.5 introduces a new enum type (in addition to the existing top-level constructs class and interface) along with a new keyword enum. For example, we could define: enum CardSuit { SPADE, DIAMOND, CLUB, HEART }
+        JDK 1.5 introduces a new enum type (in addition to the existing top-level constructs class and interface) along with a new keyword enum.
+        For example, we could define: enum CardSuit { SPADE, DIAMOND, CLUB, HEART }
         for each enum, the Java compiler automatically generates a static method called values() that returns an array of all the enum constants,
         4 instances of enum type CardSuit were generated via values(). The instances are created by calling the constructor with the actual argument, when they are first referenced.
-         You are not allowed to construct a new instance of enum using new operator, because enum keeps a fixed list of constants.
+
+        You are not allowed to construct a new instance of enum using new operator, because enum keeps a fixed list of constants.
+        You cannot create an instance of enum using the new operator.
+        You can use the “==” operator to compare enum constants effectively, since enum constants are final.
 
         An enum can be used to define a set of enum constants. The constants are implicitly static final, which cannot be modified. You could refer to these constants just like any static constants,
         All constants defined in an enum are public static final. Since they are static, they can be accessed via EnumName.instanceName.
@@ -23,12 +43,14 @@
         An enum is a reference type (just like a class, interface and array), which holds a reference to memory in the heap. It is implicitly final, because the constants should not be changed.
 
         enum is a keyword. Enum constructors are always private or default. Therefore, you cannot have public or protected constructors in an enum type.
-        Enum with abstract method Each of the instances of enum could have its own behaviors. To do this, you can define an abstract method in the enum, where each of its instances provides its own implementation.
+        Enum with abstract method Each of the instances of enum could have its own behaviors.
+        To do this, you can define an abstract method in the enum, where each of its instances provides its own implementation.
 
-        Enums can implement interfaces. They implicitly implement the Serializable and Comparable interfaces. This means if you need some common functionality along diverse enum types, you can define it with an interface to have the enums provide the method implementations.
+        Enums can implement interfaces. They implicitly implement the Serializable and Comparable interfaces.
+        This means if you need some common functionality along diverse enum types, you can define it with an interface to have the enums provide the method implementations.
         You can declare abstract methods within an enum. If you do, all the enum fields must implement the abstract methods.
-        You cannot create an instance of enum using the new operator.
-        You can use the “==” operator to compare enum constants effectively, since enum constants are final.
+
+
 
         Whenever an enum is defined, a class that extends java.lang.Enum is created
 

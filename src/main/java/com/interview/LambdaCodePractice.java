@@ -1,9 +1,12 @@
 package com.interview;
 
 import com.google.common.cache.RemovalListener;
+import com.pojo.Person;
 
 import java.io.FilenameFilter;
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,7 +25,7 @@ import java.util.stream.Stream;
  * for you local only, rollback after you play with it.
  */
 public class LambdaCodePractice {
-
+    AtomicBoolean atomicBoolean = new AtomicBoolean(true);
     public static void main(String... args) {
 
         /*********************************************************************************************************************
@@ -32,7 +35,8 @@ public class LambdaCodePractice {
          *********************************************************************************************************************/
 
 
-       /*********************************************************************************************************************
+
+        /*********************************************************************************************************************
          Code Challenge  -  1
          Basic Lambda Expression
          *********************************************************************************************************************/
@@ -72,6 +76,7 @@ public class LambdaCodePractice {
 
         // Assign a lambda expression to a Supplier , A Supplier provides values. We call get() on it to retrieve its value—it may return different values when called more than once.
         Supplier<String> doATest =  () -> "abac";
+        Supplier<Boolean> result = () -> 1 < 2;
 
         // Assign a lambda expression to a BooleanSupplier -  do simply return a true BooleanSupplier
         BooleanSupplier isFinished = () -> true;
@@ -80,17 +85,22 @@ public class LambdaCodePractice {
         BooleanSupplier isBigger  = () -> call5MillTimes > call3millTimes; // which means don't call this unless you have to compare them.
 
         // Assign a lambda expression to a IntSupplier , which returns one int value -  do return the max of integer as a IntSupplier
+        IntSupplier a  = () -> 2+2+3;
 
-
-        // Assign a lambda expression to a Consumer, Opposite a Supplier, Consumer acts upon a value but returns nothing,System.out.println return void , good use.
+        // Assign a lambda expression to a Consumer, on contrary to a Supplier, Consumer acts upon a value but returns nothing,System.out.println return void , good use.
+        Consumer b = ( x) -> System.out.println(x);
 
         // Assign a lambda expression to a IntConsumer, This function accepts a primitive int and does not return any value, IntConsumer is a specialized version of Consumer<T>.
+        IntConsumer inta = (c) -> Arrays.fill(new long[3], c);
 
         // Assign a lambda expression to a Predicate (predicate is used in computer science to mean a boolean-returning method), aka Predicate Lambda.  RemoveIf: This method on ArrayList receives a Predicate. Here, we remove all elements starting with the letter "c."
+        Predicate<Integer> isOrderThere = (x) -> x > 0 ;
 
         // Assign a lambda expression to a IntPredicate
+        IntPredicate intPredicate = i ->   10 >  i ;
 
         // Assign a lambda expression to a BiConsumer, A BiConsumer is a functional object that receives two parameters. Here we use a BiConsumer in the forEach method on HashMap.
+
 
         // Assign a lambda expression to Runnable
 
@@ -128,7 +138,7 @@ public class LambdaCodePractice {
         sortPersonMapByJava8MapComparator();
         filterNullValue();
         allkindsOfforEach();
-
+        System.out.println("hello world");
 
     }
 
@@ -146,7 +156,13 @@ public class LambdaCodePractice {
         cList.add("Germany");
         cList.add("Germany");
         cList.add(null);
-        List<?> mixedTypeList = Arrays.asList("a","b","",1,2,3,true,false,null);
+        Callable<Object> callable = new Callable<Object>() {
+            public Object call() throws Exception {
+                List<?> mixedTypeList = Arrays.asList("a", "b", "", 1, 2, 3, true, false, null);
+                return mixedTypeList.get(0);
+            }
+        };
+
 
         // EXAMPLE #1 = Filter Null Values from a Stream Using 'Lambda Expressions'
 
@@ -216,4 +232,5 @@ public class LambdaCodePractice {
     interface Calculator {
         long calculate(long x, long y);
     }
+
 }

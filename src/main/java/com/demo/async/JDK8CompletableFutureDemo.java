@@ -150,7 +150,6 @@ public class JDK8CompletableFutureDemo extends FutureBase{
      */
     public static <T> CompletableFuture<List<T>> all(List<CompletableFuture<T>> completableFutures) {
         CompletableFuture[] cfs = completableFutures.toArray(new CompletableFuture[completableFutures.size()]);
-
         return CompletableFuture.allOf(cfs)
                 .thenApply(ignored -> completableFutures.stream()
                         .map(CompletableFuture::join)
