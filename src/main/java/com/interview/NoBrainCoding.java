@@ -1,5 +1,7 @@
 package com.interview;
 
+import com.pojo.Person;
+
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -57,6 +59,9 @@ public class NoBrainCoding {
 
     public static void main(String[] args) throws UnsupportedEncodingException {
 
+        List.of("1","2","e");
+        Map<Integer, String> integerStringMap = Map.of(1, "2");
+        Set<Person> people = Set.of(new Person());// FIXME: 6/2/2020 
 
         // random coding
         List<? extends Number> foo1 = new ArrayList<Number>();  // Number "extends" Number (in this context)

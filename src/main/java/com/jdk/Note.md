@@ -1,23 +1,23 @@
 
 # Java version 13, 14 issues --release invalid flag  with maven
-    issue 1:  when built by intellij maven , it shows errors --release invalid flag, while command line may or may not have this problem
-    causes: it can be multiple reasons , java_home , path which points to different versions of jdk, even you set all settings in global settings and project settings, it still causes problem
-    so make sure all java_home, path are using same jdk13 or jdk14, so it will work after restart of intellij
+    Issue 1:  when built by intellij maven , it shows errors **--release** invalid flag, while command line may or may NOT have this problem
+    causes: it can be multiple reasons , java_home , path which points to different versions of jdk, even you set all settings in global settings and project settings in intellij, 
+    but it still causes problem because OS java_home is different, so change all java_home, path to use same jdk13 or jdk14, and it will work after restart of intellij
 
-    issue 2: error shows: It appears from this bug ticket that --release cannot be used in combination with --add-exports, --add-reads, and --patch-module
+    Issue 2: error shows: It appears from this bug ticket that --release cannot be used in combination with --add-exports, --add-reads, and --patch-module
     so maven compiler plugin, comment out  add-exports and java.base setting , release can't work with them together.
     						<arg>-verbose</arg>
     						<arg>-g</arg>
     <!--						<arg>&#45;&#45;add-exports</arg>-->
     <!--						<arg>java.base/sun.security.provider=ALL-UNNAMED</arg>-->
 
-    issue 3: sometimes you need to set below to run the program independently in the project like main method, set below in compiler settings
+    Issue 3: sometimes you need to set below to run the program independently in the project like main method, set below in compiler settings
     in intellij setting compiler, add this to the module -parameters -verbose -g --add-exports java.base/sun.security.provider=ALL-UNNAMED
 
 # Java monitor tools
      # jconsole, jvisualvm, jmc
 
-# Java command
+# Java KeyStore
     keytool -list -storepass changeit -keystore "C:\Program Files\Java\jre1.8.0_202\lib\security\cacerts
     perl analyze-ssl.pl -v3 --all-ciphers trackobot.com  (C:\Development\tools\p5-ssl-tools)
 
@@ -180,7 +180,7 @@
 # countdownlatch
      When should we use CountDownLatch in Java :
      Use CountDownLatch when one of Thread like main thread, require to wait for one or more thread to complete, before its start doing processing.
-     trty CountDownDemo.java to see details.
+     try CountDownDemo.java to see details.
 
 # fail-fast strategy by Objects.requireNotNull from jdk7/8/9
     check FailFastByRequireNonNull.java for reference.
