@@ -1,4 +1,4 @@
-package com.interview;
+package com;
 
 import com.pojo.Gender;
 import com.pojo.Person;

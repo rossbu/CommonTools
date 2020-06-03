@@ -26,7 +26,11 @@
 
 
 ## Cons
-	Introduce a memory leak to the code when using a ThreadLocal Considering that modern Web application servers pool threads (in servers' threadpool) instead of creating a new one on each 	HttpRequest, which have built the foundation to a problem.  If one of the application classes stores a value in ThreadLocal variable and doesn’t remove it after the task is completed, a copy of that Object will remain with the Thread (from the application server thread pool). Since lifespan of the pooled Thread surpasses that of the application, it will prevent the object and thus a ClassLoader being responsible for loading the application from being garbage collected
+	Introduce a memory leak to the code when using a ThreadLocal Considering that modern Web application servers pool threads (in servers' threadpool) 
+    instead of creating a new one on each 	HttpRequest, which have built the foundation to a problem.  
+    If one of the application classes stores a value in ThreadLocal variable and doesn’t remove it after the task is completed, 
+    a copy of that Object will remain with the Thread (from the application server thread pool). Since lifespan of the pooled Thread surpasses that of the application, 
+    it will prevent the object and thus a ClassLoader being responsible for loading the application from being garbage collected
 
 
 ## Solutions/Alternatives
