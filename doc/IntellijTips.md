@@ -35,7 +35,6 @@ Go to setting - search maven - runner - delete build/action run actions to maven
 1. Uncheck ***Use compiler from module target JDK when possible***
 1. click apply and ok.
 
-
 ## Java version 13, 14 issues --release invalid flag  with maven
 
 - Issue 1:
@@ -55,3 +54,8 @@ so maven compiler plugin, comment out  add-exports and java.base setting , relea
 sometimes you need to set below to run the program independently in the project like main method, set below in compiler settings
 in intellij setting compiler, add this to the module -parameters -verbose -g --add-exports java.base/sun.security.provider=ALL-UNNAMED
 
+## JDK13 Settings
+    open intellij ctrl+alt+s setting , and go to
+    File | Settings | Build, Execution, Deployment | Compiler | Java Compiler
+    Override compiler parameters Per module, add below to your module
+    **--add-exports java.base/sun.security.x509=ALL-UNNAMED --add-exports java.base/sun.security.tools.keytool=ALL-UNNAMED**
