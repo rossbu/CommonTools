@@ -1,16 +1,33 @@
-apply plugin: 'idea'
-apply plugin: 'java'
-apply plugin: 'maven-publish'
-apply plugin: 'application'
-apply plugin: 'signing'
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repo.maven.apache.org/maven2" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.9.RELEASE")
+        classpath 'org.markdownj:markdownj:0.4'
+        classpath 'org.jetbrains.kotlin:kotlin-runtime:1.2.71'
+    }
+}
+plugins {
+    id 'org.springframework.boot' version '2.5.1'
+}
 
-mainClassName = 'com.tools.jdk.basic.StringUtils'
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
 version = '1.0.0'
 group = 'org.commontools'
 description = "A bootstrap Java project with gradle,  Mockito, FEST-Assert 2 and Cobertura"
-
 sourceCompatibility = JavaVersion.VERSION_14
 targetCompatibility = JavaVersion.VERSION_14
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 configurations.all {
     //http://www.gradle.org/docs/current/dsl/org.gradle.api.artifacts.ResolutionStrategy.html
@@ -29,30 +46,12 @@ configurations.all {
         exclude group: "org.slf4j", module: "slf4j-log4j12"
         exclude group: "log4j", module: "log4j"
         exclude group: "org.springframework.boot", module:"spring-boot-starter-logging"
-//        exclude module: "logback-classic"
     }
 }
 
 
-// alert: The “buildscript” block only controls dependencies for the buildscript process itself, NOT for the application code
-// The "buildscript" configuration section is for gradle itself, Oftentimes the repository section is the same for both,
-// If I need maven central for both my buildscript and my project, do I need to declare it twice? Yes, you need to specify it twice then indeed.
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        maven { url "http://repo.maven.apache.org/maven2" }
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.9.RELEASE")
-        classpath 'org.markdownj:markdownj:0.4'
-        classpath 'org.jetbrains.kotlin:kotlin-runtime:1.2.71'
-    }
-}
-apply plugin: 'org.springframework.boot'
-if (!JavaVersion.current().java7Compatible) {
-    throw new IllegalStateException("Must be built with Java 7 or higher")
-}
+
+
 
 repositories {
     mavenLocal()
@@ -185,10 +184,16 @@ sourceSets {
         runtimeClasspath = files(output.resourcesDir) + runtimeClasspath
     }
     test {
+        java.srcDirs = ['src/test/java']
+        resources.srcDir 'src/test/resources'
         runtimeClasspath = files(output.resourcesDir) + runtimeClasspath
     }
 }
-
+idea.module.iml {
+    whenMerged { module ->
+        module.dependencies*.exported = true
+    }
+}
 // In this case, we must make the package accessible by adding the following compilers args to the build.gradle file:
 tasks.withType(JavaCompile) {
     options.compilerArgs.add('--enable-preview')
@@ -196,8 +201,8 @@ tasks.withType(JavaCompile) {
     options.compilerArgs += ["--add-exports", "java.base/sun.security.tools.keytool=ALL-UNNAMED"]
     options.compilerArgs += ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
     options.encoding = 'UTF-8'
-
 }
+
 
 tasks.withType(Test) {
     jvmArgs += "--enable-preview"
@@ -206,9 +211,12 @@ tasks.withType(Test) {
 tasks.withType(JavaExec) {
     jvmArgs += "--enable-preview"
 }
-
 tasks.compileJava {
+//    options.isIncremental = true
+//    options.isFork = true
+//    options.isFailOnError = false
     options.compilerArgs.add("--enable-preview")
+
 }
 tasks.test{
     jvmArgs(['--enable-preview'])
