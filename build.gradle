@@ -2,21 +2,25 @@ buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
-        maven { url "http://repo.maven.apache.org/maven2" }
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.9.RELEASE")
         classpath 'org.markdownj:markdownj:0.4'
         classpath 'org.jetbrains.kotlin:kotlin-runtime:1.2.71'
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE"
     }
 }
 plugins {
     id 'org.springframework.boot' version '2.5.1'
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
 }
 
+apply plugin: 'com.gradle.build-scan'
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'org.springframework.boot'
+apply plugin: "io.spring.dependency-management"
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 apply plugin: 'idea'
@@ -25,8 +29,8 @@ apply plugin: 'eclipse'
 version = '1.0.0'
 group = 'org.commontools'
 description = "A bootstrap Java project with gradle,  Mockito, FEST-Assert 2 and Cobertura"
-sourceCompatibility = JavaVersion.VERSION_14
-targetCompatibility = JavaVersion.VERSION_14
+sourceCompatibility = JavaVersion.VERSION_15
+targetCompatibility = JavaVersion.VERSION_15
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 configurations.all {
@@ -36,7 +40,7 @@ configurations.all {
         failOnVersionConflict()
         
         // force certain versions of dependencies (including transitive)
-        force 'org.jetbrains.kotlin:kotlin-stdlib:1.3.50', 'com.fasterxml.jackson.core:jackson-databind:2.9.9.3','commons-codec:commons-codec:1.11','commons-beanutils:commons-beanutils:1.9.1', 'org.slf4j:slf4j-api:1.7.7','commons-collections:commons-collections:3.2.1', 'commons-logging:commons-logging:1.1.1'
+        force 'com.sun.activation:jakarta.activation:1.2.2', 'org.jetbrains.kotlin:kotlin-stdlib:1.3.50', 'com.fasterxml.jackson.core:jackson-databind:2.12.3','commons-codec:commons-codec:1.11','commons-beanutils:commons-beanutils:1.9.1', 'org.slf4j:slf4j-api:1.7.7','commons-collections:commons-collections:3.2.1', 'commons-logging:commons-logging:1.1.1'
         // cache dynamic versions for 1 minutes
         cacheDynamicVersionsFor 1*60, 'seconds'
 
@@ -48,9 +52,6 @@ configurations.all {
         exclude group: "org.springframework.boot", module:"spring-boot-starter-logging"
     }
 }
-
-
-
 
 
 repositories {
@@ -84,23 +85,23 @@ dependencies {
     // changing: true
     // By default, Gradle treats a module version (eg “myorg:myproj:1.0”) as unchanging over time, allowing us to cache the module meta-data and artifacts indefinitely. If you have a module version
     // that has content (meta-data or artifacts) that can change over time, you can mark the module as ‘changing’.
-    implementation 'org.springframework.boot:spring-boot-starter-parent:2.1.9.RELEASE'
-    implementation 'org.springframework.boot:spring-boot-dependencies:2.1.9.RELEASE'
-    implementation ('org.springframework.boot:spring-boot:2.1.9.RELEASE') {
+    implementation 'org.springframework.boot:spring-boot-starter-parent:2.5.1'
+    implementation 'org.springframework.boot:spring-boot-dependencies:2.5.1'
+    implementation ('org.springframework.boot:spring-boot:2.5.1') {
         exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
-    implementation ('org.springframework.boot:spring-boot-starter-actuator:2.1.9.RELEASE') {
+    implementation ('org.springframework.boot:spring-boot-starter-actuator:2.5.1') {
         exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
-    implementation ('org.springframework.boot:spring-boot-starter-web:2.1.9.RELEASE')
-    implementation group: 'org.springframework', name: 'spring-context', version:'5.1.10.RELEASE'
+    implementation ('org.springframework.boot:spring-boot-starter-web:2.5.1')
+    implementation group: 'org.springframework', name: 'spring-context', version:'5.3.8'
 //    implementation 'org.springframework.security:spring-security-core:5.1.7.RELEASE'
 
-    implementation 'org.apache.commons:commons-text:1.5'
-    implementation platform('io.projectreactor:reactor-bom:Dysprosium-RELEASE')
-    implementation 'io.projectreactor:reactor-core'
+    implementation 'org.apache.commons:commons-text:1.9'
+    implementation platform('io.projectreactor:reactor-bom:2020.0.7')
+    implementation 'io.projectreactor:reactor-core:3.4.6'
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.7'
     implementation (group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3') {
@@ -108,39 +109,34 @@ dependencies {
     }
     implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
 
-    implementation group: 'com.sun.jersey', name: 'jersey-client', version:'1.18.1'
-    implementation group: 'com.sun.jersey.contribs', name: 'jersey-apache-client', version:'1.18.1'
-    implementation ("joda-time:joda-time:2.10.1"){force = true}
-//    implementation('joda-time:joda-time') {
-//        version {
-//            strictly '[2.10, 2.10['
-//            prefer '2.10.1'
-//        }
-//    }
+    implementation group: 'com.sun.jersey', name: 'jersey-client', version:'1.19.4'
+    implementation group: 'com.sun.jersey.contribs', name: 'jersey-apache-client', version:'1.19.4'
+    implementation ("joda-time:joda-time:2.10.1"){}
     implementation group: 'org.jvnet.jaxb2_commons', name: 'jaxb2-basics-runtime', version:'0.6.5'
     implementation group: 'commons-io', name: 'commons-io', version: '2.5'
     implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
     implementation group: 'commons-validator', name: 'commons-validator', version: '1.5.1'
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
+    implementation group: 'commons-codec', name: 'commons-codec', version: '1.11'
+
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
     implementation group: 'org.hibernate', name: 'hibernate-core', version: '3.6.7.Final'
     implementation group: 'dom4j', name: 'dom4j', version:'1.6.1'
-    implementation group: 'com.google.guava', name: 'guava', version: '27.1-jre'
+    implementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
     implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.58'
-    implementation group: 'commons-codec', name: 'commons-codec', version: '1.11'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.5'
     implementation group: 'org.json', name: 'json', version: '20190722'
     implementation group: 'io.vavr', name: 'vavr', version: '1.0.0-alpha-3'
     implementation group: 'one.util', name: 'streamex', version: '0.7.0'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.9.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
     implementation 'org.projectlombok:lombok:1.16.18'
-    implementation 'io.reactivex.rxjava3:rxjava:3.0.0-RC3'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.13'
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
     implementation ('com.squareup.okhttp3:okhttp:4.2.2')
 
     // for java 11 backward compatible
     implementation 'javax.xml.ws:jaxws-api:2.3.1'
-    implementation 'com.sun.xml.ws:jaxws-ri:2.3.2'
+    implementation 'com.sun.xml.ws:jaxws-ri:2.3.4'
     implementation 'javax.annotation:javax.annotation-api:1.3.2'
     implementation 'com.google.code.gson:gson:2.8.6'
 
@@ -169,10 +165,8 @@ dependencies {
     testImplementation group: 'xmlunit', name: 'xmlunit', version: '1.5'
     testImplementation group: 'org.mockito', name:'mockito-all' , version:'1.9.5'
 
-
-//    testImplementation group: 'junit', name: 'junit', version: '4.13'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
 
 }
 
@@ -190,10 +184,19 @@ sourceSets {
     }
 }
 idea.module.iml {
-    whenMerged { module ->
-        module.dependencies*.exported = true
+    whenMerged {
+        module -> module.dependencies*.exported = true
     }
 }
+
+buildScan {
+    // always accept the terms of service
+    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+    termsOfServiceAgree = 'yes'
+    // always publish a build scan
+    publishAlways()
+}
+
 // In this case, we must make the package accessible by adding the following compilers args to the build.gradle file:
 tasks.withType(JavaCompile) {
     options.compilerArgs.add('--enable-preview')
@@ -202,7 +205,6 @@ tasks.withType(JavaCompile) {
     options.compilerArgs += ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
     options.encoding = 'UTF-8'
 }
-
 
 tasks.withType(Test) {
     jvmArgs += "--enable-preview"
@@ -220,49 +222,6 @@ tasks.compileJava {
 }
 tasks.test{
     jvmArgs(['--enable-preview'])
-}
-
-ext {
-    pingLogDir = "${buildDir}/reachable"
-}
-
-
-task bu_wrapper(type: Wrapper) {
-    gradleVersion = '1.12'
-}
-
-task bu_fail {
-    doLast {
-        throw new Exception("Build failed")
-    }
-}
-
-task bu_cleanTempDir(type: Delete) {
-    delete fileTree(dir: "tempDir")
-}
-
-
-// below is for Markerdownj
-//import com.petebevin.markdown.MarkdownProcessor
-//
-//class MarkdownFilter extends FilterReader {
-//    MarkdownFilter(Reader input) {
-//        super(new StringReader(new MarkdownProcessor().markdown(input.text)))
-//    }
-//}
-//
-//task bu_markdown(type: Copy) {
-//    from 'src/markdown'
-//    include '*.md'
-//    into 'build/labs'
-//    rename { it - '.md' + '.html' }
-//    filter MarkdownFilter
-//}
-
-// embeded event buildFinished
-gradle.buildFinished { buildResult ->
-    println "TBU BUILD FINISHED"
-    println "build failure infomration if any - " + buildResult.failure
 }
 
 tasks.addRule('Rule Usage: ping<Hostname>') { String taskName ->
@@ -289,4 +248,53 @@ tasks.addRule('Rule Usage: ping<Hostname>') { String taskName ->
             }
         }
     }
+}
+
+
+task commontools_fail {
+    doLast {
+        throw new Exception("Build failed")
+    }
+}
+
+task commontools_cleanTempDir(type: Delete) {
+    delete fileTree(dir: "tempDir")
+}
+
+task bootRun_dev(type: org.springframework.boot.gradle.tasks.run.BootRun) {
+    group = 'Application'
+    doFirst() {
+        main = bootJar.mainClassName
+        classpath = sourceSets.main.runtimeClasspath
+        systemProperty 'spring.profiles.active', 'dev'
+    }
+}
+
+task bootRun_qa(type: org.springframework.boot.gradle.tasks.run.BootRun) {
+    group = 'Application'
+    doFirst() {
+        main = bootJar.mainClassName
+        classpath = sourceSets.main.runtimeClasspath
+        systemProperty 'spring.profiles.active', 'qa'
+    }
+}
+
+task bootRun_prod(type: org.springframework.boot.gradle.tasks.run.BootRun) {
+    group = 'Application'
+    doFirst() {
+        main = bootJar.mainClassName
+        classpath = sourceSets.main.runtimeClasspath
+        systemProperty 'spring.profiles.active', 'prod'
+    }
+}
+
+ext {
+    pingLogDir = "${buildDir}/reachable"
+}
+
+
+// embeded event buildFinished
+gradle.buildFinished { buildResult ->
+    println "TBU BUILD FINISHED"
+    println "build failure infomration if any - " + buildResult.failure
 }
