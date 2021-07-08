@@ -16,7 +16,6 @@ plugins {
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
 }
 
-apply plugin: 'com.gradle.build-scan'
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'org.springframework.boot'
@@ -38,7 +37,7 @@ configurations.all {
     resolutionStrategy {
         // fail eagerly on version conflict (includes transitive dependencies)
         failOnVersionConflict()
-        
+
         // force certain versions of dependencies (including transitive)
         force 'com.sun.activation:jakarta.activation:1.2.2', 'org.jetbrains.kotlin:kotlin-stdlib:1.3.50', 'com.fasterxml.jackson.core:jackson-databind:2.12.3','commons-codec:commons-codec:1.11','commons-beanutils:commons-beanutils:1.9.1', 'org.slf4j:slf4j-api:1.7.7','commons-collections:commons-collections:3.2.1', 'commons-logging:commons-logging:1.1.1'
         // cache dynamic versions for 1 minutes
@@ -189,13 +188,6 @@ idea.module.iml {
     }
 }
 
-buildScan {
-    // always accept the terms of service
-    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
-    termsOfServiceAgree = 'yes'
-    // always publish a build scan
-    publishAlways()
-}
 
 // In this case, we must make the package accessible by adding the following compilers args to the build.gradle file:
 tasks.withType(JavaCompile) {
