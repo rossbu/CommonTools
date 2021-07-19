@@ -22,10 +22,10 @@ import java.util.stream.*;
  */
 public class LambdaCodePracticeAnswers {
     public static void main(String... args) {
-        filterValueAndIndexValueTest();
+//        filterValueAndIndexValueTest();
 //        LambdaCode();
 //        IntStreamCode();
-//        StreamCode();
+        StreamCode();
 //        OptionalCode();
     }
 

@@ -14,6 +14,7 @@ buildscript {
 plugins {
     id 'org.springframework.boot' version '2.5.1'
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
+    id "com.diffplug.spotless" version "5.14.1"
 }
 
 apply plugin: 'java'
@@ -24,6 +25,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply plugin: 'com.diffplug.spotless'
 
 version = '1.0.0'
 group = 'org.commontools'
@@ -64,26 +66,66 @@ repositories {
     maven { url "https://repository.jboss.org/nexus/content/repositories/thirdparty-releases"}
     maven { url "https://oss.sonatype.org/content/repositories/google-releases/" }
 
- }
+}
 jar {
     archiveBaseName = 'CommonTools'
     archiveVersion = '1.0'
 }
 
+//spotless {
+//    java {
+//        //The target is usually inferred automatically from the java source sets.
+//        target 'src/*/java/**/*.java'
+//        // standard import order
+//        importOrder()
+////        importOrder('java', 'javax', 'com') // or importOrderFile
+//        // You probably want an empty string at the end - all of the imports you didn't specify explicitly will go there.
+//        removeUnusedImports()
+//        googleJavaFormat()              // has its own section below
+//        prettier(['prettier': '2.0.5', 'prettier-plugin-java': '0.8.0']).config(['parser': 'java', 'tabWidth': 4])
+//        clangFormat('12.0.1')
+//        licenseHeader '/* (C) $YEAR */' // or licenseHeaderFile
+//    }
+//}
+spotless {
+    // optional: limit format enforcement to just the files changed by this feature branch
+//    ratchetFrom 'origin/main'
+
+    format 'misc', {
+        // define the files to apply `misc` to
+        target '*.gradle', '*.md', '.gitignore'
+
+        // define the steps to apply to those files
+        trimTrailingWhitespace()
+        indentWithTabs() // or spaces. Takes an integer argument if you don't like 4
+        endWithNewline()
+    }
+    java {
+        // don't need to set target, it is inferred from java
+
+        // apply a specific flavor of google-java-format
+        googleJavaFormat('1.8').aosp()
+        // make sure every file has the following copyright header.
+        // optionally, Spotless can set copyright years by digging
+        // through git history (see "license" section below)
+        licenseHeader '/* (C)$YEAR */'
+    }
+}
+
 dependencies {
-//    The compile configuration is now deprecated and should be replaced by implementation or api
-//    compile with implementation (if you don't need transitivity) or api (if you need transitivity)
-//    testCompile with testImplementation
-//    debugCompile with debugImplementation
-//    androidTestCompile with androidTestImplementation
-
-
-//    The api configuration should be used to declare dependencies which are exported by the library API,
-//    whereas the implementation configuration should be used to declare dependencies which are internal to the component.
-
-    // changing: true
-    // By default, Gradle treats a module version (eg “myorg:myproj:1.0”) as unchanging over time, allowing us to cache the module meta-data and artifacts indefinitely. If you have a module version
+    //  The compile configuration is now deprecated and should be replaced by implementation or api
+    //  compile with implementation (if you don't need transitivity) or api (if you need transitivity)
+    //  testCompile with testImplementation
+    //  debugCompile with debugImplementation
+    //  androidTestCompile with androidTestImplementation
+    //  The api configuration should be used to declare dependencies which are exported by the library API,
+    //  whereas the implementation configuration should be used to declare dependencies which are internal to the component.
+    //  changing: true
+    //  By default, Gradle treats a module version (eg “myorg:myproj:1.0”) as unchanging over time,
+    //  allowing us to cache the module meta-data and artifacts indefinitely. If you have a module version
     // that has content (meta-data or artifacts) that can change over time, you can mark the module as ‘changing’.
+
+
     implementation 'org.springframework.boot:spring-boot-starter-parent:2.5.1'
     implementation 'org.springframework.boot:spring-boot-dependencies:2.5.1'
     implementation ('org.springframework.boot:spring-boot:2.5.1') {
@@ -131,6 +173,7 @@ dependencies {
     implementation 'io.reactivex.rxjava3:rxjava:3.0.13'
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
+    // okhttp
     implementation ('com.squareup.okhttp3:okhttp:4.2.2')
 
     // for java 11 backward compatible
@@ -160,12 +203,15 @@ dependencies {
     implementation 'com.nimbusds:nimbus-jose-jwt:8.4'
     implementation 'net.minidev:json-smart:2.3'
 
-
+    // test
     testImplementation group: 'xmlunit', name: 'xmlunit', version: '1.5'
     testImplementation group: 'org.mockito', name:'mockito-all' , version:'1.9.5'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+
+    // codestyle
+    implementation 'com.diffplug.spotless:spotless-plugin-gradle:5.14.1'
 
 }
 

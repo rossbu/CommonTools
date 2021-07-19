@@ -10,15 +10,11 @@ import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 
-/**
- * @author tbu
- */
-
-
+/** @author tbu */
 class Something {
-    String startsWith(String s) {
-        return String.valueOf(s.charAt(0));
-    }
+  String startsWith(String s) {
+    return String.valueOf(s.charAt(0));
+  }
 }
 
 /**
@@ -40,28 +36,27 @@ interface TestFI {
  * sometimes, you just want to code some simple things, here we go.
  */
 public class NoBrainCoding {
-    Thread thread = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            System.out.println("print sth");
-        }
-    });
 
-    public static List<Integer> filter(TestFI testNum, List<Integer> listItems) {
-        List<Integer> result = new ArrayList<Integer>();
-        for (Integer item : listItems) {
-            if (testNum.test(item)) {
-                result.add(item);
-            }
-        }
-        return result;
-    }
+
+
+
 
     public static void main(String[] args) throws UnsupportedEncodingException {
 
+        String regex = "^[1,4]$";
+        String json = "{\n" +
+                "  \"sth\" : \"json\"\n" +
+                "}";
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("print sth");
+            }
+        });
+
         List.of("1","2","e");
         Map<Integer, String> integerStringMap = Map.of(1, "2");
-        Set<Person> people = Set.of(new Person());// FIXME: 6/2/2020 
+        Set<Person> people = Set.of(new Person());// FIXME: 6/2/2020
 
         // random coding
         List<? extends Number> foo1 = new ArrayList<Number>();  // Number "extends" Number (in this context)
@@ -132,6 +127,16 @@ public class NoBrainCoding {
         map.get(3);
         // val33
 
+    }
+
+    public static List<Integer> filter(TestFI testNum, List<Integer> listItems) {
+        List<Integer> result = new ArrayList<Integer>();
+        for (Integer item : listItems) {
+            if (testNum.test(item)) {
+                result.add(item);
+            }
+        }
+        return result;
     }
     public static void hashCodeTest() {
         for (int i = 0; i < 5; i++) {

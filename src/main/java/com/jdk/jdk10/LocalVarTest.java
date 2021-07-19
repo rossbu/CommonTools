@@ -4,7 +4,8 @@ import java.util.List;
 
 public class LocalVarTest {
     public static void main(String[] args) {
-        var numbers = List.of(1, 2, 3, 4, 5); // inferred value ArrayList<String>
+        var numbers = List.of(1, 2, 3, 4, 5);
+        // inferred value ArrayList<String>
         // Index of Enhanced For Loop
         for (var number : numbers) {
             System.out.println(number);
