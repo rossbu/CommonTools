@@ -1,0 +1,4 @@
+{
+    "window.title": "${activeEditorLong}${separator}${rootName} ${separator} [Branch: master]",
+    "java.configuration.updateBuildConfiguration": "interactive"
+}

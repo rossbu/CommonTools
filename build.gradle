@@ -1,20 +1,20 @@
 buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2/" }
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.9.RELEASE")
-        classpath 'org.markdownj:markdownj:0.4'
-        classpath 'org.jetbrains.kotlin:kotlin-runtime:1.2.71'
-        classpath "io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE"
-    }
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		maven { url "https://plugins.gradle.org/m2/" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.9.RELEASE")
+		classpath 'org.markdownj:markdownj:0.4'
+		classpath 'org.jetbrains.kotlin:kotlin-runtime:1.2.71'
+		classpath "io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE"
+	}
 }
 plugins {
-    id 'org.springframework.boot' version '2.5.1'
-    id "io.spring.dependency-management" version "1.0.11.RELEASE"
-    id "com.diffplug.spotless" version "5.14.1"
+	id 'org.springframework.boot' version '2.5.1'
+	id "io.spring.dependency-management" version "1.0.11.RELEASE"
+	id "com.diffplug.spotless" version "5.14.1"
 }
 
 apply plugin: 'java'
@@ -30,46 +30,46 @@ apply plugin: 'com.diffplug.spotless'
 version = '1.0.0'
 group = 'org.commontools'
 description = "A bootstrap Java project with gradle,  Mockito, FEST-Assert 2 and Cobertura"
-sourceCompatibility = JavaVersion.VERSION_15
-targetCompatibility = JavaVersion.VERSION_15
+sourceCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_16
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 configurations.all {
-    //http://www.gradle.org/docs/current/dsl/org.gradle.api.artifacts.ResolutionStrategy.html
-    resolutionStrategy {
-        // fail eagerly on version conflict (includes transitive dependencies)
-        failOnVersionConflict()
+	//http://www.gradle.org/docs/current/dsl/org.gradle.api.artifacts.ResolutionStrategy.html
+	resolutionStrategy {
+		// fail eagerly on version conflict (includes transitive dependencies)
+		failOnVersionConflict()
 
-        // force certain versions of dependencies (including transitive)
-        force 'com.sun.activation:jakarta.activation:1.2.2', 'org.jetbrains.kotlin:kotlin-stdlib:1.3.50', 'com.fasterxml.jackson.core:jackson-databind:2.12.3','commons-codec:commons-codec:1.11','commons-beanutils:commons-beanutils:1.9.1', 'org.slf4j:slf4j-api:1.7.7','commons-collections:commons-collections:3.2.1', 'commons-logging:commons-logging:1.1.1'
-        // cache dynamic versions for 1 minutes
-        cacheDynamicVersionsFor 1*60, 'seconds'
+		// force certain versions of dependencies (including transitive)
+		force 'com.sun.activation:jakarta.activation:1.2.2', 'org.jetbrains.kotlin:kotlin-stdlib:1.3.50', 'com.fasterxml.jackson.core:jackson-databind:2.12.3', 'commons-codec:commons-codec:1.11', 'commons-beanutils:commons-beanutils:1.9.1', 'org.slf4j:slf4j-api:1.7.7', 'commons-collections:commons-collections:3.2.1', 'commons-logging:commons-logging:1.1.1'
+		// cache dynamic versions for 1 minutes
+		cacheDynamicVersionsFor 1 * 60, 'seconds'
 
-        // don't cache changing modules at all
-        cacheChangingModulesFor 0, 'seconds'
+		// don't cache changing modules at all
+		cacheChangingModulesFor 0, 'seconds'
 
-        exclude group: "org.slf4j", module: "slf4j-log4j12"
-        exclude group: "log4j", module: "log4j"
-        exclude group: "org.springframework.boot", module:"spring-boot-starter-logging"
-    }
+		exclude group: "org.slf4j", module: "slf4j-log4j12"
+		exclude group: "log4j", module: "log4j"
+		exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+	}
 }
 
 
 repositories {
-    mavenLocal()
-    mavenCentral()
-    maven { url "http://repo.springsource.org/plugins-release" }
-    maven { url "http://repo.maven.apache.org/maven2" }
-    maven { url "http://repo.spring.io/libs-release" }
-    maven { url "http://repo.spring.io/libs-snapshot" }
-    maven { url "http://maven.vaadin.com/vaadin-addons" }
-    maven { url "https://repository.jboss.org/nexus/content/repositories/thirdparty-releases"}
-    maven { url "https://oss.sonatype.org/content/repositories/google-releases/" }
+	mavenLocal()
+	mavenCentral()
+	maven { url "https://repo.springsource.org/plugins-release" }
+	maven { url "https://repo.maven.apache.org/maven2" }
+	maven { url "https://repo.spring.io/libs-release" }
+	maven { url "https://repo.spring.io/libs-snapshot" }
+	maven { url "https://maven.vaadin.com/vaadin-addons" }
+	maven { url "https://repository.jboss.org/nexus/content/repositories/thirdparty-releases" }
+	maven { url "https://oss.sonatype.org/content/repositories/google-releases/" }
 
 }
 jar {
-    archiveBaseName = 'CommonTools'
-    archiveVersion = '1.0'
+	archiveBaseName = 'CommonTools'
+	archiveVersion = '1.0'
 }
 
 //spotless {
@@ -87,131 +87,153 @@ jar {
 //        licenseHeader '/* (C) $YEAR */' // or licenseHeaderFile
 //    }
 //}
+// https://github.com/diffplug/spotless/tree/main/plugin-gradle#google-java-format
 spotless {
-    // optional: limit format enforcement to just the files changed by this feature branch
-//    ratchetFrom 'origin/main'
+	// optional: limit format enforcement to just the files changed by this feature branch
+	ratchetFrom 'origin/master'
+	encoding 'UTF-8'
 
-    format 'misc', {
-        // define the files to apply `misc` to
-        target '*.gradle', '*.md', '.gitignore'
+	format 'misc', {
 
-        // define the steps to apply to those files
-        trimTrailingWhitespace()
-        indentWithTabs() // or spaces. Takes an integer argument if you don't like 4
-        endWithNewline()
-    }
-    java {
-        // don't need to set target, it is inferred from java
+		target fileTree(projectDir) {
+			include '**/.gitignore'
+			include '**/*.gradle'
+			include '**/*.adoc'
+			include '**/*.sh'
+			include '**/*.html'
+			include '**/*.js'
+			include '**/*.css'
+			include '**/*.xml'
+			include '**/*.xsd'
+			exclude '**/webapp/lib/*'
+			exclude '**/webapp/dist/*'
+			exclude '**/webapp/node_modules/*'
+		}
+		trimTrailingWhitespace()
+		indentWithTabs() // or spaces. Takes an integer argument if you don't like 4
+		endWithNewline()
+	}
+	format 'markdown', {
+		target '**/*.md'
+		indentWithSpaces(2)
+		endWithNewline()
+	}
+	java {
 
-        // apply a specific flavor of google-java-format
-        googleJavaFormat('1.8').aosp()
-        // make sure every file has the following copyright header.
-        // optionally, Spotless can set copyright years by digging
-        // through git history (see "license" section below)
-        licenseHeader '/* (C)$YEAR */'
-    }
+		target 'src/*/java/**/*.java'
+
+		importOrder()
+
+		removeUnusedImports()
+
+		googleJavaFormat()
+
+		prettier(['prettier': '2.0.5', 'prettier-plugin-java': '0.8.0']).config(['parser': 'java', 'tabWidth': 4])
+
+		licenseHeader '/* (C)$YEAR */'
+	}
 }
 
 dependencies {
-    //  The compile configuration is now deprecated and should be replaced by implementation or api
-    //  compile with implementation (if you don't need transitivity) or api (if you need transitivity)
-    //  testCompile with testImplementation
-    //  debugCompile with debugImplementation
-    //  androidTestCompile with androidTestImplementation
-    //  The api configuration should be used to declare dependencies which are exported by the library API,
-    //  whereas the implementation configuration should be used to declare dependencies which are internal to the component.
-    //  changing: true
-    //  By default, Gradle treats a module version (eg “myorg:myproj:1.0”) as unchanging over time,
-    //  allowing us to cache the module meta-data and artifacts indefinitely. If you have a module version
-    // that has content (meta-data or artifacts) that can change over time, you can mark the module as ‘changing’.
+	//  The compile configuration is now deprecated and should be replaced by implementation or api
+	//  compile with implementation (if you don't need transitivity) or api (if you need transitivity)
+	//  testCompile with testImplementation
+	//  debugCompile with debugImplementation
+	//  androidTestCompile with androidTestImplementation
+	//  The api configuration should be used to declare dependencies which are exported by the library API,
+	//  whereas the implementation configuration should be used to declare dependencies which are internal to the component.
+	//  changing: true
+	//  By default, Gradle treats a module version (eg “myorg:myproj:1.0”) as unchanging over time,
+	//  allowing us to cache the module meta-data and artifacts indefinitely. If you have a module version
+	// that has content (meta-data or artifacts) that can change over time, you can mark the module as ‘changing’.
 
 
-    implementation 'org.springframework.boot:spring-boot-starter-parent:2.5.1'
-    implementation 'org.springframework.boot:spring-boot-dependencies:2.5.1'
-    implementation ('org.springframework.boot:spring-boot:2.5.1') {
-        exclude module: "spring-boot-starter-logging"
-        exclude module: "logback-classic"
-    }
-    implementation ('org.springframework.boot:spring-boot-starter-actuator:2.5.1') {
-        exclude module: "spring-boot-starter-logging"
-        exclude module: "logback-classic"
-    }
-    implementation ('org.springframework.boot:spring-boot-starter-web:2.5.1')
-    implementation group: 'org.springframework', name: 'spring-context', version:'5.3.8'
+	implementation 'org.springframework.boot:spring-boot-starter-parent:2.5.1'
+	implementation 'org.springframework.boot:spring-boot-dependencies:2.5.1'
+	implementation('org.springframework.boot:spring-boot:2.5.1') {
+		exclude module: "spring-boot-starter-logging"
+		exclude module: "logback-classic"
+	}
+	implementation('org.springframework.boot:spring-boot-starter-actuator:2.5.1') {
+		exclude module: "spring-boot-starter-logging"
+		exclude module: "logback-classic"
+	}
+	implementation('org.springframework.boot:spring-boot-starter-web:2.5.1')
+	implementation group: 'org.springframework', name: 'spring-context', version: '5.3.8'
 //    implementation 'org.springframework.security:spring-security-core:5.1.7.RELEASE'
 
-    implementation 'org.apache.commons:commons-text:1.9'
-    implementation platform('io.projectreactor:reactor-bom:2020.0.7')
-    implementation 'io.projectreactor:reactor-core:3.4.6'
+	implementation 'org.apache.commons:commons-text:1.9'
+	implementation platform('io.projectreactor:reactor-bom:2020.0.7')
+	implementation 'io.projectreactor:reactor-core:3.4.6'
 
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.7'
-    implementation (group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3') {
-        exclude group: 'org.slf4j', module: 'slf4j-api'
-    }
-    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+	implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.7'
+	implementation(group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3') {
+		exclude group: 'org.slf4j', module: 'slf4j-api'
+	}
+	implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
 
-    implementation group: 'com.sun.jersey', name: 'jersey-client', version:'1.19.4'
-    implementation group: 'com.sun.jersey.contribs', name: 'jersey-apache-client', version:'1.19.4'
-    implementation ("joda-time:joda-time:2.10.1"){}
-    implementation group: 'org.jvnet.jaxb2_commons', name: 'jaxb2-basics-runtime', version:'0.6.5'
-    implementation group: 'commons-io', name: 'commons-io', version: '2.5'
-    implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
-    implementation group: 'commons-validator', name: 'commons-validator', version: '1.5.1'
-    implementation group: 'commons-codec', name: 'commons-codec', version: '1.11'
+	implementation group: 'com.sun.jersey', name: 'jersey-client', version: '1.19.4'
+	implementation group: 'com.sun.jersey.contribs', name: 'jersey-apache-client', version: '1.19.4'
+	implementation("joda-time:joda-time:2.10.1") {}
+	implementation group: 'org.jvnet.jaxb2_commons', name: 'jaxb2-basics-runtime', version: '0.6.5'
+	implementation group: 'commons-io', name: 'commons-io', version: '2.5'
+	implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+	implementation group: 'commons-validator', name: 'commons-validator', version: '1.5.1'
+	implementation group: 'commons-codec', name: 'commons-codec', version: '1.11'
 
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
-    implementation group: 'org.hibernate', name: 'hibernate-core', version: '3.6.7.Final'
-    implementation group: 'dom4j', name: 'dom4j', version:'1.6.1'
-    implementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
-    implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.58'
-    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.5'
-    implementation group: 'org.json', name: 'json', version: '20190722'
-    implementation group: 'io.vavr', name: 'vavr', version: '1.0.0-alpha-3'
-    implementation group: 'one.util', name: 'streamex', version: '0.7.0'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
-    implementation 'org.projectlombok:lombok:1.16.18'
-    implementation 'io.reactivex.rxjava3:rxjava:3.0.13'
-    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
+	implementation group: 'org.hibernate', name: 'hibernate-core', version: '3.6.7.Final'
+	implementation group: 'dom4j', name: 'dom4j', version: '1.6.1'
+	implementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
+	implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.58'
+	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.5'
+	implementation group: 'org.json', name: 'json', version: '20190722'
+	implementation group: 'io.vavr', name: 'vavr', version: '1.0.0-alpha-3'
+	implementation group: 'one.util', name: 'streamex', version: '0.7.0'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+	implementation 'org.projectlombok:lombok:1.16.18'
+	implementation 'io.reactivex.rxjava3:rxjava:3.0.13'
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
-    // okhttp
-    implementation ('com.squareup.okhttp3:okhttp:4.2.2')
+	// okhttp
+	implementation('com.squareup.okhttp3:okhttp:4.2.2')
 
-    // for java 11 backward compatible
-    implementation 'javax.xml.ws:jaxws-api:2.3.1'
-    implementation 'com.sun.xml.ws:jaxws-ri:2.3.4'
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
-    implementation 'com.google.code.gson:gson:2.8.6'
+	// for java 11 backward compatible
+	implementation 'javax.xml.ws:jaxws-api:2.3.1'
+	implementation 'com.sun.xml.ws:jaxws-ri:2.3.4'
+	implementation 'javax.annotation:javax.annotation-api:1.3.2'
+	implementation 'com.google.code.gson:gson:2.8.6'
 
-    // encryption & hashing
-    implementation 'org.mindrot:jbcrypt:0.4'
-    implementation 'org.bouncycastle:bcprov-jdk15to18:1.64'
-    implementation 'de.mkammerer:argon2-jvm:2.6'
-    implementation 'com.lambdaworks:scrypt:1.4.0'
-    implementation 'at.favre.lib:hkdf:1.1.0'
+	// encryption & hashing
+	implementation 'org.mindrot:jbcrypt:0.4'
+	implementation 'org.bouncycastle:bcprov-jdk15to18:1.64'
+	implementation 'de.mkammerer:argon2-jvm:2.6'
+	implementation 'com.lambdaworks:scrypt:1.4.0'
+	implementation 'at.favre.lib:hkdf:1.1.0'
 
-    // jwt: auth0
-    implementation 'com.auth0:java-jwt:3.9.0'
+	// jwt: auth0
+	implementation 'com.auth0:java-jwt:3.9.0'
 
-    // jwt:  okta : jjwt impl
-    implementation 'io.jsonwebtoken:jjwt-api:0.10.7'
-    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.10.7',
-            // Uncomment the next line if you want to use RSASSA-PSS (PS256, PS384, PS512) algorithms:
-            //'org.bouncycastle:bcprov-jdk15on:1.60',
-            'io.jsonwebtoken:jjwt-jackson:0.10.7'
+	// jwt:  okta : jjwt impl
+	implementation 'io.jsonwebtoken:jjwt-api:0.10.7'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.10.7',
+			// Uncomment the next line if you want to use RSASSA-PSS (PS256, PS384, PS512) algorithms:
+			//'org.bouncycastle:bcprov-jdk15on:1.60',
+			'io.jsonwebtoken:jjwt-jackson:0.10.7'
 
-    // jwt : nimbus-jose-jwt : https://github.com/felx/nimbus-jose-jwt
-    implementation 'com.nimbusds:nimbus-jose-jwt:8.4'
-    implementation 'net.minidev:json-smart:2.3'
+	// jwt : nimbus-jose-jwt : https://github.com/felx/nimbus-jose-jwt
+	implementation 'com.nimbusds:nimbus-jose-jwt:8.4'
+	implementation 'net.minidev:json-smart:2.3'
 
-    // test
-    testImplementation group: 'xmlunit', name: 'xmlunit', version: '1.5'
-    testImplementation group: 'org.mockito', name:'mockito-all' , version:'1.9.5'
+	// test
+	testImplementation group: 'xmlunit', name: 'xmlunit', version: '1.5'
+	testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
 
-    // codestyle
-    implementation 'com.diffplug.spotless:spotless-plugin-gradle:5.14.1'
+	// codestyle
+	implementation 'com.diffplug.spotless:spotless-plugin-gradle:5.14.1'
 
 }
 
@@ -219,120 +241,123 @@ dependencies {
 // see http://forums.gradle.org/gradle/topics/tests_arent_executed_when_setting_the_test_runtimeclasspath and
 // http://gradle.org/docs/current/dsl/org.gradle.api.tasks.testing.Test.html#org.gradle.api.tasks.testing.Test:classpath
 sourceSets {
-    main {
-        runtimeClasspath = files(output.resourcesDir) + runtimeClasspath
-    }
-    test {
-        java.srcDirs = ['src/test/java']
-        resources.srcDir 'src/test/resources'
-        runtimeClasspath = files(output.resourcesDir) + runtimeClasspath
-    }
+	main {
+		runtimeClasspath = files(output.resourcesDir) + runtimeClasspath
+	}
+	test {
+		java.srcDirs = ['src/test/java']
+		resources.srcDir 'src/test/resources'
+		runtimeClasspath = files(output.resourcesDir) + runtimeClasspath
+	}
 }
 idea.module.iml {
-    whenMerged {
-        module -> module.dependencies*.exported = true
-    }
+	whenMerged {
+		module -> module.dependencies*.exported = true
+	}
 }
 
 
 // In this case, we must make the package accessible by adding the following compilers args to the build.gradle file:
 tasks.withType(JavaCompile) {
-    options.compilerArgs.add('--enable-preview')
-    options.compilerArgs += ["--add-exports", "java.base/sun.security.x509=ALL-UNNAMED"]
-    options.compilerArgs += ["--add-exports", "java.base/sun.security.tools.keytool=ALL-UNNAMED"]
-    options.compilerArgs += ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
-    options.encoding = 'UTF-8'
+	// options.compilerArgs.add('--enable-preview')
+	options.compilerArgs += ["--add-exports", "java.base/sun.security.x509=ALL-UNNAMED"]
+	options.compilerArgs += ["--add-exports", "java.base/sun.security.tools.keytool=ALL-UNNAMED"]
+	options.compilerArgs += ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
+	options.encoding = 'UTF-8'
 }
 
 tasks.withType(Test) {
-    jvmArgs += "--enable-preview"
+	jvmArgs += "--enable-preview"
 }
 
 tasks.withType(JavaExec) {
-    jvmArgs += "--enable-preview"
+	jvmArgs += "--enable-preview"
 }
 tasks.compileJava {
 //    options.isIncremental = true
 //    options.isFork = true
 //    options.isFailOnError = false
-    options.compilerArgs.add("--enable-preview")
+	options.compilerArgs.add("--enable-preview")
 
 }
-tasks.test{
-    jvmArgs(['--enable-preview'])
+tasks.test {
+	jvmArgs(['--enable-preview'])
 }
 
 tasks.addRule('Rule Usage: ping<Hostname>') { String taskName ->
-    if(taskName.startsWith('ping')) {
-        task(taskName) {
-            ext.hostname = taskName - 'ping'
-            doLast {
-                def url = new URL("http://${ext.hostname}")
-                def logString
-                try {
-                    def pageContent = url.text
-                    // Do some regex matching on pageContent
-                    logString = "${new Date()}\t${ext.hostname}\tUP\n"
-                    ext.up = true
-                } catch(UnknownHostException e) {
-                    logString = "${new Date()}\t${ext.hostname}\tUNKNOWN HOST\n"
-                    ext.up = false
-                } catch(ConnectException e) {
-                    logString = "${new Date()}\t${ext.hostname}\tDOWN\n"
-                    ext.up = false
-                }
-                file(pingLogDir).mkdirs()
-                file("${pingLogDir}/ping.log") << logString
-            }
-        }
-    }
+	if (taskName.startsWith('ping')) {
+		task(taskName) {
+			ext.hostname = taskName - 'ping'
+			doLast {
+				def url = new URL("http://${ext.hostname}")
+				def logString
+				try {
+					def pageContent = url.text
+					// Do some regex matching on pageContent
+					logString = "${new Date()}\t${ext.hostname}\tUP\n"
+					ext.up = true
+				} catch (UnknownHostException e) {
+					logString = "${new Date()}\t${ext.hostname}\tUNKNOWN HOST\n"
+					ext.up = false
+				} catch (ConnectException e) {
+					logString = "${new Date()}\t${ext.hostname}\tDOWN\n"
+					ext.up = false
+				}
+				file(pingLogDir).mkdirs()
+				file("${pingLogDir}/ping.log") << logString
+			}
+		}
+	}
 }
 
+allprojects {
+	build.dependsOn 'spotlessApply'
+}
 
 task commontools_fail {
-    doLast {
-        throw new Exception("Build failed")
-    }
+	doLast {
+		throw new Exception("Build failed")
+	}
 }
 
 task commontools_cleanTempDir(type: Delete) {
-    delete fileTree(dir: "tempDir")
+	delete fileTree(dir: "tempDir")
 }
 
 task bootRun_dev(type: org.springframework.boot.gradle.tasks.run.BootRun) {
-    group = 'Application'
-    doFirst() {
-        main = bootJar.mainClassName
-        classpath = sourceSets.main.runtimeClasspath
-        systemProperty 'spring.profiles.active', 'dev'
-    }
+	group = 'Application'
+	doFirst() {
+		main = bootJar.mainClassName
+		classpath = sourceSets.main.runtimeClasspath
+		systemProperty 'spring.profiles.active', 'dev'
+	}
 }
 
 task bootRun_qa(type: org.springframework.boot.gradle.tasks.run.BootRun) {
-    group = 'Application'
-    doFirst() {
-        main = bootJar.mainClassName
-        classpath = sourceSets.main.runtimeClasspath
-        systemProperty 'spring.profiles.active', 'qa'
-    }
+	group = 'Application'
+	doFirst() {
+		main = bootJar.mainClassName
+		classpath = sourceSets.main.runtimeClasspath
+		systemProperty 'spring.profiles.active', 'qa'
+	}
 }
 
 task bootRun_prod(type: org.springframework.boot.gradle.tasks.run.BootRun) {
-    group = 'Application'
-    doFirst() {
-        main = bootJar.mainClassName
-        classpath = sourceSets.main.runtimeClasspath
-        systemProperty 'spring.profiles.active', 'prod'
-    }
+	group = 'Application'
+	doFirst() {
+		main = bootJar.mainClassName
+		classpath = sourceSets.main.runtimeClasspath
+		systemProperty 'spring.profiles.active', 'prod'
+	}
 }
 
 ext {
-    pingLogDir = "${buildDir}/reachable"
+	pingLogDir = "${buildDir}/reachable"
 }
 
 
 // embeded event buildFinished
 gradle.buildFinished { buildResult ->
-    println "TBU BUILD FINISHED"
-    println "build failure infomration if any - " + buildResult.failure
+	println "TBU BUILD FINISHED"
+	println "build failure infomration if any - " + buildResult.failure
 }
