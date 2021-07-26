@@ -4,11 +4,18 @@ package com;
 import static java.util.Arrays.asList;
 
 import com.pojo.Person;
-import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /** @author tbu */
 class Something {
@@ -24,7 +31,7 @@ class Something {
  */
 @FunctionalInterface
 interface ConvertFI<F, T> {
-    abstract T convert(F from); // abstract can be ommited
+    abstract T convert(F from); // abstract can be omitted
 }
 
 @FunctionalInterface
@@ -33,9 +40,10 @@ interface TestFI {
 }
 
 /** sometimes, you just want to code some simple things, here we go. */
+@SuppressWarnings("checkstyle:Indentation")
 public class NoBrainCoding {
 
-    public static void main(String[] args) throws UnsupportedEncodingException {
+    public static void main(String[] args) {
         String regex = "^[1,4]$";
         String json = "{\n" + "  \"sth\" : \"json\"\n" + "}";
         Thread thread = new Thread(
@@ -48,7 +56,7 @@ public class NoBrainCoding {
             }
         );
 
-        List.of("1", "2", "e");
+        List.of("1", "2", "e", "s");
         Map<Integer, String> integerStringMap = Map.of(1, "2");
         Set<Person> people = Set.of(new Person()); // FIXME: 6/2/2020
 
@@ -65,9 +73,6 @@ public class NoBrainCoding {
         myList.add(6);
         myList.add(7);
         Collection<Integer> results = filter(n -> n > 5, myList);
-        //        RunnableTest.main(args);
-        //        ComparatorTest.main(args);
-        //        ListenerTest.main(args);
 
         // demo  usage of "::"  for instance methods and constructor
         ConvertFI<String, Integer> converter = Integer::valueOf;
