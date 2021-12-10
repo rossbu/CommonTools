@@ -72,21 +72,6 @@ jar {
 	archiveVersion = '1.0'
 }
 
-//spotless {
-//    java {
-//        //The target is usually inferred automatically from the java source sets.
-//        target 'src/*/java/**/*.java'
-//        // standard import order
-//        importOrder()
-////        importOrder('java', 'javax', 'com') // or importOrderFile
-//        // You probably want an empty string at the end - all of the imports you didn't specify explicitly will go there.
-//        removeUnusedImports()
-//        googleJavaFormat()              // has its own section below
-//        prettier(['prettier': '2.0.5', 'prettier-plugin-java': '0.8.0']).config(['parser': 'java', 'tabWidth': 4])
-//        clangFormat('12.0.1')
-//        licenseHeader '/* (C) $YEAR */' // or licenseHeaderFile
-//    }
-//}
 // https://github.com/diffplug/spotless/tree/main/plugin-gradle#google-java-format
 spotless {
 	// optional: limit format enforcement to just the files changed by this feature branch
@@ -135,105 +120,115 @@ spotless {
 }
 
 dependencies {
-	//  The compile configuration is now deprecated and should be replaced by implementation or api
-	//  compile with implementation (if you don't need transitivity) or api (if you need transitivity)
-	//  testCompile with testImplementation
-	//  debugCompile with debugImplementation
-	//  androidTestCompile with androidTestImplementation
-	//  The api configuration should be used to declare dependencies which are exported by the library API,
-	//  whereas the implementation configuration should be used to declare dependencies which are internal to the component.
-	//  changing: true
-	//  By default, Gradle treats a module version (eg “myorg:myproj:1.0”) as unchanging over time,
-	//  allowing us to cache the module meta-data and artifacts indefinitely. If you have a module version
-	// that has content (meta-data or artifacts) that can change over time, you can mark the module as ‘changing’.
+    //  The compile configuration is now deprecated and should be replaced by implementation or api
+    //  compile with implementation (if you don't need transitivity) or api (if you need transitivity)
+    //  testCompile with testImplementation
+    //  debugCompile with debugImplementation
+    //  androidTestCompile with androidTestImplementation
+    //  The api configuration should be used to declare dependencies which are exported by the library API,
+    //  whereas the implementation configuration should be used to declare dependencies which are internal to the component.
+    //  changing: true
+    //  By default, Gradle treats a module version (eg “myorg:myproj:1.0”) as unchanging over time,
+    //  allowing us to cache the module meta-data and artifacts indefinitely. If you have a module version
+    // that has content (meta-data or artifacts) that can change over time, you can mark the module as ‘changing’.
 
 
-	implementation 'org.springframework.boot:spring-boot-starter-parent:2.5.1'
-	implementation 'org.springframework.boot:spring-boot-dependencies:2.5.1'
-	implementation('org.springframework.boot:spring-boot:2.5.1') {
-		exclude module: "spring-boot-starter-logging"
-		exclude module: "logback-classic"
-	}
-	implementation('org.springframework.boot:spring-boot-starter-actuator:2.5.1') {
-		exclude module: "spring-boot-starter-logging"
-		exclude module: "logback-classic"
-	}
-	implementation('org.springframework.boot:spring-boot-starter-web:2.5.1')
-	implementation group: 'org.springframework', name: 'spring-context', version: '5.3.8'
-//    implementation 'org.springframework.security:spring-security-core:5.1.7.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-parent:2.5.1'
+    implementation 'org.springframework.boot:spring-boot-dependencies:2.5.1'
+    implementation('org.springframework.boot:spring-boot:2.5.1') {
+        exclude module: "spring-boot-starter-logging"
+        exclude module: "logback-classic"
+    }
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.1'
 
-	implementation 'org.apache.commons:commons-text:1.9'
-	implementation platform('io.projectreactor:reactor-bom:2020.0.7')
-	implementation 'io.projectreactor:reactor-core:3.4.6'
+//    implementation 'org.springframework.data:spring-data-jpa:2.5.3'
 
-	implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.7'
-	implementation(group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3') {
-		exclude group: 'org.slf4j', module: 'slf4j-api'
-	}
-	implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+    implementation('org.springframework.boot:spring-boot-starter-actuator:2.5.1') {
+        exclude module: "spring-boot-starter-logging"
+        exclude module: "logback-classic"
+    }
+    implementation('org.springframework.boot:spring-boot-starter-web:2.5.1')
+    
+    implementation group: 'org.springframework', name: 'spring-context', version: '5.3.8'
 
-	implementation group: 'com.sun.jersey', name: 'jersey-client', version: '1.19.4'
-	implementation group: 'com.sun.jersey.contribs', name: 'jersey-apache-client', version: '1.19.4'
-	implementation("joda-time:joda-time:2.10.1") {}
-	implementation group: 'org.jvnet.jaxb2_commons', name: 'jaxb2-basics-runtime', version: '0.6.5'
-	implementation group: 'commons-io', name: 'commons-io', version: '2.5'
-	implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
-	implementation group: 'commons-validator', name: 'commons-validator', version: '1.5.1'
-	implementation group: 'commons-codec', name: 'commons-codec', version: '1.11'
+    implementation 'org.apache.commons:commons-text:1.9'
+    implementation platform('io.projectreactor:reactor-bom:2020.0.7')
+    implementation 'io.projectreactor:reactor-core:3.4.6'
 
-	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
-	implementation group: 'org.hibernate', name: 'hibernate-core', version: '3.6.7.Final'
-	implementation group: 'dom4j', name: 'dom4j', version: '1.6.1'
-	implementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
-	implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.58'
-	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.5'
-	implementation group: 'org.json', name: 'json', version: '20190722'
-	implementation group: 'io.vavr', name: 'vavr', version: '1.0.0-alpha-3'
-	implementation group: 'one.util', name: 'streamex', version: '0.7.0'
-	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
-	implementation 'org.projectlombok:lombok:1.16.18'
-	implementation 'io.reactivex.rxjava3:rxjava:3.0.13'
-	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.7'
+    implementation(group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3') {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
+    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
 
-	// okhttp
-	implementation('com.squareup.okhttp3:okhttp:4.2.2')
+    implementation group: 'com.sun.jersey', name: 'jersey-client', version: '1.19.4'
+    implementation group: 'com.sun.jersey.contribs', name: 'jersey-apache-client', version: '1.19.4'
+    implementation("joda-time:joda-time:2.10.1") {}
+    implementation group: 'org.jvnet.jaxb2_commons', name: 'jaxb2-basics-runtime', version: '0.6.5'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.5'
+    implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+    implementation group: 'commons-validator', name: 'commons-validator', version: '1.5.1'
+    implementation group: 'commons-codec', name: 'commons-codec', version: '1.11'
 
-	// for java 11 backward compatible
-	implementation 'javax.xml.ws:jaxws-api:2.3.1'
-	implementation 'com.sun.xml.ws:jaxws-ri:2.3.4'
-	implementation 'javax.annotation:javax.annotation-api:1.3.2'
-	implementation 'com.google.code.gson:gson:2.8.6'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
+    implementation group: 'org.hibernate', name: 'hibernate-core', version: '3.6.7.Final'
+    implementation group: 'dom4j', name: 'dom4j', version: '1.6.1'
+    implementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
+    implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.58'
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.5'
+    implementation group: 'org.json', name: 'json', version: '20190722'
+//    implementation group: 'io.vavr', name: 'vavr', version: '1.0.0-alpha-3'
+    implementation group: 'one.util', name: 'streamex', version: '0.7.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
 
-	// encryption & hashing
-	implementation 'org.mindrot:jbcrypt:0.4'
-	implementation 'org.bouncycastle:bcprov-jdk15to18:1.64'
-	implementation 'de.mkammerer:argon2-jvm:2.6'
-	implementation 'com.lambdaworks:scrypt:1.4.0'
-	implementation 'at.favre.lib:hkdf:1.1.0'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
-	// jwt: auth0
-	implementation 'com.auth0:java-jwt:3.9.0'
+    implementation 'org.projectlombok:lombok:1.18.20'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.13'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
-	// jwt:  okta : jjwt impl
-	implementation 'io.jsonwebtoken:jjwt-api:0.10.7'
-	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.10.7',
-			// Uncomment the next line if you want to use RSASSA-PSS (PS256, PS384, PS512) algorithms:
-			//'org.bouncycastle:bcprov-jdk15on:1.60',
-			'io.jsonwebtoken:jjwt-jackson:0.10.7'
+    // okhttp
+    implementation('com.squareup.okhttp3:okhttp:4.2.2')
 
-	// jwt : nimbus-jose-jwt : https://github.com/felx/nimbus-jose-jwt
-	implementation 'com.nimbusds:nimbus-jose-jwt:8.4'
-	implementation 'net.minidev:json-smart:2.3'
+    // for java 11 backward compatible
+    implementation 'javax.xml.ws:jaxws-api:2.3.1'
+    implementation 'com.sun.xml.ws:jaxws-ri:2.3.4'
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
-	// test
-	testImplementation group: 'xmlunit', name: 'xmlunit', version: '1.5'
-	testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
+    // encryption & hashing
+    implementation 'org.mindrot:jbcrypt:0.4'
+    implementation 'org.bouncycastle:bcprov-jdk15to18:1.64'
+    implementation 'de.mkammerer:argon2-jvm:2.6'
+    implementation 'com.lambdaworks:scrypt:1.4.0'
+    implementation 'at.favre.lib:hkdf:1.1.0'
 
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    // jwt: auth0
+    implementation 'com.auth0:java-jwt:3.9.0'
 
-	// codestyle
-	implementation 'com.diffplug.spotless:spotless-plugin-gradle:5.14.1'
+    // jwt:  okta : jjwt impl
+    implementation 'io.jsonwebtoken:jjwt-api:0.10.7'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.10.7',
+            // Uncomment the next line if you want to use RSASSA-PSS (PS256, PS384, PS512) algorithms:
+            //'org.bouncycastle:bcprov-jdk15on:1.60',
+            'io.jsonwebtoken:jjwt-jackson:0.10.7'
+
+    // jwt : nimbus-jose-jwt : https://github.com/felx/nimbus-jose-jwt
+    implementation 'com.nimbusds:nimbus-jose-jwt:8.4'
+    implementation 'net.minidev:json-smart:2.3'
+
+    // test
+    testImplementation group: 'xmlunit', name: 'xmlunit', version: '1.5'
+    testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+
+    // test db
+    implementation 'org.hsqldb:hsqldb:2.6.0'
+
+    // codestyle
+    implementation 'com.diffplug.spotless:spotless-plugin-gradle:5.14.1'
 
 }
 
@@ -324,28 +319,10 @@ task commontools_cleanTempDir(type: Delete) {
 	delete fileTree(dir: "tempDir")
 }
 
-task bootRun_dev(type: org.springframework.boot.gradle.tasks.run.BootRun) {
-	group = 'Application'
-	doFirst() {
-		main = bootJar.mainClassName
-		classpath = sourceSets.main.runtimeClasspath
-		systemProperty 'spring.profiles.active', 'dev'
-	}
-}
-
-task bootRun_qa(type: org.springframework.boot.gradle.tasks.run.BootRun) {
-	group = 'Application'
-	doFirst() {
-		main = bootJar.mainClassName
-		classpath = sourceSets.main.runtimeClasspath
-		systemProperty 'spring.profiles.active', 'qa'
-	}
-}
-
 task bootRun_prod(type: org.springframework.boot.gradle.tasks.run.BootRun) {
 	group = 'Application'
 	doFirst() {
-		main = bootJar.mainClassName
+//		main = bootJar.mainClassName
 		classpath = sourceSets.main.runtimeClasspath
 		systemProperty 'spring.profiles.active', 'prod'
 	}
