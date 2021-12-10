@@ -20,3 +20,5 @@ bin
 atlassian-ide-plugin.xml
 .nb-gradle-properties
 .gradle/
+.settings
+.jpb
