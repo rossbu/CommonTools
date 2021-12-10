@@ -72,21 +72,6 @@ jar {
 	archiveVersion = '1.0'
 }
 
-//spotless {
-//    java {
-//        //The target is usually inferred automatically from the java source sets.
-//        target 'src/*/java/**/*.java'
-//        // standard import order
-//        importOrder()
-////        importOrder('java', 'javax', 'com') // or importOrderFile
-//        // You probably want an empty string at the end - all of the imports you didn't specify explicitly will go there.
-//        removeUnusedImports()
-//        googleJavaFormat()              // has its own section below
-//        prettier(['prettier': '2.0.5', 'prettier-plugin-java': '0.8.0']).config(['parser': 'java', 'tabWidth': 4])
-//        clangFormat('12.0.1')
-//        licenseHeader '/* (C) $YEAR */' // or licenseHeaderFile
-//    }
-//}
 // https://github.com/diffplug/spotless/tree/main/plugin-gradle#google-java-format
 spotless {
 	// optional: limit format enforcement to just the files changed by this feature branch
@@ -154,13 +139,17 @@ dependencies {
 		exclude module: "spring-boot-starter-logging"
 		exclude module: "logback-classic"
 	}
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.1'
+
+//    implementation 'org.springframework.data:spring-data-jpa:2.5.3'
+
 	implementation('org.springframework.boot:spring-boot-starter-actuator:2.5.1') {
 		exclude module: "spring-boot-starter-logging"
 		exclude module: "logback-classic"
 	}
 	implementation('org.springframework.boot:spring-boot-starter-web:2.5.1')
+
 	implementation group: 'org.springframework', name: 'spring-context', version: '5.3.8'
-//    implementation 'org.springframework.security:spring-security-core:5.1.7.RELEASE'
 
 	implementation 'org.apache.commons:commons-text:1.9'
 	implementation platform('io.projectreactor:reactor-bom:2020.0.7')
@@ -188,10 +177,13 @@ dependencies {
 	implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.58'
 	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.5'
 	implementation group: 'org.json', name: 'json', version: '20190722'
-	implementation group: 'io.vavr', name: 'vavr', version: '1.0.0-alpha-3'
+//    implementation group: 'io.vavr', name: 'vavr', version: '1.0.0-alpha-3'
 	implementation group: 'one.util', name: 'streamex', version: '0.7.0'
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
-	implementation 'org.projectlombok:lombok:1.16.18'
+
+	annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+	implementation 'org.projectlombok:lombok:1.18.20'
 	implementation 'io.reactivex.rxjava3:rxjava:3.0.13'
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
@@ -231,6 +223,9 @@ dependencies {
 
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+
+	// test db
+	implementation 'org.hsqldb:hsqldb:2.6.0'
 
 	// codestyle
 	implementation 'com.diffplug.spotless:spotless-plugin-gradle:5.14.1'
@@ -324,28 +319,10 @@ task commontools_cleanTempDir(type: Delete) {
 	delete fileTree(dir: "tempDir")
 }
 
-task bootRun_dev(type: org.springframework.boot.gradle.tasks.run.BootRun) {
-	group = 'Application'
-	doFirst() {
-		main = bootJar.mainClassName
-		classpath = sourceSets.main.runtimeClasspath
-		systemProperty 'spring.profiles.active', 'dev'
-	}
-}
-
-task bootRun_qa(type: org.springframework.boot.gradle.tasks.run.BootRun) {
-	group = 'Application'
-	doFirst() {
-		main = bootJar.mainClassName
-		classpath = sourceSets.main.runtimeClasspath
-		systemProperty 'spring.profiles.active', 'qa'
-	}
-}
-
 task bootRun_prod(type: org.springframework.boot.gradle.tasks.run.BootRun) {
 	group = 'Application'
 	doFirst() {
-		main = bootJar.mainClassName
+//		main = bootJar.mainClassName
 		classpath = sourceSets.main.runtimeClasspath
 		systemProperty 'spring.profiles.active', 'prod'
 	}
