@@ -30,18 +30,18 @@ apply plugin: 'com.diffplug.spotless'
 version = '1.0.0'
 group = 'org.commontools'
 description = "A bootstrap Java project with gradle,  Mockito, FEST-Assert 2 and Cobertura"
-sourceCompatibility = JavaVersion.VERSION_16_PREVIEW
-targetCompatibility = JavaVersion.VERSION_16_PREVIEW
+sourceCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_16
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 configurations.all {
-	//http://www.gradle.org/docs/current/dsl/org.gradle.api.artifacts.ResolutionStrategy.html
-	resolutionStrategy {
-		// fail eagerly on version conflict (includes transitive dependencies)
-		failOnVersionConflict()
+    //http://www.gradle.org/docs/current/dsl/org.gradle.api.artifacts.ResolutionStrategy.html
+    resolutionStrategy {
+        // fail eagerly on version conflict (includes transitive dependencies)
+        failOnVersionConflict()
 
-		// force certain versions of dependencies (including transitive)
-		force 'com.sun.activation:jakarta.activation:1.2.2', 'org.jetbrains.kotlin:kotlin-stdlib:1.3.50', 'com.fasterxml.jackson.core:jackson-databind:2.12.3', 'commons-codec:commons-codec:1.11', 'commons-beanutils:commons-beanutils:1.9.1', 'org.slf4j:slf4j-api:1.7.7', 'commons-collections:commons-collections:3.2.1', 'commons-logging:commons-logging:1.1.1'
+        // force certain versions of dependencies (including transitive)
+        force 'com.sun.activation:jakarta.activation:1.2.2', 'org.jetbrains.kotlin:kotlin-stdlib:1.3.50', 'com.fasterxml.jackson.core:jackson-databind:2.12.3', 'commons-codec:commons-codec:1.11', 'commons-beanutils:commons-beanutils:1.9.1', 'org.slf4j:slf4j-api:1.7.7', 'commons-collections:commons-collections:3.2.1', 'commons-logging:commons-logging:1.1.1'
 		// cache dynamic versions for 1 minutes
 		cacheDynamicVersionsFor 1 * 60, 'seconds'
 
