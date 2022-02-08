@@ -36,6 +36,8 @@ public class CompletableFutureAllOfDemo {
             list.add(findSomeValue());
         });
 
+    CompletableFuture<Void> future1 =
+        CompletableFuture.failedFuture(new RuntimeException("Exception"));
         CompletableFuture<Void> allfuture = CompletableFuture.allOf(list.toArray(new CompletableFuture[list.size()]));//Created All of object
         CompletableFuture<List<String>> allFutureList = allfuture.thenApply(val -> {
             System.out.println("Creating List");

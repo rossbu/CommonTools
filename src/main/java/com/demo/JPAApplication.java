@@ -1,15 +1,12 @@
 /* (C)2021 */
 package com.demo;
 
-import static org.slf4j.LoggerFactory.getLogger;
-import static org.springframework.boot.SpringApplication.run;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +30,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.slf4j.LoggerFactory.getLogger;
+import static org.springframework.boot.SpringApplication.run;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+
 /**
  * command : ./mvnw clean spring-boot:run or mvn clean spring-boot:run
  *
@@ -52,15 +53,10 @@ public class JPAApplication {
 
     @Bean
     CommandLineRunner init(EmployeeRepository repository) {
-        return args -> {
-            log.info(
-                "Preloading " + repository.save(new Employee("Ross", "Bu"))
-            );
-            log.info(
-                "Preloading " +
-                repository.save(new Employee("Kaushik", "murfy"))
-            );
-        };
+    return args -> {
+      log.info("Preloading " + repository.save(new Employee("Cargo", "Bu")));
+      log.info("Preloading " + repository.save(new Employee("Kaushik", "murfy")));
+    };
     }
 
     public static void main(String... args) {
