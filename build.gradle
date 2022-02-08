@@ -258,6 +258,7 @@ tasks.withType(JavaCompile) {
 	options.compilerArgs += ["--add-exports", "java.base/sun.security.x509=ALL-UNNAMED"]
 	options.compilerArgs += ["--add-exports", "java.base/sun.security.tools.keytool=ALL-UNNAMED"]
 	options.compilerArgs += ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
+	options.compilerArgs += ["--enable-preview"]
 	options.encoding = 'UTF-8'
 }
 
