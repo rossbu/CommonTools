@@ -54,9 +54,11 @@ public class JDK8CompletableFutureDemo extends FutureBase{
             }
             return "slept 10 seconds";
         });
-        alreadyDoneTask1.thenAccept(e -> System.out.println(e));    //Non Blocking,notify method will be called automaticall
+    alreadyDoneTask1.thenAccept(
+        e -> System.out.println(e)); // Non Blocking,notify method will be called automaticall
         alreadyDoneTask2.thenAccept(e -> System.out.println(e));     //Non Blocking,notify method will be called automaticall
-        sleep5secondsTask3.thenAccept(e -> System.out.println(e));  //Non Blocking,notify method will be called automaticall
+    sleep5secondsTask3.thenAccept(
+        e -> System.out.println(e)); // Non Blocking,notify method will be called automaticall
         sleep10secondsTask4.thenAccept(e -> System.out.println(e)); //Non Blocking,notify method will be called automaticall
 
         try {
