@@ -1,12 +1,12 @@
-package com.demo;
-
-import com.sun.management.ThreadMXBean;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package com.demo.misc;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.reflect.InvocationTargetException;
+
+import com.sun.management.ThreadMXBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -39,14 +39,12 @@ public class PhysicalMemoryDemo {
     private static <T> T getAttribute(String name) {
         LOGGER.trace("Bean lookup for {}", name);
         for (Class<?> s = OS_BEAN.getClass(); s != null; s = s.getSuperclass()) {
-            @SuppressWarnings("unchecked")
             T result = invokeyMethod(name, s);
             if (result != null) {
                 return result;
             }
         }
         for (Class<?> i : OS_BEAN.getClass().getInterfaces()) {
-            @SuppressWarnings("unchecked")
             T result = invokeyMethod(name, i);
             return result;
         }
@@ -57,7 +55,6 @@ public class PhysicalMemoryDemo {
     private static <T> T invokeyMethod(String name, Class<?> s) {
         System.out.println("--class is :" + s.getSimpleName());
         try {
-            @SuppressWarnings("unchecked")
             T result = (T) s.getMethod(name).invoke(OS_BEAN);
             LOGGER.trace("Bean lookup successful using {}, got {}", s, result);
             return result;

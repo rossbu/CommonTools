@@ -1,0 +1,26 @@
+RetryExec.java
+ * Request executor in the request execution chain that is responsible
+ * for making a decision whether a request failed due to an I/O error
+ * should be re-executed.
+
+DefaultHttpRequestRetryHandler.java
+ * The default {@link HttpRequestRetryHandler} used by request executors.
+ * by default Constructor with a retry count of 3, requestSentRetryEnabled false and using the following list of non-retriable List
+ 	list of non-retriable IOException classes:
+	InterruptedIOException
+	UnknownHostException
+	ConnectException
+	SSLException
+　　	httpclient : 4.5.5
+　　	排查过程 : 一次SocketException：Connection reset 异常排查
+　　	主要原因 : 调用 http 请求时发生了 SocketException ,但是SocketException能被DefaultHttpRequestRetryHandler处理，而不能被CustomRequestRetryHandler处理。
+　　	在对比两者的异常处理类型，发现DefaultHttpRequestRetryHandler处理的ConnectException extends SocketException，所以能处理。
+
+
+HttpClientBuilder
+ * Builder for CloseableHttpClient instances.
+ * Add request retry executor, if not disabled by calling disableAutomaticRetries() explictly, otherwise retry is enabled
+
+
+Bash Search
+   grep -A 200 -B 200 'retry count' *.log

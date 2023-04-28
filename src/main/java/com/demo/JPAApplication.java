@@ -45,30 +45,40 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
  *
  * <p>GetAll: curl -v localhost:8080/employees Delete one curl -X DELETE localhost:8080/employees/3
  */
+// @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @SpringBootApplication
 @Configuration
+// @EnableJpaRepositories(basePackages = "com.demo", entityManagerFactoryRef = "factoryBean")
 @EnableJpaRepositories
 public class JPAApplication {
-    private static final Logger log = getLogger(JPAApplication.class);
+  private static final Logger log = getLogger(JPAApplication.class);
 
-    @Bean
-    CommandLineRunner init(EmployeeRepository repository) {
+  @Bean
+  CommandLineRunner init(EmployeeRepository repository) {
     return args -> {
       log.info("Preloading " + repository.save(new Employee("Cargo", "Bu")));
       log.info("Preloading " + repository.save(new Employee("Kaushik", "murfy")));
     };
-    }
+  }
 
-    public static void main(String... args) {
-        run(JPAApplication.class, args);
-    }
+  public static void main(String... args) {
+    run(JPAApplication.class, args);
+  }
 }
+
+// @Configuration
+// class JPAConfig {
+//  @Bean
+//  public EntityManager entityManager() {
+//    return entityManagerFactory().getObject().createEntityManager();
+//  }
+// }
 
 class EmployeeNotFoundException extends RuntimeException {
 
-    EmployeeNotFoundException(Long id) {
-        super("Could not find employee " + id);
-    }
+  EmployeeNotFoundException(Long id) {
+    super("Could not find employee " + id);
+  }
 }
 
 /**
@@ -82,12 +92,12 @@ class EmployeeNotFoundException extends RuntimeException {
 @ControllerAdvice
 class EmployeeNotFoundAdvice {
 
-    @ResponseBody
-    @ExceptionHandler(EmployeeNotFoundException.class)
-    @ResponseStatus(NOT_FOUND)
-    String employeeNotFoundHandler(EmployeeNotFoundException ex) {
-        return ex.getMessage();
-    }
+  @ResponseBody
+  @ExceptionHandler(EmployeeNotFoundException.class)
+  @ResponseStatus(NOT_FOUND)
+  String employeeNotFoundHandler(EmployeeNotFoundException ex) {
+    return ex.getMessage();
+  }
 }
 
 /**
@@ -109,86 +119,75 @@ interface EmployeeRepository extends JpaRepository<Employee, Long> {}
 @Getter
 @Setter
 class Employee {
-    @Id
-    @GeneratedValue
-    @Column(name = "_id")
-    private Long id;
+  @Id
+  @GeneratedValue
+  @Column(name = "_id")
+  private Long id;
 
-    private String name;
-    private String role;
+  private String name;
+  private String role;
 
-    public Employee() {}
+  public Employee() {}
 
-    public Employee(String name, String role) {
-        this.name = name;
-        this.role = role;
-    }
+  public Employee(String name, String role) {
+    this.name = name;
+    this.role = role;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 }
 
 @RestController
 @Data
 class EmployeeController {
-    private final EmployeeRepository repository;
+  private final EmployeeRepository repository;
 
-    EmployeeController(EmployeeRepository repository) {
-        this.repository = repository;
-    }
+  // Aggregate root
+  // tag::get-aggregate-root[]
+  @GetMapping("/employees")
+  List<Employee> all() {
+    return repository.findAll();
+  }
 
-    // Aggregate root
-    // tag::get-aggregate-root[]
-    @GetMapping("/employees")
-    List<Employee> all() {
-        return repository.findAll();
-    }
+  // end::get-aggregate-root[]
 
-    // end::get-aggregate-root[]
+  @PostMapping("/employees")
+  Employee newEmployee(@RequestBody Employee newEmployee) {
+    return repository.save(newEmployee);
+  }
 
-    @PostMapping("/employees")
-    Employee newEmployee(@RequestBody Employee newEmployee) {
-        return repository.save(newEmployee);
-    }
+  // Single item
 
-    // Single item
+  @GetMapping("/employees/{id}")
+  Employee one(@PathVariable Long id) {
+    return repository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
+  }
 
-    @GetMapping("/employees/{id}")
-    Employee one(@PathVariable Long id) {
-        return repository
-            .findById(id)
-            .orElseThrow(() -> new EmployeeNotFoundException(id));
-    }
+  @PutMapping("/employees/{id}")
+  Employee replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
+    return repository
+        .findById(id)
+        .map(
+            employee -> {
+              employee.setName(newEmployee.getName());
+              employee.setRole(newEmployee.getRole());
+              return repository.save(employee);
+            })
+        .orElseGet(
+            () -> {
+              newEmployee.setId(id);
+              return repository.save(newEmployee);
+            });
+  }
 
-    @PutMapping("/employees/{id}")
-    Employee replaceEmployee(
-        @RequestBody Employee newEmployee,
-        @PathVariable Long id
-    ) {
-        return repository
-            .findById(id)
-            .map(
-                employee -> {
-                    employee.setName(newEmployee.getName());
-                    employee.setRole(newEmployee.getRole());
-                    return repository.save(employee);
-                }
-            )
-            .orElseGet(
-                () -> {
-                    newEmployee.setId(id);
-                    return repository.save(newEmployee);
-                }
-            );
-    }
-
-    @DeleteMapping("/employees/{id}")
-    void deleteEmployee(@PathVariable Long id) {
-        repository.deleteById(id);
-    }
+  @DeleteMapping("/employees/{id}")
+  void deleteEmployee(@PathVariable Long id) {
+    repository.deleteById(id);
+  }
 }
