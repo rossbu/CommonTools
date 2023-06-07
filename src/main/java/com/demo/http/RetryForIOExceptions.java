@@ -2,7 +2,7 @@ package com.demo.http;
 
 import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
+
 import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.HttpResponseInterceptor;
 import org.apache.http.client.methods.HttpGet;
@@ -11,12 +11,12 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 
-public class RetryTest {
+public class RetryForIOExceptions {
     private Integer requestCounter = 0;
     private CloseableHttpClient httpClient;
 
     public static void main(String[] args) throws IOException {
-        RetryTest retryTest = new RetryTest();
+        RetryForIOExceptions retryTest = new RetryForIOExceptions();
         retryTest.createFailingHttpClient();
         retryTest.createHttpClientWithRetryHandler();
 
@@ -28,6 +28,15 @@ public class RetryTest {
         createFailingHttpClient();
         httpClient.execute(new HttpGet("https://httpstat.us/200"));
     }
+
+    private void createDefaultApacheHttpClient() {
+        this.httpClient = HttpClientBuilder
+                .create()
+                .addInterceptorFirst((HttpRequestInterceptor) (httpRequest, httpContext) -> {
+                    requestCounter++;
+                }).build();
+    }
+
     private void createFailingHttpClient() {
         this.httpClient = HttpClientBuilder
                 .create()

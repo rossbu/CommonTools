@@ -1,5 +1,5 @@
 /* (C)2021 */
-package com.demo.FuncInt;
+package com.demo.func;
 
 @FunctionalInterface
 public interface IfElseHandler {

@@ -1,4 +1,4 @@
-package com.demo.io;
+package com.demo.file;
 
 /**
  * Created by tbu on 4/10/2017.

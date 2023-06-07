@@ -1,10 +1,16 @@
 package com.demo.enumeration;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.Arrays;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 
 /**
@@ -28,12 +34,20 @@ public class EnumValueDemo {
 
 
         // to get INSTANCE EN_US by the value "en_US"
-        Localetype fromvalue = Localetype.fromValue("en_US");
-        System.out.println("fromValue test : " + fromvalue);
+//        Localetype fromvalue = Localetype.fromValue("en_US");
+//        System.out.println("fromValue test : " + fromvalue);
+//
+//
+//        Localetype fromvalue2 = Localetype.fromValue("EN_US"); // throw Exception in thread "main" java.lang.IllegalArgumentException: EN_US
+//        System.out.println("fromValue2 test : " + fromvalue2);
 
 
-        Localetype fromvalue2 = Localetype.fromValue("EN_US"); // throw Exception in thread "main" java.lang.IllegalArgumentException: EN_US
-        System.out.println("fromValue2 test : " + fromvalue2);
+        LeagueDTO leagueDTO = LeagueDTO.builder().leagueId(1L).subscribed(true).build();
+        ObjectMapper leagueMapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+        mapper.configure(DeserializationFeature.READ_ENUMS_USING_TO_STRING, true);// true or false , both return EN_US
+        String jsonString = leagueMapper.writeValueAsString(leagueDTO);
+        System.out.println("league dto" + jsonString);
     }
 }
 
@@ -112,3 +126,13 @@ class Wolf extends Object {
     boolean isBadAnimal;
     int firePower;
 }
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+class LeagueDTO {
+    private Long leagueId;
+    @JsonProperty("isSubscribed")
+    private boolean subscribed;
+}
+

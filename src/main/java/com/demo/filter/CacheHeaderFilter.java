@@ -1,4 +1,4 @@
-package com.demo.web.filter;
+package com.demo.filter;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
