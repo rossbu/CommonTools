@@ -18,12 +18,12 @@ import static com.demo.async.AsyncUtils.sleep;
    tasks : uncomment each of method below and do the coding, comparing your result with existing functions
 
  */
-public class JDK8CompletableFutureDemo extends FutureBase{
+public class CompletableFutureDemo extends FutureBase{
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        JDK8CompletableFutureDemo demo = new JDK8CompletableFutureDemo();
+        CompletableFutureDemo demo = new CompletableFutureDemo();
         completableByAll();
-//        completableAllOf();
+        completableAllOf();
 //        jdk9delayExecutor();
 //        futureAcceptTtest()
 //        supplyAsyncTest();
@@ -114,7 +114,7 @@ public class JDK8CompletableFutureDemo extends FutureBase{
     }
 
     private static void completableAllOf() throws InterruptedException, ExecutionException {
-        JDK8CompletableFutureDemo completableFutureDemo = new JDK8CompletableFutureDemo();
+        CompletableFutureDemo completableFutureDemo = new CompletableFutureDemo();
         // Kick of multiple, asynchronous lookups
         CompletableFuture<User> page1 = completableFutureDemo.findUser("PivotalSoftware");
         CompletableFuture<User> page2 = completableFutureDemo.findUser("CloudFoundry");
@@ -130,7 +130,7 @@ public class JDK8CompletableFutureDemo extends FutureBase{
 
 
     private static void completableByAll() throws InterruptedException, ExecutionException {
-        JDK8CompletableFutureDemo completableFutureDemo = new JDK8CompletableFutureDemo();
+        CompletableFutureDemo completableFutureDemo = new CompletableFutureDemo();
         // Kick of multiple, asynchronous lookups
         CompletableFuture<User> page1 = completableFutureDemo.findUser("PivotalSoftware");
         CompletableFuture<User> page2 = completableFutureDemo.findUser("CloudFoundry");

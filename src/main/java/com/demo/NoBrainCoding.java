@@ -10,6 +10,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -137,6 +140,7 @@ public class NoBrainCoding {
 
     UUID uuid = UUID.randomUUID();
     System.out.println(uuid);
+    UUID.nameUUIDFromBytes("123".getBytes());
 
     Map<Integer, String> map = new HashMap<>();
 
@@ -242,4 +246,45 @@ public class NoBrainCoding {
   public static <T, R> Function<T, R> f(Function<T, R> f) {
     return f;
   }
+
+
+    /**
+     * create a method that will create 1 million tasks each taking 100ms to finish,
+     * now we want to use newCachedThreadPool from apache httpclient  to handle those tasks
+     */
+    public static void demoCachedThreadPool() {
+//      create a method that will create 1 million tasks each taking 100ms to finish,
+//     now we want to use newCachedThreadPool from apache httpclient  to handle those tasks
+     ExecutorService executor = Executors.newCachedThreadPool();
+
+        Callable<String> task = () -> {
+            long oneHundredMicroSeconds = 100_000;
+            long startedAt = System.nanoTime();
+            while (System.nanoTime() - startedAt <= oneHundredMicroSeconds);
+
+            return "Done";
+        };
+
+
+      for (int i = 0; i < 1000000; i++) {
+        executor.submit(new Runnable() {
+          @Override
+          public void run() {
+            try {
+              Thread.sleep(100);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+            }
+            System.out.println("Asynchronous task");
+          }
+        });
+      }
+      executor.shutdown();
+      while (!executor.isTerminated()) {
+      }
+      System.out.println("Finished all threads");
+
+    }
+
+
 }

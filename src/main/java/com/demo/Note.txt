@@ -7,7 +7,7 @@ Encoding | Hashing | Encryption
 Terms
     MITM attacks
         Man-in-the-middle attack
-    inpersonate attacks
+    impersonate attacks
         impersonate the original request
     prying eyes
         over the shoulder 'attack'
@@ -126,7 +126,7 @@ Terms
             https://8gwifi.org/scrypt.jsp
 
     BCrypt
-        def:
+        def: a strong hashing algo
 
         tools:
             https://www.dailycred.com/article/bcrypt-calculator

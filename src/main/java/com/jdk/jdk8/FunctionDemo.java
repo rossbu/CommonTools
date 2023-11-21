@@ -25,7 +25,7 @@ public class FunctionDemo {
 //        simpleFunction();
 //        functionCompose();
 //        TriFunction();
-        functionIndentity();
+        functionIdentity();
 
         intFunctionTest();
 
@@ -88,7 +88,7 @@ public class FunctionDemo {
      * As we now know, the identity function does nothing, it just returns back the object it receives as input.
      * So, what we get back is the same object which we passed to the applyIdentityToObject() method! And the same i.e. original employee list is printed as output!!
      */
-    private static void functionIndentity() {
+    private static void functionIdentity() {
         Map<String, String> collectedMap = Arrays.asList("bu", "kun", "florina", "fern", "mohan").stream()
 //                .map(Function.identity())
 //                .map(str -> str)

@@ -32,7 +32,7 @@ public class FutureBase {
      */
 
     static ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
-    static ExecutorService newCachedThreadPoolExecutor = Executors.newCachedThreadPool();
+    static ExecutorService newCachedThreadPoolExecutor = Executors.newCachedThreadPool(); // Cached thread pools are using “synchronous handoff” to queue new tasks.
     static Executor newFixedThreadPoolExecutor = Executors.newFixedThreadPool(2);
     static ExecutorService newFixedThreadExecutorService = Executors.newFixedThreadPool(10);
     static ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);

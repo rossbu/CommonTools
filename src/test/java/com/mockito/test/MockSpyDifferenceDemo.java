@@ -17,8 +17,9 @@ import static org.mockito.Mockito.when;
 
 /*
     A Mock if not stubbed will return a null value, whereas a Spy if not stubbed will call the implemented method inside of the concrete class.
-    mock is used if we want to mock all the methods of a class.
-    spy is used if we want to mock some methods and for remaining methods actual call has to be made.
+
+    -- mock is used if we want to mock all the methods of a class.
+    -- spy is used if we want to mock some methods and for remaining methods actual call has to be made.
 
  */
 public class MockSpyDifferenceDemo {

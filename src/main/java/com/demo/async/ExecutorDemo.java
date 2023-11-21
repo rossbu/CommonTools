@@ -17,12 +17,12 @@ import java.util.concurrent.*;
  * this thread gets blocked until the result is provided by the worker
  */
 @Service
-public class JDK5FutureDemo extends FutureBase {
+public class ExecutorDemo extends FutureBase {
 
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         futureCaculate();
-        callableFuture();
+        newCachedThreadPoolExecutor();
         scheduledExecutor();
         moreExecutorByGuava();
         existingExecutorByGuava();
@@ -55,7 +55,7 @@ public class JDK5FutureDemo extends FutureBase {
         }, 500, TimeUnit.MILLISECONDS);
     }
 
-    private static void callableFuture() {
+    private static void newCachedThreadPoolExecutor() {
         Set<Callable<String>> callables = new HashSet<Callable<String>>();
 
         callables.add(new Callable<String>() {
@@ -92,7 +92,7 @@ public class JDK5FutureDemo extends FutureBase {
     }
 
     private static void futureCaculate() throws InterruptedException, ExecutionException {
-        JDK5FutureDemo futureDemo = new JDK5FutureDemo();
+        ExecutorDemo futureDemo = new ExecutorDemo();
         Future<Integer> future1 = futureDemo.calculate(10);
         Future<Integer> future2 = futureDemo.calculate(100);
         while (!(future1.isDone() && future2.isDone())) {
