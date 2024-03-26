@@ -23,4 +23,5 @@ atlassian-ide-plugin.xml
 .settings
 .jpb
 .vscode
-.vscode/
+.vscode/generated/
+generated/

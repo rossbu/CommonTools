@@ -1,4 +1,4 @@
-package com.demo.string;
+package com.benchmark;
 
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;

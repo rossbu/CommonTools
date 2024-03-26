@@ -43,8 +43,6 @@ public class JsonDemo {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-
-
         objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
         Person person = new Person();
         person.setAge(41);
