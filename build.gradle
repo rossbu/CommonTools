@@ -139,7 +139,7 @@ tasks.withType(JavaCompile) {
     options.compilerArgs += ["--add-exports", "java.base/sun.security.x509=ALL-UNNAMED"]
     options.compilerArgs += ["--add-exports", "java.base/sun.security.tools.keytool=ALL-UNNAMED"]
     options.compilerArgs += ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
-    options.compilerArgs += ["--enable-preview"]
+//    options.compilerArgs += ["--enable-preview"]
     options.encoding = 'UTF-8'
 }
 
@@ -255,6 +255,7 @@ dependencies {
     // benchmark
     implementation 'org.openjdk.jmh:jmh-core:1.33'
     annotationProcessor 'org.openjdk.jmh:jmh-generator-annprocess:1.33'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     // benchmark by jmh plugin
     jmh 'org.openjdk.jmh:jmh-core:1.33'
@@ -331,8 +332,8 @@ dependencies {
     implementation 'com.redislabs:jredisearch:2.0.0'
 
     // lombok
-    annotationProcessor 'org.projectlombok:lombok:1.18.20'
-    implementation 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+    implementation 'org.projectlombok:lombok:1.18.32'
 
 
     // okhttp
@@ -395,6 +396,10 @@ dependencies {
     // test - xml
     testImplementation group: 'xmlunit', name: 'xmlunit', version: '1.5'
 
+    // test- lombok
+    testCompileOnly 'org.projectlombok:lombok:1.18.32'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
+
     // test - mockito
     testImplementation 'org.mockito:mockito-core:4.8.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:4.8.0'
@@ -405,7 +410,6 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-params:5.7.2'
-
 
 //    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
 //    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
