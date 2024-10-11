@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class RedisExample {
     public static void main(String[] args) {
-        // use HostAndPort
+        // use HostAndPort if you are using JedisCluster
          Jedis jedis = new Jedis("localhost", 6379);
 
         System.out.println("Connection to server successfully");
