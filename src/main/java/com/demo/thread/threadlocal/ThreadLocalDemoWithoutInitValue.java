@@ -1,4 +1,4 @@
-package com.jdk.jdk.thread.threadlocal;
+package com.demo.thread.threadlocal;
 
 public class ThreadLocalDemoWithoutInitValue {
     public static void main(String[] args)

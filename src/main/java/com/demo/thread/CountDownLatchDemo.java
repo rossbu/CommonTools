@@ -1,4 +1,4 @@
-package com.jdk.jdk.thread;
+package com.demo.thread;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;

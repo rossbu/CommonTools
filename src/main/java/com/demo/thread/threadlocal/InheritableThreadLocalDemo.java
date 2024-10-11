@@ -1,4 +1,4 @@
-package com.jdk.jdk.thread.threadlocal;
+package com.demo.thread.threadlocal;
 
 /**
  *

@@ -1,4 +1,4 @@
-package com.jdk.jdk.thread;
+package com.demo.thread;
 
 /**
  * Created by tbu on 6/26/2014.
