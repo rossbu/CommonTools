@@ -1,4 +1,4 @@
-package com.demo.thread;
+package com.demo.multithreading;
 
 /**
  * Created by tbu on 6/26/2014.

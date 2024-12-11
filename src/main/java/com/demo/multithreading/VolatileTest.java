@@ -1,4 +1,4 @@
-package com.demo.async;
+package com.demo.multithreading;
 
 public class VolatileTest implements Runnable {
 
@@ -44,14 +44,6 @@ public class VolatileTest implements Runnable {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        Runtime runtime = Runtime.getRuntime();
-
-        System.out.println("availableProcessors :: "+ runtime.availableProcessors());
-        System.out.println("MAX JVM will attempt to use : "+ runtime.maxMemory() / MegaBytes );
-        System.out.println("JVM totalMemory also equals to initial heap size of JVM : "+ runtime.totalMemory() / MegaBytes );
-        System.out.println("Returns the amount of free memory in the JVM : "+ runtime.freeMemory() / MegaBytes );
-        System.out.println(" ===== ----- ===== ");
-
         VolatileTest volatileTest = new VolatileTest();
         Thread t1 = new Thread( volatileTest );
         t1.start();

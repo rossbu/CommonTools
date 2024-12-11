@@ -47,7 +47,9 @@ import org.springframework.stereotype.Service;
             ---
             doc 2
         - To separate different profiles ( dev or prod ):
-            The three dashes separating the two profiles indicate the start of a new document, so all the profiles can be described in the same YAML file
+            The three dashes separating the two profiles indicate the start of a new document,
+            so all the profiles can be described in the same YAML file
+
             spring:
                 config:
                     activate:

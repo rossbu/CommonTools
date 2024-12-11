@@ -1,4 +1,4 @@
-package com.demo.thread.threadlocal;
+package com.demo.multithreading.threadlocal;
 
 /**
  *

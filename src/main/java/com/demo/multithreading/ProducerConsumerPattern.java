@@ -1,4 +1,4 @@
-package com.demo.thread;
+package com.demo.multithreading;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

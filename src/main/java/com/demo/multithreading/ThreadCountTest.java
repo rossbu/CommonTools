@@ -1,4 +1,4 @@
-package com.demo.thread;
+package com.demo.multithreading;
 
 public class ThreadCountTest {
     public static void main(String[] args) {
