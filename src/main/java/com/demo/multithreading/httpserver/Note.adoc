@@ -1,0 +1,13 @@
+
+This setup demonstrates handling concurrent requests with a limit and simulating an interruption for an urgent request.
+
+## Dummy HTTP Server:
+The server uses a Semaphore to limit the number of concurrent requests to 5.
+Each request handler sleeps for 5 seconds to simulate a long-running task.
+If a request is interrupted, it sends a 500 response.
+
+
+## Client with ThreadPool:
+The client uses a thread pool with 5 threads to send requests to the server.
+An additional urgent request (T6) is sent after a short delay.
+The thread pool is then shut down to simulate interrupting the existing requests.

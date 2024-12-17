@@ -5,33 +5,31 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ProducerConsumerPattern {
+public class BlockingQueueProducerConsumerPattern {
 
     public static void main(String args[]){
 
         //Creating shared object
-        BlockingQueue sharedQueue = new LinkedBlockingQueue();
+        BlockingQueue<Integer> sharedQueue = new LinkedBlockingQueue<>();
 
         //Creating Producer and Consumer Thread
-        Thread prodThread = new Thread(new Producer(sharedQueue));
-        Thread consThread = new Thread(new Consumer(sharedQueue,"tbu"));
-        Thread consThread2 = new Thread(new Consumer(sharedQueue, "kun"));
-
+        Thread producerThread = new Thread(new Producer(sharedQueue));
+        Thread consumerThread1 = new Thread(new Consumer(sharedQueue, "consumer1"));
+        Thread consumerThread2 = new Thread(new Consumer(sharedQueue, "consumer2"));
 
         //Starting producer and Consumer thread
-        prodThread.start();
-        consThread.start();
-        consThread2.start();
+        producerThread.start();
+        consumerThread1.start();
+        consumerThread2.start();
     }
 
 }
 
-//Producer Class in java
+
 class Producer implements Runnable {
 
-    private final BlockingQueue sharedQueue;
-
-    public Producer(BlockingQueue sharedQueue) {
+    private final BlockingQueue<Integer> sharedQueue;
+    public Producer(BlockingQueue<Integer> sharedQueue) {
         this.sharedQueue = sharedQueue;
     }
 
@@ -49,22 +47,13 @@ class Producer implements Runnable {
 
 }
 
-//Consumer Class in Java
 class Consumer implements Runnable{
-    public String getConsumerName() {
-        return consumerName;
-    }
 
-    public void setConsumerName(String consumerName) {
-        this.consumerName = consumerName;
-    }
+    private final String consumerName;
+    private final BlockingQueue<Integer> sharedQueue;
+    private int consumedCount = 0;
 
-    String consumerName;
-
-
-    private final BlockingQueue sharedQueue;
-
-    public Consumer (BlockingQueue sharedQueue,String name ) {
+    public Consumer(BlockingQueue<Integer> sharedQueue, String name) {
         this.sharedQueue = sharedQueue;
         this.consumerName = name;
     }
@@ -73,7 +62,9 @@ class Consumer implements Runnable{
     public void run() {
         while(true){
             try {
-                System.out.println(consumerName + "-Consumed: "+ sharedQueue.take());
+                Integer take = sharedQueue.take();
+                consumedCount++;
+                System.out.println(consumerName + " - Consumed: " + take);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Consumer.class.getName()).log(Level.SEVERE, null, ex);
             }

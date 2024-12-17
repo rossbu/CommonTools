@@ -1,0 +1,12 @@
+
+
+## ReentrantLock and synchronized are examples of mutexes in Java.
+
+Mutexes are used to protect shared resources from being accessed by multiple threads at the same time. In Java, the `synchronized` keyword and the `ReentrantLock` class are examples of mutexes.
+
+reentrant locks  provide one lock per object, isn't it always a better idea to prefer a reentrant lock to a binary semaphore?
+
+## Small differences between Semaphore and reenterant lock.
+
+Semaphore may be released by another thread. Semaphore's javadoc states that such behavior may be useful in some specialized contexts like deadlock recovery. So it should be a really specialized contexts.
+Also binary semaphores are not reenterant. You cannot acquire a binary semaphore second time in a same thread. It will lead to a deadlock (deadlocking thread with itself!) and you may need some means of already mentioned deadlock recovery

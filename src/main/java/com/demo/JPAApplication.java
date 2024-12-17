@@ -56,7 +56,7 @@ public class JPAApplication {
   @Bean
   CommandLineRunner init(EmployeeRepository repository) {
     return args -> {
-      log.info("Preloading " + repository.save(new Employee("Cargo", "Bu")));
+      log.info("Preloading " + repository.save(new Employee("Cargo", "B")));
       log.info("Preloading " + repository.save(new Employee("Kaushik", "murfy")));
     };
   }

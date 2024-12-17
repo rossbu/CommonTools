@@ -1,4 +1,4 @@
-package com.demo.multithreading;
+package com.demo.multithreading.interrupt;
 
 public class InterruptAndContinueDemo {
 

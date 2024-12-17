@@ -1,13 +1,13 @@
-package com.demo.multithreading;
+package com.demo.multithreading.volatle;
 
-public class VolatileTest implements Runnable {
+public class VolatileConcurrentTest implements Runnable {
 
-    private static final int MegaBytes = 10241024;
+    // synchronized keyword is used to acquire a lock for an object.
+    private static final Object lock = new Object();
 
-    private static final Object counterLock = new Object();
+    // volatile keyword is used to indicate that a variable's value will be modified by different threads.
     private static int counter = 0;
     private static volatile int counter1 = 0;
-
     private volatile int counter2 = 0;
     private int counter3 = 0;
 
@@ -16,15 +16,8 @@ public class VolatileTest implements Runnable {
         for (int i = 0; i < 5; i++) {
             concurrentMethodWrong();
         }
-
     }
 
-    void addInstanceVolatile() {
-        synchronized (counterLock) {
-            counter2 = counter2 + 1;
-            System.out.println( Thread.currentThread().getName() +"\t\t « InstanceVolatile :: "+ counter2);
-        }
-    }
 
     public void concurrentMethodWrong() {
         counter = counter + 1;
@@ -32,10 +25,13 @@ public class VolatileTest implements Runnable {
         sleepThread( 1/4 );
 
         counter1 = counter1 + 1;
-        System.out.println( Thread.currentThread().getName() +"\t « StaticVolatile :: "+ counter1);
+        System.out.println( Thread.currentThread().getName() +"\t « Static Volatile :: "+ counter1);
         sleepThread( 1/4 );
 
-        addInstanceVolatile();
+        synchronized (lock) {
+            counter2 = counter2 + 1;
+        }
+        System.out.println( Thread.currentThread().getName() +"\t « Instance Volatile :: "+ counter2);
         sleepThread( 1/4 );
 
         counter3 = counter3 + 1;
@@ -44,7 +40,7 @@ public class VolatileTest implements Runnable {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        VolatileTest volatileTest = new VolatileTest();
+        VolatileConcurrentTest volatileTest = new VolatileConcurrentTest();
         Thread t1 = new Thread( volatileTest );
         t1.start();
 
@@ -57,9 +53,9 @@ public class VolatileTest implements Runnable {
         Thread t4 = new Thread( volatileTest );
         t4.start();
 
-        Thread.sleep( 10 );;
+        Thread.sleep( 10 );
 
-        Thread optimizeation = new Thread() {
+        Thread optimization = new Thread() {
             @Override public void run() {
                 System.out.println("Thread Start.");
 
@@ -68,7 +64,7 @@ public class VolatileTest implements Runnable {
                 System.out.println("End of Thread." + appendingVal);
             }
         };
-        optimizeation.start();
+        optimization.start();
     }
 
     public void sleepThread( long sec ) {

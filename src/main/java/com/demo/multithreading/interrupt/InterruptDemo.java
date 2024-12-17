@@ -1,4 +1,4 @@
-package com.demo.multithreading;
+package com.demo.multithreading.interrupt;
 
 public class InterruptDemo {
 
@@ -42,9 +42,9 @@ public class InterruptDemo {
                 System.out.println("NewTask: Acquired the resource, proceeding with urgent task...");
                 // Do some urgent work
                 try {
-                    Thread.sleep(2000);  // Mock urgent work
+                    Thread.sleep(5000);  // Mock urgent work taking 5 secs to finish
                 } catch (InterruptedException e) {
-                    System.out.println("NewTask: Interrupted during urgent task.");
+                    System.out.println("NewTask: Interrupted during urgent task, what the hell? who interrupted me?");
                 }
             }
         });

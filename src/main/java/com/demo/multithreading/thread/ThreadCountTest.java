@@ -1,9 +1,9 @@
-package com.demo.multithreading;
+package com.demo.multithreading.thread;
 
 public class ThreadCountTest {
     public static void main(String[] args) {
-        int maxThreads = Integer.MAX_VALUE; // Set a very high number initially, theoretically, it should be Integer.MAX_VALUE
-
+        int maxThreads = Integer.MAX_VALUE;
+        // Set a very high number initially, theoretically, it should be Integer.MAX_VALUE
         try {
             for (int i = 1; i <= maxThreads; i++) {
                 Thread newThread = new Thread(new MyRunnable(i));

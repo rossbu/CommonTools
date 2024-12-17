@@ -1,0 +1,14 @@
+= Volatile
+
+Marking the sharedResource as volatile in Java would impact how the variable is accessed by multiple threads in a multithreaded environment.
+
+. *Visibility Guarantee*: The[.Apple-converted-space]## ##`+volatile+`[.Apple-converted-space]## ##keyword ensures that any write to[.Apple-converted-space]## ##`+sharedResource+`[.Apple-converted-space]## ##by one thread is immediately visible to all other threads. Without[.Apple-converted-space]## ##`+volatile+`, changes made by one thread might not be visible to others due to caching.
+. *No Caching*: When a variable is marked[.Apple-converted-space]## ##`+volatile+`, threads always read the most recent value from the main memory instead of caching the value locally in the thread's cache. This prevents "stale" reads where a thread might read an outdated value.
+. *No Locking*:[.Apple-converted-space]# #`+volatile+`[.Apple-converted-space]## ##provides visibility guarantees without using locks, unlike[.Apple-converted-space]## ##`+synchronized+`. This means it’s less expensive in terms of performance but doesn't guarantee atomicity for compound actions (like[.Apple-converted-space]## ##`+sharedResource+++`).
+. *Not Thread-Safe for Compound Operations*:[.Apple-converted-space]# #`+volatile+`[.Apple-converted-space]## ##ensures visibility but doesn’t make the variable thread-safe for operations that involve reading and writing as one operation (like incrementing a variable). If multiple threads are modifying the variable (e.g., incrementing or decrementing), you’d still need synchronization or atomic types.
+
+. *static vs volatile:*
+static: The variable is shared among all instances of the class.
+volatile: Ensures visibility of changes to the variable across threads.
+
+In summary, marking[.Apple-converted-space]## ##`+sharedResource+`[.Apple-converted-space]## ##as[.Apple-converted-space]## ##`+volatile+`[.Apple-converted-space]## ##ensures that changes are immediately visible to all threads but does not protect the variable from race conditions if multiple threads are modifying it.

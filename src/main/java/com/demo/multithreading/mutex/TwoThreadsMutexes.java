@@ -1,6 +1,8 @@
+package com.demo.multithreading.mutex;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ExecutionOrderWithInterThreadCommunication {
+public class TwoThreadsMutexes {
     public static void main(String[] args) throws InterruptedException {
         Object lock = new Object();
         AtomicBoolean task1Completed = new AtomicBoolean(false);
@@ -18,6 +20,7 @@ public class ExecutionOrderWithInterThreadCommunication {
                 Thread.currentThread().interrupt();
             }
         });
+
 
         // Task 2
         Thread thread2 = new Thread(() -> {

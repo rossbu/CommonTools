@@ -1,12 +1,12 @@
-package com.demo.multithreading;
+package com.demo.multithreading.thread.countdownlatch;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Java program to demonstrate How to use CountDownLatch in Java. CountDownLatch is
- * useful if you want to start main processing thread once its dependency is completed
+ * Java program to demonstrate How to use CountDownLatch in Java.
+ * CountDownLatch is useful if you want to start main processing thread once its dependency is completed
  * as illustrated in this CountDownLatch Example
  *
  *
@@ -35,7 +35,7 @@ public class CountDownLatchDemo {
         validationService.start();
 
         // application should not start processing any thread until all service is up
-        // and ready to do there job.
+        // and ready to do their job.
         // Countdown latch is idle choice here, main thread will start with count 3
         // and wait until count reaches zero. each thread once up and read will do
         // a count down. this will ensure that main thread is not started processing
